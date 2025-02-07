@@ -16,7 +16,7 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include "cw1_world_spawner/Task3Service.h"
 
 // // include any services created in this package
-// #include "cw1_team_x/example.h"
+// #include "cw1_team_13/example.h"
 
 class cw1
 {
