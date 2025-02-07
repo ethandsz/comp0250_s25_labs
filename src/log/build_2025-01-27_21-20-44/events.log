@@ -1,0 +1,614 @@
+[0.000000] (-) TimerEvent: {}
+[0.000133] (moveit_tutorial) JobQueued: {'identifier': 'moveit_tutorial', 'dependencies': OrderedDict()}
+[0.000158] (obj_rec_tutorial) JobQueued: {'identifier': 'obj_rec_tutorial', 'dependencies': OrderedDict()}
+[0.000192] (panda_description) JobQueued: {'identifier': 'panda_description', 'dependencies': OrderedDict()}
+[0.000205] (panda_moveit_config) JobQueued: {'identifier': 'panda_moveit_config', 'dependencies': OrderedDict()}
+[0.000219] (pcl_demo) JobQueued: {'identifier': 'pcl_demo', 'dependencies': OrderedDict()}
+[0.000231] (pcl_tutorial) JobQueued: {'identifier': 'pcl_tutorial', 'dependencies': OrderedDict()}
+[0.000245] (realsense_gazebo_plugin) JobQueued: {'identifier': 'realsense_gazebo_plugin', 'dependencies': OrderedDict()}
+[0.000257] (rpl_panda_with_rs) JobQueued: {'identifier': 'rpl_panda_with_rs', 'dependencies': OrderedDict()}
+[0.000270] (sample) JobQueued: {'identifier': 'sample', 'dependencies': OrderedDict()}
+[0.000282] (style_solution) JobQueued: {'identifier': 'style_solution', 'dependencies': OrderedDict()}
+[0.000294] (style_tutorial) JobQueued: {'identifier': 'style_tutorial', 'dependencies': OrderedDict()}
+[0.000306] (moveit_tutorial) JobStarted: {'identifier': 'moveit_tutorial'}
+[0.002561] (obj_rec_tutorial) JobStarted: {'identifier': 'obj_rec_tutorial'}
+[0.003189] (panda_description) JobStarted: {'identifier': 'panda_description'}
+[0.004482] (panda_moveit_config) JobStarted: {'identifier': 'panda_moveit_config'}
+[0.005349] (pcl_demo) JobStarted: {'identifier': 'pcl_demo'}
+[0.006413] (pcl_tutorial) JobStarted: {'identifier': 'pcl_tutorial'}
+[0.007797] (realsense_gazebo_plugin) JobStarted: {'identifier': 'realsense_gazebo_plugin'}
+[0.008493] (rpl_panda_with_rs) JobStarted: {'identifier': 'rpl_panda_with_rs'}
+[0.009894] (sample) JobStarted: {'identifier': 'sample'}
+[0.010326] (style_solution) JobStarted: {'identifier': 'style_solution'}
+[0.011281] (style_tutorial) JobStarted: {'identifier': 'style_tutorial'}
+[0.013315] (moveit_tutorial) JobProgress: {'identifier': 'moveit_tutorial', 'progress': 'cmake'}
+[0.013566] (moveit_tutorial) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/moveit_tutorial', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/moveit_tutorial'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/moveit_tutorial', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('TMUX', '/tmp/tmux-1000/default,7805,0'), ('LANGUAGE', 'en_GB:en'), ('USER', 'ethan'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '2'), ('HOME', '/home/ethan'), ('OLDPWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3148'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu.mandatory.path'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'ethan'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu.default.path'), ('USERNAME', 'ethan'), ('TERM', 'screen'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ethan/.local/bin:/home/ethan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ethan-AORUS-17X-AZF:@/tmp/.ICE-unix/3095,unix/ethan-AORUS-17X-AZF:/tmp/.ICE-unix/3095'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/fe669246_f704_4b74_b574_fc4d10363d33'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/moveit_tutorial'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('TMUX_PANE', '%1')]), 'shell': False}
+[0.014801] (obj_rec_tutorial) JobProgress: {'identifier': 'obj_rec_tutorial', 'progress': 'cmake'}
+[0.015383] (obj_rec_tutorial) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/obj_rec_tutorial', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/obj_rec_tutorial'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/obj_rec_tutorial', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('TMUX', '/tmp/tmux-1000/default,7805,0'), ('LANGUAGE', 'en_GB:en'), ('USER', 'ethan'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '2'), ('HOME', '/home/ethan'), ('OLDPWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3148'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu.mandatory.path'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'ethan'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu.default.path'), ('USERNAME', 'ethan'), ('TERM', 'screen'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ethan/.local/bin:/home/ethan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ethan-AORUS-17X-AZF:@/tmp/.ICE-unix/3095,unix/ethan-AORUS-17X-AZF:/tmp/.ICE-unix/3095'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/fe669246_f704_4b74_b574_fc4d10363d33'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/obj_rec_tutorial'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('TMUX_PANE', '%1')]), 'shell': False}
+[0.016086] (panda_description) JobProgress: {'identifier': 'panda_description', 'progress': 'cmake'}
+[0.016366] (panda_description) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/panda_description', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/panda_description'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_description', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('TMUX', '/tmp/tmux-1000/default,7805,0'), ('LANGUAGE', 'en_GB:en'), ('USER', 'ethan'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '2'), ('HOME', '/home/ethan'), ('OLDPWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3148'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu.mandatory.path'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'ethan'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu.default.path'), ('USERNAME', 'ethan'), ('TERM', 'screen'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ethan/.local/bin:/home/ethan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ethan-AORUS-17X-AZF:@/tmp/.ICE-unix/3095,unix/ethan-AORUS-17X-AZF:/tmp/.ICE-unix/3095'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/fe669246_f704_4b74_b574_fc4d10363d33'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_description'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('TMUX_PANE', '%1')]), 'shell': False}
+[0.017039] (panda_moveit_config) JobProgress: {'identifier': 'panda_moveit_config', 'progress': 'cmake'}
+[0.017109] (panda_moveit_config) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/panda_moveit_config', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/panda_moveit_config'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_moveit_config', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('TMUX', '/tmp/tmux-1000/default,7805,0'), ('LANGUAGE', 'en_GB:en'), ('USER', 'ethan'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '2'), ('HOME', '/home/ethan'), ('OLDPWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3148'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu.mandatory.path'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'ethan'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu.default.path'), ('USERNAME', 'ethan'), ('TERM', 'screen'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ethan/.local/bin:/home/ethan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ethan-AORUS-17X-AZF:@/tmp/.ICE-unix/3095,unix/ethan-AORUS-17X-AZF:/tmp/.ICE-unix/3095'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/fe669246_f704_4b74_b574_fc4d10363d33'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_moveit_config'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('TMUX_PANE', '%1')]), 'shell': False}
+[0.018750] (pcl_demo) JobProgress: {'identifier': 'pcl_demo', 'progress': 'cmake'}
+[0.018776] (pcl_demo) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/pcl_demo', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/pcl_demo'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/pcl_demo', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('TMUX', '/tmp/tmux-1000/default,7805,0'), ('LANGUAGE', 'en_GB:en'), ('USER', 'ethan'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '2'), ('HOME', '/home/ethan'), ('OLDPWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3148'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu.mandatory.path'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'ethan'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu.default.path'), ('USERNAME', 'ethan'), ('TERM', 'screen'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ethan/.local/bin:/home/ethan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ethan-AORUS-17X-AZF:@/tmp/.ICE-unix/3095,unix/ethan-AORUS-17X-AZF:/tmp/.ICE-unix/3095'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/fe669246_f704_4b74_b574_fc4d10363d33'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/pcl_demo'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('TMUX_PANE', '%1')]), 'shell': False}
+[0.019308] (pcl_tutorial) JobProgress: {'identifier': 'pcl_tutorial', 'progress': 'cmake'}
+[0.019493] (pcl_tutorial) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/pcl_tutorial', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/pcl_tutorial'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/pcl_tutorial', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('TMUX', '/tmp/tmux-1000/default,7805,0'), ('LANGUAGE', 'en_GB:en'), ('USER', 'ethan'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '2'), ('HOME', '/home/ethan'), ('OLDPWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3148'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu.mandatory.path'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'ethan'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu.default.path'), ('USERNAME', 'ethan'), ('TERM', 'screen'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ethan/.local/bin:/home/ethan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ethan-AORUS-17X-AZF:@/tmp/.ICE-unix/3095,unix/ethan-AORUS-17X-AZF:/tmp/.ICE-unix/3095'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/fe669246_f704_4b74_b574_fc4d10363d33'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/pcl_tutorial'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('TMUX_PANE', '%1')]), 'shell': False}
+[0.020722] (realsense_gazebo_plugin) JobProgress: {'identifier': 'realsense_gazebo_plugin', 'progress': 'cmake'}
+[0.021018] (realsense_gazebo_plugin) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/realsense_gazebo_plugin', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/realsense_gazebo_plugin'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/realsense_gazebo_plugin', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('TMUX', '/tmp/tmux-1000/default,7805,0'), ('LANGUAGE', 'en_GB:en'), ('USER', 'ethan'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '2'), ('HOME', '/home/ethan'), ('OLDPWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3148'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu.mandatory.path'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'ethan'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu.default.path'), ('USERNAME', 'ethan'), ('TERM', 'screen'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ethan/.local/bin:/home/ethan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ethan-AORUS-17X-AZF:@/tmp/.ICE-unix/3095,unix/ethan-AORUS-17X-AZF:/tmp/.ICE-unix/3095'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/fe669246_f704_4b74_b574_fc4d10363d33'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/realsense_gazebo_plugin'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('TMUX_PANE', '%1')]), 'shell': False}
+[0.023308] (rpl_panda_with_rs) JobProgress: {'identifier': 'rpl_panda_with_rs', 'progress': 'cmake'}
+[0.023513] (rpl_panda_with_rs) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/rpl_panda_with_rs', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/rpl_panda_with_rs'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/rpl_panda_with_rs', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('TMUX', '/tmp/tmux-1000/default,7805,0'), ('LANGUAGE', 'en_GB:en'), ('USER', 'ethan'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '2'), ('HOME', '/home/ethan'), ('OLDPWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3148'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu.mandatory.path'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'ethan'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu.default.path'), ('USERNAME', 'ethan'), ('TERM', 'screen'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ethan/.local/bin:/home/ethan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ethan-AORUS-17X-AZF:@/tmp/.ICE-unix/3095,unix/ethan-AORUS-17X-AZF:/tmp/.ICE-unix/3095'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/fe669246_f704_4b74_b574_fc4d10363d33'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/rpl_panda_with_rs'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('TMUX_PANE', '%1')]), 'shell': False}
+[0.024703] (sample) JobProgress: {'identifier': 'sample', 'progress': 'cmake'}
+[0.024875] (sample) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/sample', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/sample'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/sample', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('TMUX', '/tmp/tmux-1000/default,7805,0'), ('LANGUAGE', 'en_GB:en'), ('USER', 'ethan'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '2'), ('HOME', '/home/ethan'), ('OLDPWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3148'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu.mandatory.path'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'ethan'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu.default.path'), ('USERNAME', 'ethan'), ('TERM', 'screen'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ethan/.local/bin:/home/ethan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ethan-AORUS-17X-AZF:@/tmp/.ICE-unix/3095,unix/ethan-AORUS-17X-AZF:/tmp/.ICE-unix/3095'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/fe669246_f704_4b74_b574_fc4d10363d33'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/sample'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('TMUX_PANE', '%1')]), 'shell': False}
+[0.025965] (style_solution) JobProgress: {'identifier': 'style_solution', 'progress': 'cmake'}
+[0.026358] (style_solution) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/style_solution', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/style_solution'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_solution', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('TMUX', '/tmp/tmux-1000/default,7805,0'), ('LANGUAGE', 'en_GB:en'), ('USER', 'ethan'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '2'), ('HOME', '/home/ethan'), ('OLDPWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3148'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu.mandatory.path'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'ethan'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu.default.path'), ('USERNAME', 'ethan'), ('TERM', 'screen'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ethan/.local/bin:/home/ethan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ethan-AORUS-17X-AZF:@/tmp/.ICE-unix/3095,unix/ethan-AORUS-17X-AZF:/tmp/.ICE-unix/3095'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/fe669246_f704_4b74_b574_fc4d10363d33'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_solution'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('TMUX_PANE', '%1')]), 'shell': False}
+[0.028508] (style_tutorial) JobProgress: {'identifier': 'style_tutorial', 'progress': 'cmake'}
+[0.029011] (style_tutorial) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/style_tutorial', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/style_tutorial'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_tutorial', 'env': OrderedDict([('LESSOPEN', '| /usr/bin/lesspipe %s'), ('TMUX', '/tmp/tmux-1000/default,7805,0'), ('LANGUAGE', 'en_GB:en'), ('USER', 'ethan'), ('XDG_SESSION_TYPE', 'x11'), ('SHLVL', '2'), ('HOME', '/home/ethan'), ('OLDPWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs'), ('TERM_PROGRAM_VERSION', '3.2a'), ('DESKTOP_SESSION', 'ubuntu'), ('GNOME_SHELL_SESSION_MODE', 'ubuntu'), ('GTK_MODULES', 'gail:atk-bridge'), ('SYSTEMD_EXEC_PID', '3148'), ('DBUS_SESSION_BUS_ADDRESS', 'unix:path=/run/user/1000/bus'), ('COLORTERM', 'truecolor'), ('MANDATORY_PATH', '/usr/share/gconf/ubuntu.mandatory.path'), ('GTK_IM_MODULE', 'ibus'), ('LOGNAME', 'ethan'), ('_', '/usr/bin/colcon'), ('XDG_SESSION_CLASS', 'user'), ('DEFAULTS_PATH', '/usr/share/gconf/ubuntu.default.path'), ('USERNAME', 'ethan'), ('TERM', 'screen'), ('GNOME_DESKTOP_SESSION_ID', 'this-is-deprecated'), ('WINDOWPATH', '2'), ('PATH', '/home/ethan/.local/bin:/home/ethan/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/snap/bin'), ('SESSION_MANAGER', 'local/ethan-AORUS-17X-AZF:@/tmp/.ICE-unix/3095,unix/ethan-AORUS-17X-AZF:/tmp/.ICE-unix/3095'), ('XDG_MENU_PREFIX', 'gnome-'), ('GNOME_TERMINAL_SCREEN', '/org/gnome/Terminal/screen/fe669246_f704_4b74_b574_fc4d10363d33'), ('XDG_RUNTIME_DIR', '/run/user/1000'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XMODIFIERS', '@im=ibus'), ('XDG_SESSION_DESKTOP', 'ubuntu'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('GNOME_TERMINAL_SERVICE', ':1.91'), ('TERM_PROGRAM', 'tmux'), ('SSH_AGENT_LAUNCHER', 'gnome-keyring'), ('SSH_AUTH_SOCK', '/run/user/1000/keyring/ssh'), ('SHELL', '/bin/bash'), ('QT_ACCESSIBILITY', '1'), ('GDMSESSION', 'ubuntu'), ('LESSCLOSE', '/usr/bin/lesspipe %s %s'), ('GPG_AGENT_INFO', '/run/user/1000/gnupg/S.gpg-agent:0:1'), ('QT_IM_MODULE', 'ibus'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_tutorial'), ('XDG_CONFIG_DIRS', '/etc/xdg/xdg-ubuntu:/etc/xdg'), ('XDG_DATA_DIRS', '/usr/share/ubuntu:/usr/share/gnome:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop'), ('COLCON', '1'), ('VTE_VERSION', '6800'), ('TMUX_PANE', '%1')]), 'shell': False}
+[0.033380] (panda_moveit_config) StderrLine: {'line': b'\x1b[0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):\n'}
+[0.034590] (panda_moveit_config) StderrLine: {'line': b'  Compatibility with CMake < 2.8.12 will be removed from a future version of\n'}
+[0.035129] (panda_moveit_config) StderrLine: {'line': b'  CMake.\n'}
+[0.035315] (panda_moveit_config) StderrLine: {'line': b'\n'}
+[0.035466] (panda_moveit_config) StderrLine: {'line': b'  Update the VERSION argument <min> value or use a ...<max> suffix to tell\n'}
+[0.035893] (panda_moveit_config) StderrLine: {'line': b'  CMake that the project does not need compatibility with older versions.\n'}
+[0.035974] (panda_moveit_config) StderrLine: {'line': b'\n'}
+[0.037451] (panda_moveit_config) StderrLine: {'line': b'\x1b[0m\n'}
+[0.038138] (realsense_gazebo_plugin) StderrLine: {'line': b'\x1b[0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):\n'}
+[0.038404] (realsense_gazebo_plugin) StderrLine: {'line': b'  Compatibility with CMake < 2.8.12 will be removed from a future version of\n'}
+[0.038485] (realsense_gazebo_plugin) StderrLine: {'line': b'  CMake.\n'}
+[0.038552] (realsense_gazebo_plugin) StderrLine: {'line': b'\n'}
+[0.038615] (realsense_gazebo_plugin) StderrLine: {'line': b'  Update the VERSION argument <min> value or use a ...<max> suffix to tell\n'}
+[0.038683] (realsense_gazebo_plugin) StderrLine: {'line': b'  CMake that the project does not need compatibility with older versions.\n'}
+[0.038746] (realsense_gazebo_plugin) StderrLine: {'line': b'\n'}
+[0.038809] (realsense_gazebo_plugin) StderrLine: {'line': b'\x1b[0m\n'}
+[0.038871] (rpl_panda_with_rs) StderrLine: {'line': b'\x1b[0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):\n'}
+[0.039283] (rpl_panda_with_rs) StderrLine: {'line': b'  Compatibility with CMake < 2.8.12 will be removed from a future version of\n'}
+[0.039345] (rpl_panda_with_rs) StderrLine: {'line': b'  CMake.\n'}
+[0.039406] (rpl_panda_with_rs) StderrLine: {'line': b'\n'}
+[0.039659] (rpl_panda_with_rs) StderrLine: {'line': b'  Update the VERSION argument <min> value or use a ...<max> suffix to tell\n'}
+[0.039729] (rpl_panda_with_rs) StderrLine: {'line': b'  CMake that the project does not need compatibility with older versions.\n'}
+[0.039789] (rpl_panda_with_rs) StderrLine: {'line': b'\n'}
+[0.039847] (rpl_panda_with_rs) StderrLine: {'line': b'\x1b[0m\n'}
+[0.039906] (sample) StderrLine: {'line': b'\x1b[0mCMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):\n'}
+[0.040251] (sample) StderrLine: {'line': b'  Compatibility with CMake < 2.8.12 will be removed from a future version of\n'}
+[0.040335] (sample) StderrLine: {'line': b'  CMake.\n'}
+[0.040394] (sample) StderrLine: {'line': b'\n'}
+[0.040453] (sample) StderrLine: {'line': b'  Update the VERSION argument <min> value or use a ...<max> suffix to tell\n'}
+[0.040541] (sample) StderrLine: {'line': b'  CMake that the project does not need compatibility with older versions.\n'}
+[0.040669] (sample) StderrLine: {'line': b'\n'}
+[0.040802] (sample) StderrLine: {'line': b'\x1b[0m\n'}
+[0.061191] (pcl_tutorial) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.063896] (moveit_tutorial) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.064043] (panda_moveit_config) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.064390] (panda_description) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.066926] (obj_rec_tutorial) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.069875] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.070010] (pcl_demo) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.070628] (rpl_panda_with_rs) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.071785] (style_tutorial) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.071924] (style_solution) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.073257] (sample) StdoutLine: {'line': b'-- The C compiler identification is GNU 11.4.0\n'}
+[0.098445] (panda_moveit_config) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.099409] (-) TimerEvent: {}
+[0.104081] (panda_moveit_config) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.104200] (pcl_tutorial) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.105285] (panda_description) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.106770] (moveit_tutorial) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.108554] (pcl_demo) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.108656] (sample) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.110405] (panda_description) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.110766] (pcl_tutorial) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.113055] (obj_rec_tutorial) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.113658] (sample) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.113776] (style_tutorial) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.113916] (moveit_tutorial) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.114020] (style_solution) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.114107] (rpl_panda_with_rs) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.115131] (pcl_demo) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.118290] (style_solution) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.119550] (style_tutorial) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.119694] (obj_rec_tutorial) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.120730] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- The CXX compiler identification is GNU 11.4.0\n'}
+[0.120808] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.127618] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Detecting C compiler ABI info\n'}
+[0.146601] (panda_moveit_config) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.151267] (panda_moveit_config) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.151467] (panda_moveit_config) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.151642] (panda_moveit_config) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.153600] (panda_moveit_config) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.156706] (pcl_tutorial) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.157128] (sample) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.158317] (moveit_tutorial) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.158433] (panda_description) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.163927] (style_solution) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.164447] (pcl_tutorial) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.164529] (pcl_tutorial) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.164566] (sample) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.164631] (sample) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.164688] (pcl_tutorial) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.164989] (sample) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.165505] (moveit_tutorial) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.165709] (moveit_tutorial) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.165991] (pcl_demo) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.166262] (moveit_tutorial) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.166768] (panda_description) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.166853] (panda_description) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.167303] (panda_description) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.167870] (pcl_tutorial) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.167983] (style_tutorial) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.168145] (sample) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.168323] (style_solution) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.168518] (style_solution) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.168694] (style_solution) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.168824] (obj_rec_tutorial) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.169230] (moveit_tutorial) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.169948] (panda_description) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.170508] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.170831] (style_solution) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.173761] (obj_rec_tutorial) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.173930] (style_tutorial) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.173997] (obj_rec_tutorial) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.174296] (pcl_demo) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.174359] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Detecting C compiler ABI info - done\n'}
+[0.174399] (style_tutorial) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.174434] (pcl_demo) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.174465] (style_tutorial) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.174538] (obj_rec_tutorial) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.174572] (pcl_demo) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.175277] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.175431] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.175685] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.176242] (obj_rec_tutorial) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.176722] (style_tutorial) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.177481] (pcl_demo) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.177682] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.179013] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Check for working C compiler: /usr/bin/cc - skipped\n'}
+[0.179155] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Detecting C compile features\n'}
+[0.179612] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Detecting C compile features - done\n'}
+[0.181692] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info\n'}
+[0.199510] (-) TimerEvent: {}
+[0.212283] (panda_moveit_config) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.218379] (panda_moveit_config) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.218689] (panda_moveit_config) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.218793] (panda_moveit_config) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.221053] (panda_description) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.221608] (panda_moveit_config) StdoutLine: {'line': b'-- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_moveit_config/devel\n'}
+[0.221702] (panda_moveit_config) StdoutLine: {'line': b'-- Using CMAKE_PREFIX_PATH: \n'}
+[0.225259] (panda_description) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.225581] (panda_description) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.225660] (panda_description) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.226806] (pcl_tutorial) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.227840] (panda_description) StdoutLine: {'line': b'-- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_description/devel\n'}
+[0.227955] (panda_description) StdoutLine: {'line': b'-- Using CMAKE_PREFIX_PATH: \n'}
+[0.228020] (sample) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.228101] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.228183] (obj_rec_tutorial) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.228674] (moveit_tutorial) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.228838] (style_solution) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.230854] (style_tutorial) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.232047] (pcl_tutorial) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.232267] (pcl_tutorial) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.232393] (pcl_tutorial) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.233654] (pcl_demo) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.234664] (panda_moveit_config) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") \n'}
+[0.234836] (panda_moveit_config) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.234897] (panda_moveit_config) StdoutLine: {'line': b'-- Using Debian Python package layout\n'}
+[0.234957] (pcl_tutorial) StdoutLine: {'line': b'-- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/pcl_tutorial/devel\n'}
+[0.235038] (pcl_tutorial) StdoutLine: {'line': b'-- Using CMAKE_PREFIX_PATH: \n'}
+[0.235097] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Detecting CXX compiler ABI info - done\n'}
+[0.235170] (panda_moveit_config) StdoutLine: {'line': b'-- Using empy: /usr/bin/empy\n'}
+[0.235230] (moveit_tutorial) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.235329] (moveit_tutorial) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.235583] (moveit_tutorial) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.235734] (style_solution) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.235808] (sample) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.235955] (obj_rec_tutorial) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.236048] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.236114] (style_solution) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.236185] (obj_rec_tutorial) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.236310] (sample) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.236410] (style_solution) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.236467] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.236633] (obj_rec_tutorial) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.236735] (sample) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.236793] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.237812] (moveit_tutorial) StdoutLine: {'line': b'-- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/moveit_tutorial/devel\n'}
+[0.237873] (moveit_tutorial) StdoutLine: {'line': b'-- Using CMAKE_PREFIX_PATH: \n'}
+[0.238101] (style_tutorial) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.238386] (style_tutorial) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.238482] (panda_description) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") \n'}
+[0.238543] (panda_description) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.238594] (panda_description) StdoutLine: {'line': b'-- Using Debian Python package layout\n'}
+[0.238732] (style_tutorial) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.238791] (pcl_demo) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.238890] (style_solution) StdoutLine: {'line': b'-- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_solution/devel\n'}
+[0.238947] (pcl_demo) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.238999] (panda_description) StdoutLine: {'line': b'-- Using empy: /usr/bin/empy\n'}
+[0.239057] (style_solution) StdoutLine: {'line': b'-- Using CMAKE_PREFIX_PATH: \n'}
+[0.239147] (pcl_demo) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.239347] (sample) StdoutLine: {'line': b'-- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/sample/devel\n'}
+[0.239429] (sample) StdoutLine: {'line': b'-- Using CMAKE_PREFIX_PATH: \n'}
+[0.240015] (obj_rec_tutorial) StdoutLine: {'line': b'-- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/obj_rec_tutorial/devel\n'}
+[0.240108] (obj_rec_tutorial) StdoutLine: {'line': b'-- Using CMAKE_PREFIX_PATH: \n'}
+[0.240260] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/rpl_panda_with_rs/devel\n'}
+[0.240359] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Using CMAKE_PREFIX_PATH: \n'}
+[0.240785] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Check for working CXX compiler: /usr/bin/c++ - skipped\n'}
+[0.240999] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Detecting CXX compile features\n'}
+[0.241266] (style_tutorial) StdoutLine: {'line': b'-- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_tutorial/devel\n'}
+[0.241345] (pcl_demo) StdoutLine: {'line': b'-- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/pcl_demo/devel\n'}
+[0.241417] (pcl_demo) StdoutLine: {'line': b'-- Using CMAKE_PREFIX_PATH: \n'}
+[0.241636] (style_tutorial) StdoutLine: {'line': b'-- Using CMAKE_PREFIX_PATH: \n'}
+[0.241692] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Detecting CXX compile features - done\n'}
+[0.243929] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/realsense_gazebo_plugin/devel\n'}
+[0.244045] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Using CMAKE_PREFIX_PATH: \n'}
+[0.244460] (pcl_tutorial) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") \n'}
+[0.244520] (pcl_tutorial) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.244570] (pcl_tutorial) StdoutLine: {'line': b'-- Using Debian Python package layout\n'}
+[0.244705] (pcl_tutorial) StdoutLine: {'line': b'-- Using empy: /usr/bin/empy\n'}
+[0.251542] (moveit_tutorial) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") \n'}
+[0.251714] (moveit_tutorial) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.251775] (moveit_tutorial) StdoutLine: {'line': b'-- Using Debian Python package layout\n'}
+[0.251850] (moveit_tutorial) StdoutLine: {'line': b'-- Using empy: /usr/bin/empy\n'}
+[0.252031] (style_solution) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") \n'}
+[0.252153] (style_solution) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.252220] (style_solution) StdoutLine: {'line': b'-- Using Debian Python package layout\n'}
+[0.252397] (style_solution) StdoutLine: {'line': b'-- Using empy: /usr/bin/empy\n'}
+[0.252551] (sample) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") \n'}
+[0.252652] (style_tutorial) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") \n'}
+[0.252739] (style_tutorial) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.252809] (style_tutorial) StdoutLine: {'line': b'-- Using Debian Python package layout\n'}
+[0.252860] (sample) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.252916] (sample) StdoutLine: {'line': b'-- Using Debian Python package layout\n'}
+[0.252977] (style_tutorial) StdoutLine: {'line': b'-- Using empy: /usr/bin/empy\n'}
+[0.253057] (sample) StdoutLine: {'line': b'-- Using empy: /usr/bin/empy\n'}
+[0.254203] (obj_rec_tutorial) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") \n'}
+[0.254286] (obj_rec_tutorial) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.254342] (obj_rec_tutorial) StdoutLine: {'line': b'-- Using Debian Python package layout\n'}
+[0.254418] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") \n'}
+[0.254519] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.254640] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Using Debian Python package layout\n'}
+[0.254696] (obj_rec_tutorial) StdoutLine: {'line': b'-- Using empy: /usr/bin/empy\n'}
+[0.254770] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Using empy: /usr/bin/empy\n'}
+[0.254877] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") \n'}
+[0.254950] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.255001] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Using Debian Python package layout\n'}
+[0.255059] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Using empy: /usr/bin/empy\n'}
+[0.258993] (pcl_demo) StdoutLine: {'line': b'-- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") \n'}
+[0.259140] (pcl_demo) StdoutLine: {'line': b'-- Using PYTHON_EXECUTABLE: /usr/bin/python3\n'}
+[0.259205] (pcl_demo) StdoutLine: {'line': b'-- Using Debian Python package layout\n'}
+[0.259487] (pcl_demo) StdoutLine: {'line': b'-- Using empy: /usr/bin/empy\n'}
+[0.299673] (-) TimerEvent: {}
+[0.325837] (panda_description) StdoutLine: {'line': b'-- Using CATKIN_ENABLE_TESTING: ON\n'}
+[0.326006] (panda_description) StdoutLine: {'line': b'-- Call enable_testing()\n'}
+[0.326086] (pcl_tutorial) StdoutLine: {'line': b'-- Using CATKIN_ENABLE_TESTING: ON\n'}
+[0.326149] (pcl_tutorial) StdoutLine: {'line': b'-- Call enable_testing()\n'}
+[0.326491] (panda_moveit_config) StdoutLine: {'line': b'-- Using CATKIN_ENABLE_TESTING: ON\n'}
+[0.326573] (panda_moveit_config) StdoutLine: {'line': b'-- Call enable_testing()\n'}
+[0.327969] (panda_moveit_config) StdoutLine: {'line': b'-- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_moveit_config/test_results\n'}
+[0.328066] (panda_description) StdoutLine: {'line': b'-- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_description/test_results\n'}
+[0.328144] (pcl_tutorial) StdoutLine: {'line': b'-- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/pcl_tutorial/test_results\n'}
+[0.328213] (sample) StdoutLine: {'line': b'-- Using CATKIN_ENABLE_TESTING: ON\n'}
+[0.328278] (sample) StdoutLine: {'line': b'-- Call enable_testing()\n'}
+[0.329634] (sample) StdoutLine: {'line': b'-- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/sample/test_results\n'}
+[0.331199] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Using CATKIN_ENABLE_TESTING: ON\n'}
+[0.331308] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Call enable_testing()\n'}
+[0.331566] (obj_rec_tutorial) StdoutLine: {'line': b'-- Using CATKIN_ENABLE_TESTING: ON\n'}
+[0.331655] (obj_rec_tutorial) StdoutLine: {'line': b'-- Call enable_testing()\n'}
+[0.332895] (obj_rec_tutorial) StdoutLine: {'line': b'-- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/obj_rec_tutorial/test_results\n'}
+[0.332995] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/rpl_panda_with_rs/test_results\n'}
+[0.336210] (moveit_tutorial) StdoutLine: {'line': b'-- Using CATKIN_ENABLE_TESTING: ON\n'}
+[0.336308] (moveit_tutorial) StdoutLine: {'line': b'-- Call enable_testing()\n'}
+[0.337898] (moveit_tutorial) StdoutLine: {'line': b'-- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/moveit_tutorial/test_results\n'}
+[0.338713] (style_solution) StdoutLine: {'line': b'-- Using CATKIN_ENABLE_TESTING: ON\n'}
+[0.338949] (style_solution) StdoutLine: {'line': b'-- Call enable_testing()\n'}
+[0.339034] (pcl_demo) StdoutLine: {'line': b'-- Using CATKIN_ENABLE_TESTING: ON\n'}
+[0.339079] (pcl_demo) StdoutLine: {'line': b'-- Call enable_testing()\n'}
+[0.339113] (panda_description) StdoutLine: {'line': b'-- GTest is not available. Please install libgtest-dev to enable tests involving GTest.\n'}
+[0.339161] (panda_description) StdoutLine: {'line': b'-- GMock is not available. Please install libgmock-dev to enable tests involving GMock.\n'}
+[0.339326] (style_tutorial) StdoutLine: {'line': b'-- Using CATKIN_ENABLE_TESTING: ON\n'}
+[0.339912] (style_tutorial) StdoutLine: {'line': b'-- Call enable_testing()\n'}
+[0.339985] (panda_description) StdoutLine: {'line': b"-- nosetests not found, Python tests can not be run (try installing package 'python3-nose')\n"}
+[0.340058] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Using CATKIN_ENABLE_TESTING: ON\n'}
+[0.340129] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Call enable_testing()\n'}
+[0.340182] (panda_moveit_config) StdoutLine: {'line': b'-- GTest is not available. Please install libgtest-dev to enable tests involving GTest.\n'}
+[0.340247] (panda_moveit_config) StdoutLine: {'line': b'-- GMock is not available. Please install libgmock-dev to enable tests involving GMock.\n'}
+[0.340307] (panda_moveit_config) StdoutLine: {'line': b"-- nosetests not found, Python tests can not be run (try installing package 'python3-nose')\n"}
+[0.340569] (style_solution) StdoutLine: {'line': b'-- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_solution/test_results\n'}
+[0.340660] (panda_description) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.341050] (pcl_demo) StdoutLine: {'line': b'-- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/pcl_demo/test_results\n'}
+[0.341135] (panda_moveit_config) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.341423] (style_tutorial) StdoutLine: {'line': b'-- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_tutorial/test_results\n'}
+[0.341740] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/realsense_gazebo_plugin/test_results\n'}
+[0.342316] (pcl_tutorial) StdoutLine: {'line': b'-- GTest is not available. Please install libgtest-dev to enable tests involving GTest.\n'}
+[0.342401] (pcl_tutorial) StdoutLine: {'line': b'-- GMock is not available. Please install libgmock-dev to enable tests involving GMock.\n'}
+[0.342658] (pcl_tutorial) StdoutLine: {'line': b"-- nosetests not found, Python tests can not be run (try installing package 'python3-nose')\n"}
+[0.343642] (pcl_tutorial) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.344549] (sample) StdoutLine: {'line': b'-- GTest is not available. Please install libgtest-dev to enable tests involving GTest.\n'}
+[0.344648] (sample) StdoutLine: {'line': b'-- GMock is not available. Please install libgmock-dev to enable tests involving GMock.\n'}
+[0.344995] (sample) StdoutLine: {'line': b"-- nosetests not found, Python tests can not be run (try installing package 'python3-nose')\n"}
+[0.346092] (sample) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.346980] (rpl_panda_with_rs) StdoutLine: {'line': b'-- GTest is not available. Please install libgtest-dev to enable tests involving GTest.\n'}
+[0.347078] (rpl_panda_with_rs) StdoutLine: {'line': b'-- GMock is not available. Please install libgmock-dev to enable tests involving GMock.\n'}
+[0.347357] (rpl_panda_with_rs) StdoutLine: {'line': b"-- nosetests not found, Python tests can not be run (try installing package 'python3-nose')\n"}
+[0.348415] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.348890] (obj_rec_tutorial) StdoutLine: {'line': b'-- GTest is not available. Please install libgtest-dev to enable tests involving GTest.\n'}
+[0.348960] (obj_rec_tutorial) StdoutLine: {'line': b'-- GMock is not available. Please install libgmock-dev to enable tests involving GMock.\n'}
+[0.349487] (obj_rec_tutorial) StdoutLine: {'line': b"-- nosetests not found, Python tests can not be run (try installing package 'python3-nose')\n"}
+[0.350650] (obj_rec_tutorial) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.350781] (style_solution) StdoutLine: {'line': b'-- GTest is not available. Please install libgtest-dev to enable tests involving GTest.\n'}
+[0.350867] (style_solution) StdoutLine: {'line': b'-- GMock is not available. Please install libgmock-dev to enable tests involving GMock.\n'}
+[0.350926] (style_solution) StdoutLine: {'line': b"-- nosetests not found, Python tests can not be run (try installing package 'python3-nose')\n"}
+[0.351992] (style_solution) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.353291] (style_tutorial) StdoutLine: {'line': b'-- GTest is not available. Please install libgtest-dev to enable tests involving GTest.\n'}
+[0.353413] (style_tutorial) StdoutLine: {'line': b'-- GMock is not available. Please install libgmock-dev to enable tests involving GMock.\n'}
+[0.353935] (style_tutorial) StdoutLine: {'line': b"-- nosetests not found, Python tests can not be run (try installing package 'python3-nose')\n"}
+[0.354239] (moveit_tutorial) StdoutLine: {'line': b'-- GTest is not available. Please install libgtest-dev to enable tests involving GTest.\n'}
+[0.354343] (moveit_tutorial) StdoutLine: {'line': b'-- GMock is not available. Please install libgmock-dev to enable tests involving GMock.\n'}
+[0.354794] (moveit_tutorial) StdoutLine: {'line': b"-- nosetests not found, Python tests can not be run (try installing package 'python3-nose')\n"}
+[0.355074] (style_tutorial) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.355167] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- GTest is not available. Please install libgtest-dev to enable tests involving GTest.\n'}
+[0.355240] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- GMock is not available. Please install libgmock-dev to enable tests involving GMock.\n'}
+[0.355296] (realsense_gazebo_plugin) StdoutLine: {'line': b"-- nosetests not found, Python tests can not be run (try installing package 'python3-nose')\n"}
+[0.355620] (moveit_tutorial) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.356238] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.357804] (pcl_demo) StdoutLine: {'line': b'-- GTest is not available. Please install libgtest-dev to enable tests involving GTest.\n'}
+[0.357927] (pcl_demo) StdoutLine: {'line': b'-- GMock is not available. Please install libgmock-dev to enable tests involving GMock.\n'}
+[0.358177] (pcl_demo) StdoutLine: {'line': b"-- nosetests not found, Python tests can not be run (try installing package 'python3-nose')\n"}
+[0.359205] (pcl_demo) StdoutLine: {'line': b'-- Looking for pthread.h\n'}
+[0.389873] (panda_moveit_config) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.390228] (panda_moveit_config) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.390645] (panda_description) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.390747] (panda_description) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.392380] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.392533] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.392642] (pcl_tutorial) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.392869] (pcl_tutorial) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.393091] (sample) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.393389] (sample) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.396691] (style_solution) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.396831] (style_solution) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.397006] (obj_rec_tutorial) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.397451] (obj_rec_tutorial) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.399695] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.399814] (-) TimerEvent: {}
+[0.399954] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.403783] (moveit_tutorial) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.403940] (moveit_tutorial) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.405969] (style_tutorial) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.406097] (style_tutorial) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.408813] (pcl_demo) StdoutLine: {'line': b'-- Looking for pthread.h - found\n'}
+[0.408949] (pcl_demo) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD\n'}
+[0.440201] (sample) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.440594] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.440987] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[0.441740] (panda_description) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.441850] (sample) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[0.441950] (panda_description) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[0.443046] (pcl_tutorial) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.444022] (pcl_tutorial) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[0.444919] (style_solution) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.445809] (style_solution) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[0.445925] (panda_moveit_config) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.446856] (panda_moveit_config) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[0.449049] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.449781] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[0.451959] (obj_rec_tutorial) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.452080] (obj_rec_tutorial) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[0.459020] (style_tutorial) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.459850] (pcl_demo) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.459982] (moveit_tutorial) StdoutLine: {'line': b'-- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success\n'}
+[0.460055] (style_tutorial) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[0.460791] (moveit_tutorial) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[0.460880] (pcl_demo) StdoutLine: {'line': b'-- Found Threads: TRUE  \n'}
+[0.474732] (rpl_panda_with_rs) StdoutLine: {'line': b'-- catkin 0.8.10\n'}
+[0.474878] (rpl_panda_with_rs) StdoutLine: {'line': b'-- BUILD_SHARED_LIBS is on\n'}
+[0.475951] (sample) StdoutLine: {'line': b'-- catkin 0.8.10\n'}
+[0.476100] (sample) StdoutLine: {'line': b'-- BUILD_SHARED_LIBS is on\n'}
+[0.478775] (style_solution) StdoutLine: {'line': b'-- catkin 0.8.10\n'}
+[0.478868] (style_solution) StdoutLine: {'line': b'-- BUILD_SHARED_LIBS is on\n'}
+[0.484828] (panda_description) StdoutLine: {'line': b'-- catkin 0.8.10\n'}
+[0.484975] (panda_description) StdoutLine: {'line': b'-- BUILD_SHARED_LIBS is on\n'}
+[0.485737] (panda_moveit_config) StdoutLine: {'line': b'-- catkin 0.8.10\n'}
+[0.485823] (panda_moveit_config) StdoutLine: {'line': b'-- BUILD_SHARED_LIBS is on\n'}
+[0.489158] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- catkin 0.8.10\n'}
+[0.489294] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- BUILD_SHARED_LIBS is on\n'}
+[0.491621] (obj_rec_tutorial) StdoutLine: {'line': b'-- catkin 0.8.10\n'}
+[0.491721] (obj_rec_tutorial) StdoutLine: {'line': b'-- BUILD_SHARED_LIBS is on\n'}
+[0.493084] (style_tutorial) StdoutLine: {'line': b'-- catkin 0.8.10\n'}
+[0.493193] (style_tutorial) StdoutLine: {'line': b'-- BUILD_SHARED_LIBS is on\n'}
+[0.493575] (pcl_demo) StdoutLine: {'line': b'-- catkin 0.8.10\n'}
+[0.493661] (pcl_demo) StdoutLine: {'line': b'-- BUILD_SHARED_LIBS is on\n'}
+[0.494437] (pcl_tutorial) StdoutLine: {'line': b'-- catkin 0.8.10\n'}
+[0.494539] (pcl_tutorial) StdoutLine: {'line': b'-- BUILD_SHARED_LIBS is on\n'}
+[0.499926] (-) TimerEvent: {}
+[0.510598] (moveit_tutorial) StdoutLine: {'line': b'-- catkin 0.8.10\n'}
+[0.510742] (moveit_tutorial) StdoutLine: {'line': b'-- BUILD_SHARED_LIBS is on\n'}
+[0.546642] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Could NOT find roscpp (missing: roscpp_DIR)\n'}
+[0.546785] (rpl_panda_with_rs) StdoutLine: {'line': b"-- Could not find the required component 'roscpp'. The following CMake error indicates that you either need to install the package with the same name or change your environment so that it can be found.\n"}
+[0.549526] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.549662] (rpl_panda_with_rs) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/rpl_panda_with_rs/CMakeFiles/CMakeOutput.log".\n'}
+[0.549721] (rpl_panda_with_rs) StderrLine: {'line': b'\x1b[31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):\n'}
+[0.549780] (rpl_panda_with_rs) StderrLine: {'line': b'  Could not find a package configuration file provided by "roscpp" with any\n'}
+[0.549831] (rpl_panda_with_rs) StderrLine: {'line': b'  of the following names:\n'}
+[0.549879] (rpl_panda_with_rs) StderrLine: {'line': b'\n'}
+[0.549927] (rpl_panda_with_rs) StderrLine: {'line': b'    roscppConfig.cmake\n'}
+[0.549975] (rpl_panda_with_rs) StderrLine: {'line': b'    roscpp-config.cmake\n'}
+[0.550023] (rpl_panda_with_rs) StderrLine: {'line': b'\n'}
+[0.550085] (rpl_panda_with_rs) StderrLine: {'line': b'  Add the installation prefix of "roscpp" to CMAKE_PREFIX_PATH or set\n'}
+[0.550149] (rpl_panda_with_rs) StderrLine: {'line': b'  "roscpp_DIR" to a directory containing one of the above files.  If "roscpp"\n'}
+[0.550200] (rpl_panda_with_rs) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.550250] (rpl_panda_with_rs) StderrLine: {'line': b'  installed.\n'}
+[0.550302] (rpl_panda_with_rs) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[0.550349] (rpl_panda_with_rs) StderrLine: {'line': b'  CMakeLists.txt:10 (find_package)\n'}
+[0.550396] (rpl_panda_with_rs) StderrLine: {'line': b'\n'}
+[0.550442] (rpl_panda_with_rs) StderrLine: {'line': b'\x1b[0m\n'}
+[0.552863] (rpl_panda_with_rs) CommandEnded: {'returncode': 1}
+[0.553702] (sample) StdoutLine: {'line': b'-- Could NOT find roscpp (missing: roscpp_DIR)\n'}
+[0.553851] (sample) StdoutLine: {'line': b"-- Could not find the required component 'roscpp'. The following CMake error indicates that you either need to install the package with the same name or change your environment so that it can be found.\n"}
+[0.557956] (sample) StderrLine: {'line': b'\x1b[31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):\n'}
+[0.558075] (sample) StderrLine: {'line': b'  Could not find a package configuration file provided by "roscpp" with any\n'}
+[0.558161] (sample) StderrLine: {'line': b'  of the following names:\n'}
+[0.558216] (sample) StderrLine: {'line': b'\n'}
+[0.558272] (sample) StderrLine: {'line': b'    roscppConfig.cmake\n'}
+[0.558327] (sample) StderrLine: {'line': b'    roscpp-config.cmake\n'}
+[0.558377] (sample) StderrLine: {'line': b'\n'}
+[0.558426] (sample) StderrLine: {'line': b'  Add the installation prefix of "roscpp" to CMAKE_PREFIX_PATH or set\n'}
+[0.558476] (sample) StderrLine: {'line': b'  "roscpp_DIR" to a directory containing one of the above files.  If "roscpp"\n'}
+[0.558526] (sample) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.558575] (sample) StderrLine: {'line': b'  installed.\n'}
+[0.558623] (sample) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[0.558670] (sample) StderrLine: {'line': b'  CMakeLists.txt:10 (find_package)\n'}
+[0.558718] (sample) StderrLine: {'line': b'\n'}
+[0.558764] (sample) StderrLine: {'line': b'\x1b[0m\n'}
+[0.558812] (sample) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.558866] (sample) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/sample/CMakeFiles/CMakeOutput.log".\n'}
+[0.560826] (style_solution) StdoutLine: {'line': b'-- Could NOT find roscpp (missing: roscpp_DIR)\n'}
+[0.561035] (style_solution) StdoutLine: {'line': b"-- Could not find the required component 'roscpp'. The following CMake error indicates that you either need to install the package with the same name or change your environment so that it can be found.\n"}
+[0.563579] (style_solution) StderrLine: {'line': b'\x1b[31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):\n'}
+[0.563878] (style_solution) StderrLine: {'line': b'  Could not find a package configuration file provided by "roscpp" with any\n'}
+[0.563946] (style_solution) StderrLine: {'line': b'  of the following names:\n'}
+[0.564007] (style_solution) StderrLine: {'line': b'\n'}
+[0.564070] (style_solution) StderrLine: {'line': b'    roscppConfig.cmake\n'}
+[0.564132] (style_solution) StderrLine: {'line': b'    roscpp-config.cmake\n'}
+[0.564188] (style_solution) StderrLine: {'line': b'\n'}
+[0.564239] (style_solution) StderrLine: {'line': b'  Add the installation prefix of "roscpp" to CMAKE_PREFIX_PATH or set\n'}
+[0.564291] (style_solution) StderrLine: {'line': b'  "roscpp_DIR" to a directory containing one of the above files.  If "roscpp"\n'}
+[0.564347] (style_solution) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.564397] (style_solution) StderrLine: {'line': b'  installed.\n'}
+[0.564445] (style_solution) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[0.564494] (style_solution) StderrLine: {'line': b'  CMakeLists.txt:11 (find_package)\n'}
+[0.564543] (style_solution) StderrLine: {'line': b'\n'}
+[0.564591] (style_solution) StderrLine: {'line': b'\x1b[0m\n'}
+[0.564640] (style_solution) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.564713] (style_solution) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_solution/CMakeFiles/CMakeOutput.log".\n'}
+[0.564766] (style_tutorial) StdoutLine: {'line': b'-- Could NOT find roscpp (missing: roscpp_DIR)\n'}
+[0.564829] (style_tutorial) StdoutLine: {'line': b"-- Could not find the required component 'roscpp'. The following CMake error indicates that you either need to install the package with the same name or change your environment so that it can be found.\n"}
+[0.567856] (pcl_tutorial) StdoutLine: {'line': b'-- Could NOT find roscpp (missing: roscpp_DIR)\n'}
+[0.568422] (pcl_tutorial) StdoutLine: {'line': b"-- Could not find the required component 'roscpp'. The following CMake error indicates that you either need to install the package with the same name or change your environment so that it can be found.\n"}
+[0.576982] (style_tutorial) StderrLine: {'line': b'\x1b[31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):\n'}
+[0.577475] (style_tutorial) StderrLine: {'line': b'  Could not find a package configuration file provided by "roscpp" with any\n'}
+[0.577529] (style_tutorial) StderrLine: {'line': b'  of the following names:\n'}
+[0.577578] (style_tutorial) StderrLine: {'line': b'\n'}
+[0.577626] (style_tutorial) StderrLine: {'line': b'    roscppConfig.cmake\n'}
+[0.577674] (style_tutorial) StderrLine: {'line': b'    roscpp-config.cmake\n'}
+[0.577722] (style_tutorial) StderrLine: {'line': b'\n'}
+[0.577769] (style_tutorial) StderrLine: {'line': b'  Add the installation prefix of "roscpp" to CMAKE_PREFIX_PATH or set\n'}
+[0.577817] (style_tutorial) StderrLine: {'line': b'  "roscpp_DIR" to a directory containing one of the above files.  If "roscpp"\n'}
+[0.577866] (style_tutorial) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.577914] (style_tutorial) StderrLine: {'line': b'  installed.\n'}
+[0.578051] (style_tutorial) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[0.578357] (style_tutorial) StderrLine: {'line': b'  CMakeLists.txt:11 (find_package)\n'}
+[0.578407] (style_tutorial) StderrLine: {'line': b'\n'}
+[0.578455] (style_tutorial) StderrLine: {'line': b'\x1b[0m\n'}
+[0.578504] (pcl_tutorial) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.578557] (pcl_tutorial) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/pcl_tutorial/CMakeFiles/CMakeOutput.log".\n'}
+[0.578609] (pcl_demo) StderrLine: {'line': b'\x1b[31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):\n'}
+[0.578714] (pcl_demo) StderrLine: {'line': b'  Could not find a package configuration file provided by "pcl_conversions"\n'}
+[0.578765] (pcl_demo) StderrLine: {'line': b'  with any of the following names:\n'}
+[0.578813] (pcl_demo) StderrLine: {'line': b'\n'}
+[0.578860] (pcl_demo) StderrLine: {'line': b'    pcl_conversionsConfig.cmake\n'}
+[0.578907] (pcl_demo) StderrLine: {'line': b'    pcl_conversions-config.cmake\n'}
+[0.578955] (pcl_demo) StderrLine: {'line': b'\n'}
+[0.579002] (pcl_demo) StderrLine: {'line': b'  Add the installation prefix of "pcl_conversions" to CMAKE_PREFIX_PATH or\n'}
+[0.579055] (pcl_demo) StderrLine: {'line': b'  set "pcl_conversions_DIR" to a directory containing one of the above files.\n'}
+[0.579120] (pcl_demo) StderrLine: {'line': b'  If "pcl_conversions" provides a separate development package or SDK, be\n'}
+[0.579170] (pcl_demo) StderrLine: {'line': b'  sure it has been installed.\n'}
+[0.579224] (pcl_demo) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[0.579271] (pcl_demo) StderrLine: {'line': b'  CMakeLists.txt:10 (find_package)\n'}
+[0.579318] (pcl_demo) StderrLine: {'line': b'\n'}
+[0.579365] (pcl_demo) StderrLine: {'line': b'\x1b[0m\n'}
+[0.579412] (style_tutorial) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.579671] (style_tutorial) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_tutorial/CMakeFiles/CMakeOutput.log".\n'}
+[0.579722] (pcl_demo) StdoutLine: {'line': b'-- Could NOT find pcl_conversions (missing: pcl_conversions_DIR)\n'}
+[0.579809] (pcl_demo) StdoutLine: {'line': b"-- Could not find the required component 'pcl_conversions'. The following CMake error indicates that you either need to install the package with the same name or change your environment so that it can be found.\n"}
+[0.579861] (pcl_demo) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.579950] (pcl_demo) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/pcl_demo/CMakeFiles/CMakeOutput.log".\n'}
+[0.580002] (realsense_gazebo_plugin) StderrLine: {'line': b'\x1b[31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):\n'}
+[0.580423] (realsense_gazebo_plugin) StderrLine: {'line': b'  Could not find a package configuration file provided by "roscpp" with any\n'}
+[0.580518] (realsense_gazebo_plugin) StderrLine: {'line': b'  of the following names:\n'}
+[0.580567] (realsense_gazebo_plugin) StderrLine: {'line': b'\n'}
+[0.580615] (realsense_gazebo_plugin) StderrLine: {'line': b'    roscppConfig.cmake\n'}
+[0.580662] (realsense_gazebo_plugin) StderrLine: {'line': b'    roscpp-config.cmake\n'}
+[0.580709] (realsense_gazebo_plugin) StderrLine: {'line': b'\n'}
+[0.580756] (realsense_gazebo_plugin) StderrLine: {'line': b'  Add the installation prefix of "roscpp" to CMAKE_PREFIX_PATH or set\n'}
+[0.580803] (realsense_gazebo_plugin) StderrLine: {'line': b'  "roscpp_DIR" to a directory containing one of the above files.  If "roscpp"\n'}
+[0.580851] (realsense_gazebo_plugin) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.580898] (realsense_gazebo_plugin) StderrLine: {'line': b'  installed.\n'}
+[0.580946] (realsense_gazebo_plugin) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[0.580993] (realsense_gazebo_plugin) StderrLine: {'line': b'  CMakeLists.txt:5 (find_package)\n'}
+[0.581045] (realsense_gazebo_plugin) StderrLine: {'line': b'\n'}
+[0.581095] (realsense_gazebo_plugin) StderrLine: {'line': b'\x1b[0m\n'}
+[0.581143] (obj_rec_tutorial) StdoutLine: {'line': b'-- Could NOT find roscpp (missing: roscpp_DIR)\n'}
+[0.581574] (obj_rec_tutorial) StdoutLine: {'line': b"-- Could not find the required component 'roscpp'. The following CMake error indicates that you either need to install the package with the same name or change your environment so that it can be found.\n"}
+[0.581641] (obj_rec_tutorial) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.581691] (obj_rec_tutorial) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/obj_rec_tutorial/CMakeFiles/CMakeOutput.log".\n'}
+[0.581742] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Could NOT find roscpp (missing: roscpp_DIR)\n'}
+[0.581813] (realsense_gazebo_plugin) StdoutLine: {'line': b"-- Could not find the required component 'roscpp'. The following CMake error indicates that you either need to install the package with the same name or change your environment so that it can be found.\n"}
+[0.581863] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.581912] (realsense_gazebo_plugin) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/realsense_gazebo_plugin/CMakeFiles/CMakeOutput.log".\n'}
+[0.581963] (pcl_tutorial) StderrLine: {'line': b'\x1b[31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):\n'}
+[0.582038] (pcl_tutorial) StderrLine: {'line': b'  Could not find a package configuration file provided by "roscpp" with any\n'}
+[0.582199] (pcl_tutorial) StderrLine: {'line': b'  of the following names:\n'}
+[0.583004] (pcl_tutorial) StderrLine: {'line': b'\n'}
+[0.583334] (pcl_tutorial) StderrLine: {'line': b'    roscppConfig.cmake\n'}
+[0.583404] (pcl_tutorial) StderrLine: {'line': b'    roscpp-config.cmake\n'}
+[0.583436] (pcl_tutorial) StderrLine: {'line': b'\n'}
+[0.583464] (pcl_tutorial) StderrLine: {'line': b'  Add the installation prefix of "roscpp" to CMAKE_PREFIX_PATH or set\n'}
+[0.583491] (pcl_tutorial) StderrLine: {'line': b'  "roscpp_DIR" to a directory containing one of the above files.  If "roscpp"\n'}
+[0.583519] (pcl_tutorial) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.583547] (pcl_tutorial) StderrLine: {'line': b'  installed.\n'}
+[0.583572] (pcl_tutorial) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[0.583612] (pcl_tutorial) StderrLine: {'line': b'  CMakeLists.txt:11 (find_package)\n'}
+[0.583639] (pcl_tutorial) StderrLine: {'line': b'\n'}
+[0.583664] (pcl_tutorial) StderrLine: {'line': b'\x1b[0m\n'}
+[0.583690] (moveit_tutorial) StdoutLine: {'line': b'-- Could NOT find roscpp (missing: roscpp_DIR)\n'}
+[0.583730] (moveit_tutorial) StdoutLine: {'line': b"-- Could not find the required component 'roscpp'. The following CMake error indicates that you either need to install the package with the same name or change your environment so that it can be found.\n"}
+[0.583762] (obj_rec_tutorial) StderrLine: {'line': b'\x1b[31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):\n'}
+[0.583805] (obj_rec_tutorial) StderrLine: {'line': b'  Could not find a package configuration file provided by "roscpp" with any\n'}
+[0.583832] (obj_rec_tutorial) StderrLine: {'line': b'  of the following names:\n'}
+[0.583857] (obj_rec_tutorial) StderrLine: {'line': b'\n'}
+[0.583883] (obj_rec_tutorial) StderrLine: {'line': b'    roscppConfig.cmake\n'}
+[0.583908] (obj_rec_tutorial) StderrLine: {'line': b'    roscpp-config.cmake\n'}
+[0.583934] (obj_rec_tutorial) StderrLine: {'line': b'\n'}
+[0.583959] (obj_rec_tutorial) StderrLine: {'line': b'  Add the installation prefix of "roscpp" to CMAKE_PREFIX_PATH or set\n'}
+[0.583985] (obj_rec_tutorial) StderrLine: {'line': b'  "roscpp_DIR" to a directory containing one of the above files.  If "roscpp"\n'}
+[0.584010] (obj_rec_tutorial) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.584039] (obj_rec_tutorial) StderrLine: {'line': b'  installed.\n'}
+[0.584065] (obj_rec_tutorial) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[0.584090] (obj_rec_tutorial) StderrLine: {'line': b'  CMakeLists.txt:11 (find_package)\n'}
+[0.584116] (obj_rec_tutorial) StderrLine: {'line': b'\n'}
+[0.584141] (obj_rec_tutorial) StderrLine: {'line': b'\x1b[0m\n'}
+[0.584166] (moveit_tutorial) StderrLine: {'line': b'\x1b[31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):\n'}
+[0.584212] (moveit_tutorial) StderrLine: {'line': b'  Could not find a package configuration file provided by "roscpp" with any\n'}
+[0.584238] (moveit_tutorial) StderrLine: {'line': b'  of the following names:\n'}
+[0.584263] (moveit_tutorial) StderrLine: {'line': b'\n'}
+[0.584287] (moveit_tutorial) StderrLine: {'line': b'    roscppConfig.cmake\n'}
+[0.584314] (moveit_tutorial) StderrLine: {'line': b'    roscpp-config.cmake\n'}
+[0.584342] (moveit_tutorial) StderrLine: {'line': b'\n'}
+[0.584367] (moveit_tutorial) StderrLine: {'line': b'  Add the installation prefix of "roscpp" to CMAKE_PREFIX_PATH or set\n'}
+[0.584394] (moveit_tutorial) StderrLine: {'line': b'  "roscpp_DIR" to a directory containing one of the above files.  If "roscpp"\n'}
+[0.584419] (moveit_tutorial) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.584446] (moveit_tutorial) StderrLine: {'line': b'  installed.\n'}
+[0.584471] (moveit_tutorial) StderrLine: {'line': b'Call Stack (most recent call first):\n'}
+[0.584497] (moveit_tutorial) StderrLine: {'line': b'  CMakeLists.txt:10 (find_package)\n'}
+[0.584522] (moveit_tutorial) StderrLine: {'line': b'\n'}
+[0.584547] (moveit_tutorial) StderrLine: {'line': b'\x1b[0m\n'}
+[0.584572] (moveit_tutorial) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.584599] (moveit_tutorial) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/moveit_tutorial/CMakeFiles/CMakeOutput.log".\n'}
+[0.584681] (rpl_panda_with_rs) JobEnded: {'identifier': 'rpl_panda_with_rs', 'rc': 1}
+[0.586469] (sample) JobEnded: {'identifier': 'sample', 'rc': 'SIGINT'}
+[0.587632] (style_tutorial) JobEnded: {'identifier': 'style_tutorial', 'rc': 'SIGINT'}
+[0.587744] (pcl_demo) JobEnded: {'identifier': 'pcl_demo', 'rc': 'SIGINT'}
+[0.587842] (moveit_tutorial) JobEnded: {'identifier': 'moveit_tutorial', 'rc': 'SIGINT'}
+[0.587932] (pcl_tutorial) JobEnded: {'identifier': 'pcl_tutorial', 'rc': 'SIGINT'}
+[0.588011] (style_solution) JobEnded: {'identifier': 'style_solution', 'rc': 'SIGINT'}
+[0.588089] (obj_rec_tutorial) JobEnded: {'identifier': 'obj_rec_tutorial', 'rc': 'SIGINT'}
+[0.588191] (realsense_gazebo_plugin) JobEnded: {'identifier': 'realsense_gazebo_plugin', 'rc': 'SIGINT'}
+[0.600136] (-) TimerEvent: {}
+[0.639652] (panda_moveit_config) StdoutLine: {'line': b'-- Configuring done\n'}
+[0.641160] (panda_moveit_config) StdoutLine: {'line': b'-- Generating done\n'}
+[0.642045] (panda_moveit_config) StdoutLine: {'line': b'-- Build files have been written to: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_moveit_config\n'}
+[0.645326] (panda_moveit_config) JobEnded: {'identifier': 'panda_moveit_config', 'rc': 'SIGINT'}
+[0.647444] (panda_description) StdoutLine: {'line': b'-- Configuring done\n'}
+[0.648805] (panda_description) StdoutLine: {'line': b'-- Generating done\n'}
+[0.649901] (panda_description) StdoutLine: {'line': b'-- Build files have been written to: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_description\n'}
+[0.653224] (panda_description) JobEnded: {'identifier': 'panda_description', 'rc': 'SIGINT'}
+[0.663836] (-) EventReactorShutdown: {}

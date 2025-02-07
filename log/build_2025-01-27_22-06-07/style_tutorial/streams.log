@@ -1,0 +1,21 @@
+[0.037s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/style_tutorial': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/style_tutorial -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/style_tutorial
+[0.043s] -- Configuring incomplete, errors occurred!
+[0.043s] See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/style_tutorial/CMakeFiles/CMakeOutput.log".
+[0.043s] [31mCMake Error at CMakeLists.txt:11 (find_package):
+[0.044s]   By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has
+[0.045s]   asked CMake to find a package configuration file provided by "catkin", but
+[0.045s]   CMake did not find one.
+[0.045s] 
+[0.045s]   Could not find a package configuration file provided by "catkin" with any
+[0.045s]   of the following names:
+[0.045s] 
+[0.045s]     catkinConfig.cmake
+[0.045s]     catkin-config.cmake
+[0.045s] 
+[0.045s]   Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set
+[0.045s]   "catkin_DIR" to a directory containing one of the above files.  If "catkin"
+[0.045s]   provides a separate development package or SDK, be sure it has been
+[0.045s]   installed.
+[0.045s] 
+[0.046s] [0m
+[0.058s] Invoked command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/style_tutorial' returned '1': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/style_tutorial -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/style_tutorial

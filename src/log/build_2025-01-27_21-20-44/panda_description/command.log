@@ -1,0 +1,1 @@
+Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_description': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/panda_description -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/panda_description

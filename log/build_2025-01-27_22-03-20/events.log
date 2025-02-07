@@ -1,0 +1,309 @@
+[0.000000] (-) TimerEvent: {}
+[0.000313] (moveit_tutorial) JobQueued: {'identifier': 'moveit_tutorial', 'dependencies': OrderedDict()}
+[0.000339] (obj_rec_tutorial) JobQueued: {'identifier': 'obj_rec_tutorial', 'dependencies': OrderedDict()}
+[0.000348] (panda_description) JobQueued: {'identifier': 'panda_description', 'dependencies': OrderedDict()}
+[0.000355] (panda_moveit_config) JobQueued: {'identifier': 'panda_moveit_config', 'dependencies': OrderedDict()}
+[0.000361] (pcl_demo) JobQueued: {'identifier': 'pcl_demo', 'dependencies': OrderedDict()}
+[0.000367] (pcl_tutorial) JobQueued: {'identifier': 'pcl_tutorial', 'dependencies': OrderedDict()}
+[0.000373] (realsense_gazebo_plugin) JobQueued: {'identifier': 'realsense_gazebo_plugin', 'dependencies': OrderedDict()}
+[0.000378] (rpl_panda_with_rs) JobQueued: {'identifier': 'rpl_panda_with_rs', 'dependencies': OrderedDict()}
+[0.000383] (sample) JobQueued: {'identifier': 'sample', 'dependencies': OrderedDict()}
+[0.000388] (style_solution) JobQueued: {'identifier': 'style_solution', 'dependencies': OrderedDict()}
+[0.000394] (style_tutorial) JobQueued: {'identifier': 'style_tutorial', 'dependencies': OrderedDict()}
+[0.000635] (moveit_tutorial) JobStarted: {'identifier': 'moveit_tutorial'}
+[0.003071] (obj_rec_tutorial) JobStarted: {'identifier': 'obj_rec_tutorial'}
+[0.003718] (panda_description) JobStarted: {'identifier': 'panda_description'}
+[0.004885] (panda_moveit_config) JobStarted: {'identifier': 'panda_moveit_config'}
+[0.005728] (pcl_demo) JobStarted: {'identifier': 'pcl_demo'}
+[0.006544] (pcl_tutorial) JobStarted: {'identifier': 'pcl_tutorial'}
+[0.007292] (realsense_gazebo_plugin) JobStarted: {'identifier': 'realsense_gazebo_plugin'}
+[0.008251] (rpl_panda_with_rs) JobStarted: {'identifier': 'rpl_panda_with_rs'}
+[0.008734] (sample) JobStarted: {'identifier': 'sample'}
+[0.009489] (style_solution) JobStarted: {'identifier': 'style_solution'}
+[0.010116] (style_tutorial) JobStarted: {'identifier': 'style_tutorial'}
+[0.011944] (moveit_tutorial) JobProgress: {'identifier': 'moveit_tutorial', 'progress': 'cmake'}
+[0.012187] (moveit_tutorial) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/moveit_tutorial', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/moveit_tutorial'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/moveit_tutorial', 'env': OrderedDict([('SUDO_GID', '1000'), ('MAIL', '/var/mail/root'), ('LANGUAGE', 'en_GB:en'), ('USER', 'root'), ('HOME', '/root'), ('COLORTERM', 'truecolor'), ('SUDO_UID', '1000'), ('LOGNAME', 'root'), ('TERM', 'screen'), ('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SUDO_COMMAND', '/usr/bin/colcon build'), ('SHELL', '/bin/bash'), ('SUDO_USER', 'ethan'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/moveit_tutorial'), ('COLCON', '1')]), 'shell': False}
+[0.013135] (obj_rec_tutorial) JobProgress: {'identifier': 'obj_rec_tutorial', 'progress': 'cmake'}
+[0.013363] (obj_rec_tutorial) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/obj_rec_tutorial', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/obj_rec_tutorial'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/obj_rec_tutorial', 'env': OrderedDict([('SUDO_GID', '1000'), ('MAIL', '/var/mail/root'), ('LANGUAGE', 'en_GB:en'), ('USER', 'root'), ('HOME', '/root'), ('COLORTERM', 'truecolor'), ('SUDO_UID', '1000'), ('LOGNAME', 'root'), ('TERM', 'screen'), ('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SUDO_COMMAND', '/usr/bin/colcon build'), ('SHELL', '/bin/bash'), ('SUDO_USER', 'ethan'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/obj_rec_tutorial'), ('COLCON', '1')]), 'shell': False}
+[0.013878] (panda_description) JobProgress: {'identifier': 'panda_description', 'progress': 'cmake'}
+[0.014102] (panda_description) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/panda_description', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/panda_description'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_description', 'env': OrderedDict([('SUDO_GID', '1000'), ('MAIL', '/var/mail/root'), ('LANGUAGE', 'en_GB:en'), ('USER', 'root'), ('HOME', '/root'), ('COLORTERM', 'truecolor'), ('SUDO_UID', '1000'), ('LOGNAME', 'root'), ('TERM', 'screen'), ('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SUDO_COMMAND', '/usr/bin/colcon build'), ('SHELL', '/bin/bash'), ('SUDO_USER', 'ethan'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_description'), ('COLCON', '1')]), 'shell': False}
+[0.014656] (panda_moveit_config) JobProgress: {'identifier': 'panda_moveit_config', 'progress': 'cmake'}
+[0.014864] (panda_moveit_config) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/panda_moveit_config', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/panda_moveit_config'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config', 'env': OrderedDict([('SUDO_GID', '1000'), ('MAIL', '/var/mail/root'), ('LANGUAGE', 'en_GB:en'), ('USER', 'root'), ('HOME', '/root'), ('COLORTERM', 'truecolor'), ('SUDO_UID', '1000'), ('LOGNAME', 'root'), ('TERM', 'screen'), ('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SUDO_COMMAND', '/usr/bin/colcon build'), ('SHELL', '/bin/bash'), ('SUDO_USER', 'ethan'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config'), ('COLCON', '1')]), 'shell': False}
+[0.015410] (pcl_demo) JobProgress: {'identifier': 'pcl_demo', 'progress': 'cmake'}
+[0.015643] (pcl_demo) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/pcl_demo', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/pcl_demo'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/pcl_demo', 'env': OrderedDict([('SUDO_GID', '1000'), ('MAIL', '/var/mail/root'), ('LANGUAGE', 'en_GB:en'), ('USER', 'root'), ('HOME', '/root'), ('COLORTERM', 'truecolor'), ('SUDO_UID', '1000'), ('LOGNAME', 'root'), ('TERM', 'screen'), ('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SUDO_COMMAND', '/usr/bin/colcon build'), ('SHELL', '/bin/bash'), ('SUDO_USER', 'ethan'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/pcl_demo'), ('COLCON', '1')]), 'shell': False}
+[0.016272] (pcl_tutorial) JobProgress: {'identifier': 'pcl_tutorial', 'progress': 'cmake'}
+[0.016486] (pcl_tutorial) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/pcl_tutorial', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/pcl_tutorial'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/pcl_tutorial', 'env': OrderedDict([('SUDO_GID', '1000'), ('MAIL', '/var/mail/root'), ('LANGUAGE', 'en_GB:en'), ('USER', 'root'), ('HOME', '/root'), ('COLORTERM', 'truecolor'), ('SUDO_UID', '1000'), ('LOGNAME', 'root'), ('TERM', 'screen'), ('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SUDO_COMMAND', '/usr/bin/colcon build'), ('SHELL', '/bin/bash'), ('SUDO_USER', 'ethan'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/pcl_tutorial'), ('COLCON', '1')]), 'shell': False}
+[0.017098] (realsense_gazebo_plugin) JobProgress: {'identifier': 'realsense_gazebo_plugin', 'progress': 'cmake'}
+[0.030935] (realsense_gazebo_plugin) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/realsense_gazebo_plugin', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/realsense_gazebo_plugin'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/realsense_gazebo_plugin', 'env': OrderedDict([('SUDO_GID', '1000'), ('MAIL', '/var/mail/root'), ('LANGUAGE', 'en_GB:en'), ('USER', 'root'), ('HOME', '/root'), ('COLORTERM', 'truecolor'), ('SUDO_UID', '1000'), ('LOGNAME', 'root'), ('TERM', 'screen'), ('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SUDO_COMMAND', '/usr/bin/colcon build'), ('SHELL', '/bin/bash'), ('SUDO_USER', 'ethan'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/realsense_gazebo_plugin'), ('COLCON', '1')]), 'shell': False}
+[0.032714] (rpl_panda_with_rs) JobProgress: {'identifier': 'rpl_panda_with_rs', 'progress': 'cmake'}
+[0.032975] (rpl_panda_with_rs) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/rpl_panda_with_rs', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/rpl_panda_with_rs'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/rpl_panda_with_rs', 'env': OrderedDict([('SUDO_GID', '1000'), ('MAIL', '/var/mail/root'), ('LANGUAGE', 'en_GB:en'), ('USER', 'root'), ('HOME', '/root'), ('COLORTERM', 'truecolor'), ('SUDO_UID', '1000'), ('LOGNAME', 'root'), ('TERM', 'screen'), ('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SUDO_COMMAND', '/usr/bin/colcon build'), ('SHELL', '/bin/bash'), ('SUDO_USER', 'ethan'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/rpl_panda_with_rs'), ('COLCON', '1')]), 'shell': False}
+[0.033796] (sample) JobProgress: {'identifier': 'sample', 'progress': 'cmake'}
+[0.034023] (sample) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/sample', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/sample'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/sample', 'env': OrderedDict([('SUDO_GID', '1000'), ('MAIL', '/var/mail/root'), ('LANGUAGE', 'en_GB:en'), ('USER', 'root'), ('HOME', '/root'), ('COLORTERM', 'truecolor'), ('SUDO_UID', '1000'), ('LOGNAME', 'root'), ('TERM', 'screen'), ('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SUDO_COMMAND', '/usr/bin/colcon build'), ('SHELL', '/bin/bash'), ('SUDO_USER', 'ethan'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/sample'), ('COLCON', '1')]), 'shell': False}
+[0.034583] (style_solution) JobProgress: {'identifier': 'style_solution', 'progress': 'cmake'}
+[0.034787] (style_solution) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/style_solution', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/style_solution'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/style_solution', 'env': OrderedDict([('SUDO_GID', '1000'), ('MAIL', '/var/mail/root'), ('LANGUAGE', 'en_GB:en'), ('USER', 'root'), ('HOME', '/root'), ('COLORTERM', 'truecolor'), ('SUDO_UID', '1000'), ('LOGNAME', 'root'), ('TERM', 'screen'), ('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SUDO_COMMAND', '/usr/bin/colcon build'), ('SHELL', '/bin/bash'), ('SUDO_USER', 'ethan'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/style_solution'), ('COLCON', '1')]), 'shell': False}
+[0.035955] (moveit_tutorial) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.036025] (moveit_tutorial) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/moveit_tutorial/CMakeFiles/CMakeOutput.log".\n'}
+[0.036733] (moveit_tutorial) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:10 (find_package):\n'}
+[0.036852] (moveit_tutorial) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.036995] (moveit_tutorial) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.037068] (moveit_tutorial) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.037094] (moveit_tutorial) StderrLine: {'line': b'\n'}
+[0.037118] (moveit_tutorial) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.037141] (moveit_tutorial) StderrLine: {'line': b'  of the following names:\n'}
+[0.037164] (moveit_tutorial) StderrLine: {'line': b'\n'}
+[0.037186] (moveit_tutorial) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.037208] (moveit_tutorial) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.037231] (moveit_tutorial) StderrLine: {'line': b'\n'}
+[0.037254] (moveit_tutorial) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.037276] (moveit_tutorial) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.037298] (moveit_tutorial) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.037320] (moveit_tutorial) StderrLine: {'line': b'  installed.\n'}
+[0.037341] (moveit_tutorial) StderrLine: {'line': b'\n'}
+[0.037362] (moveit_tutorial) StderrLine: {'line': b'\x1b[0m\n'}
+[0.037382] (obj_rec_tutorial) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.037599] (obj_rec_tutorial) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/obj_rec_tutorial/CMakeFiles/CMakeOutput.log".\n'}
+[0.037629] (obj_rec_tutorial) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:11 (find_package):\n'}
+[0.037699] (obj_rec_tutorial) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.037723] (obj_rec_tutorial) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.037747] (obj_rec_tutorial) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.037771] (obj_rec_tutorial) StderrLine: {'line': b'\n'}
+[0.037794] (obj_rec_tutorial) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.037820] (obj_rec_tutorial) StderrLine: {'line': b'  of the following names:\n'}
+[0.037860] (obj_rec_tutorial) StderrLine: {'line': b'\n'}
+[0.037883] (obj_rec_tutorial) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.037906] (obj_rec_tutorial) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.037929] (obj_rec_tutorial) StderrLine: {'line': b'\n'}
+[0.037951] (obj_rec_tutorial) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.037977] (obj_rec_tutorial) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.037998] (obj_rec_tutorial) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.038019] (obj_rec_tutorial) StderrLine: {'line': b'  installed.\n'}
+[0.038041] (obj_rec_tutorial) StderrLine: {'line': b'\n'}
+[0.038062] (obj_rec_tutorial) StderrLine: {'line': b'\x1b[0m\n'}
+[0.038311] (panda_description) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.038431] (panda_description) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_description/CMakeFiles/CMakeOutput.log".\n'}
+[0.038494] (panda_description) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:4 (find_package):\n'}
+[0.038548] (panda_description) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.038662] (panda_description) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.038731] (panda_description) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.038751] (panda_description) StderrLine: {'line': b'\n'}
+[0.038770] (panda_description) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.038789] (panda_description) StderrLine: {'line': b'  of the following names:\n'}
+[0.038810] (panda_description) StderrLine: {'line': b'\n'}
+[0.038830] (panda_description) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.038849] (panda_description) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.038867] (panda_description) StderrLine: {'line': b'\n'}
+[0.038923] (panda_description) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.038944] (panda_description) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.038965] (panda_description) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.038984] (panda_description) StderrLine: {'line': b'  installed.\n'}
+[0.039007] (panda_description) StderrLine: {'line': b'\n'}
+[0.039027] (panda_description) StderrLine: {'line': b'\x1b[0m\n'}
+[0.044161] (panda_moveit_config) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.044361] (panda_moveit_config) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config/CMakeFiles/CMakeOutput.log".\n'}
+[0.044409] (panda_moveit_config) StderrLine: {'line': b'\x1b[0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):\n'}
+[0.044439] (panda_moveit_config) StderrLine: {'line': b'  Compatibility with CMake < 2.8.12 will be removed from a future version of\n'}
+[0.044490] (panda_moveit_config) StderrLine: {'line': b'  CMake.\n'}
+[0.044513] (panda_moveit_config) StderrLine: {'line': b'\n'}
+[0.044536] (panda_moveit_config) StderrLine: {'line': b'  Update the VERSION argument <min> value or use a ...<max> suffix to tell\n'}
+[0.044559] (panda_moveit_config) StderrLine: {'line': b'  CMake that the project does not need compatibility with older versions.\n'}
+[0.044582] (panda_moveit_config) StderrLine: {'line': b'\n'}
+[0.044604] (panda_moveit_config) StderrLine: {'line': b'\x1b[0m\n'}
+[0.044626] (panda_moveit_config) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:4 (find_package):\n'}
+[0.044647] (panda_moveit_config) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.044669] (panda_moveit_config) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.044757] (panda_moveit_config) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.044781] (panda_moveit_config) StderrLine: {'line': b'\n'}
+[0.044802] (panda_moveit_config) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.044833] (panda_moveit_config) StderrLine: {'line': b'  of the following names:\n'}
+[0.044871] (panda_moveit_config) StderrLine: {'line': b'\n'}
+[0.044892] (panda_moveit_config) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.044915] (panda_moveit_config) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.044937] (panda_moveit_config) StderrLine: {'line': b'\n'}
+[0.044957] (panda_moveit_config) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.044986] (panda_moveit_config) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.045007] (panda_moveit_config) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.045028] (panda_moveit_config) StderrLine: {'line': b'  installed.\n'}
+[0.045158] (panda_moveit_config) StderrLine: {'line': b'\n'}
+[0.045348] (panda_moveit_config) StderrLine: {'line': b'\x1b[0m\n'}
+[0.045374] (pcl_demo) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.045584] (pcl_demo) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/pcl_demo/CMakeFiles/CMakeOutput.log".\n'}
+[0.045664] (pcl_demo) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:10 (find_package):\n'}
+[0.045886] (pcl_demo) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.046205] (pcl_demo) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.046297] (pcl_demo) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.046384] (pcl_demo) StderrLine: {'line': b'\n'}
+[0.046434] (pcl_demo) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.046460] (pcl_demo) StderrLine: {'line': b'  of the following names:\n'}
+[0.046484] (pcl_demo) StderrLine: {'line': b'\n'}
+[0.046506] (pcl_demo) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.046527] (pcl_demo) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.046550] (pcl_demo) StderrLine: {'line': b'\n'}
+[0.046572] (pcl_demo) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.046594] (pcl_demo) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.046616] (pcl_demo) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.046638] (pcl_demo) StderrLine: {'line': b'  installed.\n'}
+[0.046660] (pcl_demo) StderrLine: {'line': b'\n'}
+[0.046683] (pcl_demo) StderrLine: {'line': b'\x1b[0m\n'}
+[0.046705] (pcl_tutorial) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:11 (find_package):\n'}
+[0.046942] (pcl_tutorial) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.046975] (pcl_tutorial) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.047005] (pcl_tutorial) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.047031] (pcl_tutorial) StderrLine: {'line': b'\n'}
+[0.047055] (pcl_tutorial) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.047080] (pcl_tutorial) StderrLine: {'line': b'  of the following names:\n'}
+[0.047105] (pcl_tutorial) StderrLine: {'line': b'\n'}
+[0.047129] (pcl_tutorial) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.047180] (pcl_tutorial) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.047209] (pcl_tutorial) StderrLine: {'line': b'\n'}
+[0.047234] (pcl_tutorial) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.047259] (pcl_tutorial) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.047288] (pcl_tutorial) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.047312] (pcl_tutorial) StderrLine: {'line': b'  installed.\n'}
+[0.047334] (pcl_tutorial) StderrLine: {'line': b'\n'}
+[0.047514] (pcl_tutorial) StderrLine: {'line': b'\x1b[0m\n'}
+[0.047586] (realsense_gazebo_plugin) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.047637] (realsense_gazebo_plugin) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/realsense_gazebo_plugin/CMakeFiles/CMakeOutput.log".\n'}
+[0.047662] (pcl_tutorial) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.047874] (pcl_tutorial) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/pcl_tutorial/CMakeFiles/CMakeOutput.log".\n'}
+[0.047901] (realsense_gazebo_plugin) StderrLine: {'line': b'\x1b[0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):\n'}
+[0.048011] (realsense_gazebo_plugin) StderrLine: {'line': b'  Compatibility with CMake < 2.8.12 will be removed from a future version of\n'}
+[0.048119] (realsense_gazebo_plugin) StderrLine: {'line': b'  CMake.\n'}
+[0.048216] (realsense_gazebo_plugin) StderrLine: {'line': b'\n'}
+[0.048239] (realsense_gazebo_plugin) StderrLine: {'line': b'  Update the VERSION argument <min> value or use a ...<max> suffix to tell\n'}
+[0.048347] (realsense_gazebo_plugin) StderrLine: {'line': b'  CMake that the project does not need compatibility with older versions.\n'}
+[0.048439] (realsense_gazebo_plugin) StderrLine: {'line': b'\n'}
+[0.048461] (realsense_gazebo_plugin) StderrLine: {'line': b'\x1b[0m\n'}
+[0.048483] (realsense_gazebo_plugin) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:5 (find_package):\n'}
+[0.048504] (realsense_gazebo_plugin) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.048527] (realsense_gazebo_plugin) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.048548] (realsense_gazebo_plugin) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.048568] (realsense_gazebo_plugin) StderrLine: {'line': b'\n'}
+[0.048590] (realsense_gazebo_plugin) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.048612] (realsense_gazebo_plugin) StderrLine: {'line': b'  of the following names:\n'}
+[0.048633] (realsense_gazebo_plugin) StderrLine: {'line': b'\n'}
+[0.048655] (realsense_gazebo_plugin) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.048676] (realsense_gazebo_plugin) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.048696] (realsense_gazebo_plugin) StderrLine: {'line': b'\n'}
+[0.048718] (realsense_gazebo_plugin) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.048739] (realsense_gazebo_plugin) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.048760] (realsense_gazebo_plugin) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.048781] (realsense_gazebo_plugin) StderrLine: {'line': b'  installed.\n'}
+[0.048802] (realsense_gazebo_plugin) StderrLine: {'line': b'\n'}
+[0.048826] (realsense_gazebo_plugin) StderrLine: {'line': b'\x1b[0m\n'}
+[0.048849] (rpl_panda_with_rs) StderrLine: {'line': b'\x1b[0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):\n'}
+[0.049135] (rpl_panda_with_rs) StderrLine: {'line': b'  Compatibility with CMake < 2.8.12 will be removed from a future version of\n'}
+[0.049165] (rpl_panda_with_rs) StderrLine: {'line': b'  CMake.\n'}
+[0.049188] (rpl_panda_with_rs) StderrLine: {'line': b'\n'}
+[0.049212] (rpl_panda_with_rs) StderrLine: {'line': b'  Update the VERSION argument <min> value or use a ...<max> suffix to tell\n'}
+[0.049235] (rpl_panda_with_rs) StderrLine: {'line': b'  CMake that the project does not need compatibility with older versions.\n'}
+[0.049257] (rpl_panda_with_rs) StderrLine: {'line': b'\n'}
+[0.049280] (rpl_panda_with_rs) StderrLine: {'line': b'\x1b[0m\n'}
+[0.049303] (rpl_panda_with_rs) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:10 (find_package):\n'}
+[0.049324] (rpl_panda_with_rs) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.049344] (rpl_panda_with_rs) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.049363] (rpl_panda_with_rs) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.049383] (rpl_panda_with_rs) StderrLine: {'line': b'\n'}
+[0.049402] (rpl_panda_with_rs) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.049422] (rpl_panda_with_rs) StderrLine: {'line': b'  of the following names:\n'}
+[0.049441] (rpl_panda_with_rs) StderrLine: {'line': b'\n'}
+[0.049460] (rpl_panda_with_rs) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.049480] (rpl_panda_with_rs) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.049576] (rpl_panda_with_rs) StderrLine: {'line': b'\n'}
+[0.049599] (rpl_panda_with_rs) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.049622] (rpl_panda_with_rs) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.049643] (rpl_panda_with_rs) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.049666] (rpl_panda_with_rs) StderrLine: {'line': b'  installed.\n'}
+[0.049688] (rpl_panda_with_rs) StderrLine: {'line': b'\n'}
+[0.049710] (rpl_panda_with_rs) StderrLine: {'line': b'\x1b[0m\n'}
+[0.049732] (rpl_panda_with_rs) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.049971] (rpl_panda_with_rs) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/rpl_panda_with_rs/CMakeFiles/CMakeOutput.log".\n'}
+[0.050008] (sample) StderrLine: {'line': b'\x1b[0mCMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):\n'}
+[0.050247] (sample) StderrLine: {'line': b'  Compatibility with CMake < 2.8.12 will be removed from a future version of\n'}
+[0.050276] (sample) StderrLine: {'line': b'  CMake.\n'}
+[0.050302] (sample) StderrLine: {'line': b'\n'}
+[0.050327] (sample) StderrLine: {'line': b'  Update the VERSION argument <min> value or use a ...<max> suffix to tell\n'}
+[0.050354] (sample) StderrLine: {'line': b'  CMake that the project does not need compatibility with older versions.\n'}
+[0.050378] (sample) StderrLine: {'line': b'\n'}
+[0.050402] (sample) StderrLine: {'line': b'\x1b[0m\n'}
+[0.050425] (style_solution) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.050526] (style_solution) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/style_solution/CMakeFiles/CMakeOutput.log".\n'}
+[0.050555] (sample) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.050594] (sample) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/sample/CMakeFiles/CMakeOutput.log".\n'}
+[0.050620] (sample) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:10 (find_package):\n'}
+[0.050646] (sample) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.050671] (sample) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.050694] (sample) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.050717] (sample) StderrLine: {'line': b'\n'}
+[0.050740] (sample) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.050762] (sample) StderrLine: {'line': b'  of the following names:\n'}
+[0.050784] (sample) StderrLine: {'line': b'\n'}
+[0.050806] (sample) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.050832] (sample) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.050855] (sample) StderrLine: {'line': b'\n'}
+[0.050878] (sample) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.050901] (sample) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.050927] (sample) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.050954] (sample) StderrLine: {'line': b'  installed.\n'}
+[0.050978] (sample) StderrLine: {'line': b'\n'}
+[0.051002] (sample) StderrLine: {'line': b'\x1b[0m\n'}
+[0.051025] (style_solution) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:11 (find_package):\n'}
+[0.051052] (style_solution) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.051078] (style_solution) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.051102] (style_solution) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.051125] (style_solution) StderrLine: {'line': b'\n'}
+[0.051148] (style_solution) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.051182] (style_solution) StderrLine: {'line': b'  of the following names:\n'}
+[0.051206] (style_solution) StderrLine: {'line': b'\n'}
+[0.051229] (style_solution) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.051253] (style_solution) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.051275] (style_solution) StderrLine: {'line': b'\n'}
+[0.051298] (style_solution) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.051321] (style_solution) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.051343] (style_solution) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.051365] (style_solution) StderrLine: {'line': b'  installed.\n'}
+[0.051388] (style_solution) StderrLine: {'line': b'\n'}
+[0.051409] (style_solution) StderrLine: {'line': b'\x1b[0m\n'}
+[0.051432] (style_tutorial) JobProgress: {'identifier': 'style_tutorial', 'progress': 'cmake'}
+[0.051600] (style_tutorial) Command: {'cmd': ['/usr/bin/cmake', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/style_tutorial', '-DCATKIN_INSTALL_INTO_PREFIX_ROOT=0', '-DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/style_tutorial'], 'cwd': '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/style_tutorial', 'env': OrderedDict([('SUDO_GID', '1000'), ('MAIL', '/var/mail/root'), ('LANGUAGE', 'en_GB:en'), ('USER', 'root'), ('HOME', '/root'), ('COLORTERM', 'truecolor'), ('SUDO_UID', '1000'), ('LOGNAME', 'root'), ('TERM', 'screen'), ('PATH', '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin'), ('DISPLAY', ':1'), ('LANG', 'en_GB.UTF-8'), ('XDG_CURRENT_DESKTOP', 'ubuntu:GNOME'), ('XAUTHORITY', '/run/user/1000/gdm/Xauthority'), ('LS_COLORS', 'rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:'), ('SUDO_COMMAND', '/usr/bin/colcon build'), ('SHELL', '/bin/bash'), ('SUDO_USER', 'ethan'), ('PWD', '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/style_tutorial'), ('COLCON', '1')]), 'shell': False}
+[0.054072] (moveit_tutorial) CommandEnded: {'returncode': 1}
+[0.055177] (panda_description) CommandEnded: {'returncode': 1}
+[0.056138] (pcl_tutorial) CommandEnded: {'returncode': 1}
+[0.057105] (panda_moveit_config) CommandEnded: {'returncode': 1}
+[0.058069] (obj_rec_tutorial) CommandEnded: {'returncode': 1}
+[0.058928] (rpl_panda_with_rs) CommandEnded: {'returncode': 1}
+[0.059755] (sample) CommandEnded: {'returncode': 1}
+[0.060561] (style_solution) CommandEnded: {'returncode': 1}
+[0.061370] (pcl_demo) CommandEnded: {'returncode': 1}
+[0.062246] (style_tutorial) StdoutLine: {'line': b'-- Configuring incomplete, errors occurred!\n'}
+[0.062534] (style_tutorial) StdoutLine: {'line': b'See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/style_tutorial/CMakeFiles/CMakeOutput.log".\n'}
+[0.062592] (realsense_gazebo_plugin) CommandEnded: {'returncode': 1}
+[0.062762] (style_tutorial) StderrLine: {'line': b'\x1b[31mCMake Error at CMakeLists.txt:11 (find_package):\n'}
+[0.062901] (style_tutorial) StderrLine: {'line': b'  By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has\n'}
+[0.063004] (style_tutorial) StderrLine: {'line': b'  asked CMake to find a package configuration file provided by "catkin", but\n'}
+[0.063055] (style_tutorial) StderrLine: {'line': b'  CMake did not find one.\n'}
+[0.063104] (style_tutorial) StderrLine: {'line': b'\n'}
+[0.063165] (style_tutorial) StderrLine: {'line': b'  Could not find a package configuration file provided by "catkin" with any\n'}
+[0.063218] (style_tutorial) StderrLine: {'line': b'  of the following names:\n'}
+[0.063267] (style_tutorial) StderrLine: {'line': b'\n'}
+[0.063315] (style_tutorial) StderrLine: {'line': b'    catkinConfig.cmake\n'}
+[0.063362] (style_tutorial) StderrLine: {'line': b'    catkin-config.cmake\n'}
+[0.063411] (style_tutorial) StderrLine: {'line': b'\n'}
+[0.063459] (style_tutorial) StderrLine: {'line': b'  Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set\n'}
+[0.063509] (style_tutorial) StderrLine: {'line': b'  "catkin_DIR" to a directory containing one of the above files.  If "catkin"\n'}
+[0.063557] (style_tutorial) StderrLine: {'line': b'  provides a separate development package or SDK, be sure it has been\n'}
+[0.063604] (style_tutorial) StderrLine: {'line': b'  installed.\n'}
+[0.063653] (style_tutorial) StderrLine: {'line': b'\n'}
+[0.063702] (style_tutorial) StderrLine: {'line': b'\x1b[0m\n'}
+[0.068229] (style_tutorial) CommandEnded: {'returncode': 1}
+[0.075006] (moveit_tutorial) JobEnded: {'identifier': 'moveit_tutorial', 'rc': 1}
+[0.077221] (panda_description) JobEnded: {'identifier': 'panda_description', 'rc': 1}
+[0.077904] (style_tutorial) JobEnded: {'identifier': 'style_tutorial', 'rc': 'SIGINT'}
+[0.078022] (obj_rec_tutorial) JobEnded: {'identifier': 'obj_rec_tutorial', 'rc': 'SIGINT'}
+[0.078212] (panda_moveit_config) JobEnded: {'identifier': 'panda_moveit_config', 'rc': 'SIGINT'}
+[0.078310] (pcl_tutorial) JobEnded: {'identifier': 'pcl_tutorial', 'rc': 'SIGINT'}
+[0.078405] (rpl_panda_with_rs) JobEnded: {'identifier': 'rpl_panda_with_rs', 'rc': 'SIGINT'}
+[0.078498] (sample) JobEnded: {'identifier': 'sample', 'rc': 'SIGINT'}
+[0.078588] (style_solution) JobEnded: {'identifier': 'style_solution', 'rc': 'SIGINT'}
+[0.078678] (pcl_demo) JobEnded: {'identifier': 'pcl_demo', 'rc': 'SIGINT'}
+[0.078767] (realsense_gazebo_plugin) JobEnded: {'identifier': 'realsense_gazebo_plugin', 'rc': 'SIGINT'}
+[0.088560] (-) EventReactorShutdown: {}

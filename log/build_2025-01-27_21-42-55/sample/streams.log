@@ -1,0 +1,40 @@
+[0.013s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/sample': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/sample -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/sample
+[0.024s] [0mCMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
+[0.025s]   Compatibility with CMake < 2.8.12 will be removed from a future version of
+[0.025s]   CMake.
+[0.026s] 
+[0.026s]   Update the VERSION argument <min> value or use a ...<max> suffix to tell
+[0.026s]   CMake that the project does not need compatibility with older versions.
+[0.026s] 
+[0.026s] [0m
+[0.187s] -- The C compiler identification is GNU 11.4.0
+[0.239s] -- The CXX compiler identification is GNU 11.4.0
+[0.246s] -- Detecting C compiler ABI info
+[0.293s] -- Detecting C compiler ABI info - done
+[0.299s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.299s] -- Detecting C compile features
+[0.299s] -- Detecting C compile features - done
+[0.302s] -- Detecting CXX compiler ABI info
+[0.368s] -- Detecting CXX compiler ABI info - done
+[0.372s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.374s] -- Detecting CXX compile features
+[0.374s] -- Detecting CXX compile features - done
+[0.374s] -- Configuring incomplete, errors occurred!
+[0.374s] See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/sample/CMakeFiles/CMakeOutput.log".
+[0.374s] [31mCMake Error at CMakeLists.txt:10 (find_package):
+[0.374s]   By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has
+[0.374s]   asked CMake to find a package configuration file provided by "catkin", but
+[0.374s]   CMake did not find one.
+[0.374s] 
+[0.375s]   Could not find a package configuration file provided by "catkin" with any
+[0.375s]   of the following names:
+[0.375s] 
+[0.375s]     catkinConfig.cmake
+[0.375s]     catkin-config.cmake
+[0.375s] 
+[0.375s]   Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set
+[0.375s]   "catkin_DIR" to a directory containing one of the above files.  If "catkin"
+[0.375s]   provides a separate development package or SDK, be sure it has been
+[0.375s]   installed.
+[0.375s] 
+[0.375s] [0m

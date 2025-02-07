@@ -1,0 +1,15 @@
+[31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):
+  Could not find a package configuration file provided by "pcl_conversions"
+  with any of the following names:
+
+    pcl_conversionsConfig.cmake
+    pcl_conversions-config.cmake
+
+  Add the installation prefix of "pcl_conversions" to CMAKE_PREFIX_PATH or
+  set "pcl_conversions_DIR" to a directory containing one of the above files.
+  If "pcl_conversions" provides a separate development package or SDK, be
+  sure it has been installed.
+Call Stack (most recent call first):
+  CMakeLists.txt:10 (find_package)
+
+[0m

@@ -1,0 +1,35 @@
+[0.014s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_description': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/panda_description -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/panda_description
+[0.061s] -- The C compiler identification is GNU 11.4.0
+[0.102s] -- The CXX compiler identification is GNU 11.4.0
+[0.107s] -- Detecting C compiler ABI info
+[0.155s] -- Detecting C compiler ABI info - done
+[0.164s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.164s] -- Detecting C compile features
+[0.164s] -- Detecting C compile features - done
+[0.167s] -- Detecting CXX compiler ABI info
+[0.218s] -- Detecting CXX compiler ABI info - done
+[0.222s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.222s] -- Detecting CXX compile features
+[0.223s] -- Detecting CXX compile features - done
+[0.225s] -- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_description/devel
+[0.225s] -- Using CMAKE_PREFIX_PATH: 
+[0.235s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") 
+[0.235s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.235s] -- Using Debian Python package layout
+[0.236s] -- Using empy: /usr/bin/empy
+[0.323s] -- Using CATKIN_ENABLE_TESTING: ON
+[0.323s] -- Call enable_testing()
+[0.325s] -- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_description/test_results
+[0.336s] -- GTest is not available. Please install libgtest-dev to enable tests involving GTest.
+[0.336s] -- GMock is not available. Please install libgmock-dev to enable tests involving GMock.
+[0.337s] -- nosetests not found, Python tests can not be run (try installing package 'python3-nose')
+[0.338s] -- Looking for pthread.h
+[0.388s] -- Looking for pthread.h - found
+[0.388s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.439s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[0.439s] -- Found Threads: TRUE  
+[0.482s] -- catkin 0.8.10
+[0.482s] -- BUILD_SHARED_LIBS is on
+[0.644s] -- Configuring done
+[0.646s] -- Generating done
+[0.647s] -- Build files have been written to: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/panda_description

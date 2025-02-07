@@ -1,0 +1,45 @@
+[0.012s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/panda_moveit_config -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/panda_moveit_config
+[0.036s] -- Configuring incomplete, errors occurred!
+[0.037s] See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config/CMakeFiles/CMakeOutput.log".
+[0.037s] [0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.037s]   Compatibility with CMake < 2.8.12 will be removed from a future version of
+[0.037s]   CMake.
+[0.037s] 
+[0.037s]   Update the VERSION argument <min> value or use a ...<max> suffix to tell
+[0.037s]   CMake that the project does not need compatibility with older versions.
+[0.037s] 
+[0.037s] [0m
+[0.037s] [31mCMake Error at CMakeLists.txt:4 (find_package):
+[0.037s]   By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has
+[0.037s]   asked CMake to find a package configuration file provided by "catkin", but
+[0.038s]   CMake did not find one.
+[0.038s] 
+[0.038s]   Could not find a package configuration file provided by "catkin" with any
+[0.038s]   of the following names:
+[0.038s] 
+[0.038s]     catkinConfig.cmake
+[0.038s]     catkin-config.cmake
+[0.038s] 
+[0.038s]   Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set
+[0.038s]   "catkin_DIR" to a directory containing one of the above files.  If "catkin"
+[0.038s]   provides a separate development package or SDK, be sure it has been
+[0.038s]   installed.
+[0.038s] 
+[0.038s] [0m
+[0.046s] Invoked command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config' returned '1': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/panda_moveit_config -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/panda_moveit_config
+[0.061s] Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/colcon_core/executor/__init__.py", line 91, in __call__
+    rc = await self.task(*args, **kwargs)
+  File "/usr/lib/python3/dist-packages/colcon_core/task/__init__.py", line 93, in __call__
+    return await task_method(*args, **kwargs)
+  File "/usr/lib/python3/dist-packages/colcon_ros/task/catkin/build.py", line 125, in build
+    create_environment_scripts(
+  File "/usr/lib/python3/dist-packages/colcon_core/environment/__init__.py", line 91, in create_environment_scripts
+    create_file_with_runtime_dependencies(prefix_path, pkg))
+  File "/usr/lib/python3/dist-packages/colcon_core/environment/__init__.py", line 174, in create_file_with_runtime_dependencies
+    path.write_text(
+  File "/usr/lib/python3.10/pathlib.py", line 1154, in write_text
+    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:
+  File "/usr/lib/python3.10/pathlib.py", line 1119, in open
+    return self._accessor.open(self, mode, buffering, encoding, errors,
+PermissionError: [Errno 13] Permission denied: '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/panda_moveit_config/share/colcon-core/packages/panda_moveit_config'

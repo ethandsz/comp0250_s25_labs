@@ -1,0 +1,43 @@
+[0.011s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/panda_moveit_config -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/panda_moveit_config
+[0.020s] [0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.020s]   Compatibility with CMake < 2.8.12 will be removed from a future version of
+[0.020s]   CMake.
+[0.020s] 
+[0.020s]   Update the VERSION argument <min> value or use a ...<max> suffix to tell
+[0.020s]   CMake that the project does not need compatibility with older versions.
+[0.020s] 
+[0.020s] [0m
+[0.062s] -- The C compiler identification is GNU 11.4.0
+[0.101s] -- The CXX compiler identification is GNU 11.4.0
+[0.108s] -- Detecting C compiler ABI info
+[0.158s] -- Detecting C compiler ABI info - done
+[0.166s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.166s] -- Detecting C compile features
+[0.167s] -- Detecting C compile features - done
+[0.169s] -- Detecting CXX compiler ABI info
+[0.221s] -- Detecting CXX compiler ABI info - done
+[0.228s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.228s] -- Detecting CXX compile features
+[0.229s] -- Detecting CXX compile features - done
+[0.231s] -- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config/devel
+[0.232s] -- Using CMAKE_PREFIX_PATH: 
+[0.242s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") 
+[0.242s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.242s] -- Using Debian Python package layout
+[0.242s] -- Using empy: /usr/bin/empy
+[0.328s] -- Using CATKIN_ENABLE_TESTING: ON
+[0.328s] -- Call enable_testing()
+[0.329s] -- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config/test_results
+[0.345s] -- GTest is not available. Please install libgtest-dev to enable tests involving GTest.
+[0.345s] -- GMock is not available. Please install libgmock-dev to enable tests involving GMock.
+[0.346s] -- nosetests not found, Python tests can not be run (try installing package 'python3-nose')
+[0.347s] -- Looking for pthread.h
+[0.393s] -- Looking for pthread.h - found
+[0.393s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.441s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[0.443s] -- Found Threads: TRUE  
+[0.493s] -- catkin 0.8.10
+[0.493s] -- BUILD_SHARED_LIBS is on
+[0.658s] -- Configuring done
+[0.659s] -- Generating done
+[0.660s] -- Build files have been written to: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config

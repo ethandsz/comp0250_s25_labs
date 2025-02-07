@@ -1,0 +1,1 @@
+Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/pcl_demo': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/pcl_demo -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/pcl_demo

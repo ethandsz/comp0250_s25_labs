@@ -1,0 +1,21 @@
+[0.012s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/moveit_tutorial': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/moveit_tutorial -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/moveit_tutorial
+[0.032s] -- Configuring incomplete, errors occurred!
+[0.032s] See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/moveit_tutorial/CMakeFiles/CMakeOutput.log".
+[0.032s] [31mCMake Error at CMakeLists.txt:10 (find_package):
+[0.032s]   By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has
+[0.032s]   asked CMake to find a package configuration file provided by "catkin", but
+[0.033s]   CMake did not find one.
+[0.033s] 
+[0.033s]   Could not find a package configuration file provided by "catkin" with any
+[0.033s]   of the following names:
+[0.033s] 
+[0.033s]     catkinConfig.cmake
+[0.033s]     catkin-config.cmake
+[0.033s] 
+[0.033s]   Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set
+[0.033s]   "catkin_DIR" to a directory containing one of the above files.  If "catkin"
+[0.033s]   provides a separate development package or SDK, be sure it has been
+[0.033s]   installed.
+[0.033s] 
+[0.034s] [0m
+[0.053s] Invoked command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/moveit_tutorial' returned '1': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/moveit_tutorial -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/moveit_tutorial

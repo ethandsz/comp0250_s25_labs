@@ -57,6 +57,8 @@
 #include <moveit_tutorial/set_gripper.h>
 #include <moveit_tutorial/add_collision.h>
 
+#include <moveit_tutorial/remove_collision.h>
+#include <moveit_tutorial/pick.h>
 /** \brief Class advertising MoveIt! ROS services
   *
   * This class contains callback functions for services which use MoveIt to
@@ -92,7 +94,7 @@ public: // set all following functions/variables to public access
   /** \brief Service callback function for setting the gripper fingers to a specific width. 
     *
     * \input[in] request service request message 
-    * \input[in] response service response message
+    * :\input[in] response service response message
     *  
     * \return true if service succeeds
     */
@@ -107,9 +109,18 @@ public: // set all following functions/variables to public access
     *  
     * \return true if service succeeds
     */
-  bool 
+ bool 
+  pickCallback(moveit_tutorial::pick::Request &request,
+    moveit_tutorial::pick::Response &response);
+
+ bool 
   addCollisionCallback(moveit_tutorial::add_collision::Request &request,
     moveit_tutorial::add_collision::Response &response);
+
+  bool 
+  removeCollisionCallback(moveit_tutorial::remove_collision::Request &request,
+    moveit_tutorial::remove_collision::Response &response);
+
 
   /** \brief MoveIt function for moving the move_group to the target position
     *
@@ -142,6 +153,13 @@ public: // set all following functions/variables to public access
   addCollisionObject(std::string object_name, geometry_msgs::Point centre, 
     geometry_msgs::Vector3 dimensions, geometry_msgs::Quaternion orientation);
   
+  void
+  removeCollisionObject(std::string object_name);
+
+  bool
+  pick(geometry_msgs::Point point);
+  
+
   /* Variables */
 
   /** \brief Define some useful constant values. */
@@ -160,7 +178,10 @@ public: // set all following functions/variables to public access
 
   /** \brief  Server for advertising add_collision_srv_  service. */
   ros::ServiceServer add_collision_srv_;
-
+ 
+  ros::ServiceServer remove_collision_srv_;
+  
+  ros::ServiceServer pick_srv_;
   /** \brief MoveIt interface to move groups to seperate the arm and the gripper,
     * these are defined in urdf. */
   moveit::planning_interface::MoveGroupInterface arm_group_{"panda_arm"};

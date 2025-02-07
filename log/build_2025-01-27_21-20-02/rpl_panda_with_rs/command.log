@@ -1,0 +1,1 @@
+Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/rpl_panda_with_rs': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/rpl_panda_with_rs -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/rpl_panda_with_rs

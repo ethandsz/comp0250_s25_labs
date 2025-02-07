@@ -1,0 +1,51 @@
+[0.017s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_solution': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/style_solution -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/style_solution
+[0.062s] -- The C compiler identification is GNU 11.4.0
+[0.104s] -- The CXX compiler identification is GNU 11.4.0
+[0.108s] -- Detecting C compiler ABI info
+[0.154s] -- Detecting C compiler ABI info - done
+[0.158s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.158s] -- Detecting C compile features
+[0.158s] -- Detecting C compile features - done
+[0.160s] -- Detecting CXX compiler ABI info
+[0.218s] -- Detecting CXX compiler ABI info - done
+[0.225s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.226s] -- Detecting CXX compile features
+[0.226s] -- Detecting CXX compile features - done
+[0.229s] -- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_solution/devel
+[0.229s] -- Using CMAKE_PREFIX_PATH: 
+[0.242s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") 
+[0.242s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.242s] -- Using Debian Python package layout
+[0.242s] -- Using empy: /usr/bin/empy
+[0.328s] -- Using CATKIN_ENABLE_TESTING: ON
+[0.329s] -- Call enable_testing()
+[0.330s] -- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_solution/test_results
+[0.340s] -- GTest is not available. Please install libgtest-dev to enable tests involving GTest.
+[0.341s] -- GMock is not available. Please install libgmock-dev to enable tests involving GMock.
+[0.341s] -- nosetests not found, Python tests can not be run (try installing package 'python3-nose')
+[0.342s] -- Looking for pthread.h
+[0.386s] -- Looking for pthread.h - found
+[0.386s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.435s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[0.435s] -- Found Threads: TRUE  
+[0.468s] -- catkin 0.8.10
+[0.469s] -- BUILD_SHARED_LIBS is on
+[0.551s] -- Could NOT find roscpp (missing: roscpp_DIR)
+[0.551s] -- Could not find the required component 'roscpp'. The following CMake error indicates that you either need to install the package with the same name or change your environment so that it can be found.
+[0.553s] [31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):
+[0.554s]   Could not find a package configuration file provided by "roscpp" with any
+[0.554s]   of the following names:
+[0.554s] 
+[0.554s]     roscppConfig.cmake
+[0.554s]     roscpp-config.cmake
+[0.554s] 
+[0.554s]   Add the installation prefix of "roscpp" to CMAKE_PREFIX_PATH or set
+[0.554s]   "roscpp_DIR" to a directory containing one of the above files.  If "roscpp"
+[0.554s]   provides a separate development package or SDK, be sure it has been
+[0.554s]   installed.
+[0.554s] Call Stack (most recent call first):
+[0.554s]   CMakeLists.txt:11 (find_package)
+[0.554s] 
+[0.554s] [0m
+[0.554s] -- Configuring incomplete, errors occurred!
+[0.554s] See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/style_solution/CMakeFiles/CMakeOutput.log".

@@ -1,0 +1,33 @@
+[0.011s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/obj_rec_tutorial': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/obj_rec_tutorial -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/obj_rec_tutorial
+[0.196s] -- The C compiler identification is GNU 11.4.0
+[0.249s] -- The CXX compiler identification is GNU 11.4.0
+[0.255s] -- Detecting C compiler ABI info
+[0.304s] -- Detecting C compiler ABI info - done
+[0.309s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.309s] -- Detecting C compile features
+[0.310s] -- Detecting C compile features - done
+[0.311s] -- Detecting CXX compiler ABI info
+[0.365s] -- Detecting CXX compiler ABI info - done
+[0.373s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.374s] -- Detecting CXX compile features
+[0.374s] -- Detecting CXX compile features - done
+[0.377s] -- Configuring incomplete, errors occurred!
+[0.377s] See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/obj_rec_tutorial/CMakeFiles/CMakeOutput.log".
+[0.377s] [31mCMake Error at CMakeLists.txt:11 (find_package):
+[0.377s]   By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has
+[0.377s]   asked CMake to find a package configuration file provided by "catkin", but
+[0.377s]   CMake did not find one.
+[0.377s] 
+[0.377s]   Could not find a package configuration file provided by "catkin" with any
+[0.377s]   of the following names:
+[0.377s] 
+[0.377s]     catkinConfig.cmake
+[0.377s]     catkin-config.cmake
+[0.377s] 
+[0.378s]   Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set
+[0.378s]   "catkin_DIR" to a directory containing one of the above files.  If "catkin"
+[0.378s]   provides a separate development package or SDK, be sure it has been
+[0.378s]   installed.
+[0.378s] 
+[0.378s] [0m
+[0.385s] Invoked command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/obj_rec_tutorial' returned '1': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/obj_rec_tutorial -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/obj_rec_tutorial

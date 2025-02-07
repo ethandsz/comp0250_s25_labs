@@ -1,0 +1,41 @@
+[0.011s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/panda_moveit_config -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/panda_moveit_config
+[0.021s] [0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.021s]   Compatibility with CMake < 2.8.12 will be removed from a future version of
+[0.021s]   CMake.
+[0.021s] 
+[0.021s]   Update the VERSION argument <min> value or use a ...<max> suffix to tell
+[0.022s]   CMake that the project does not need compatibility with older versions.
+[0.022s] 
+[0.022s] [0m
+[0.205s] -- The C compiler identification is GNU 11.4.0
+[0.251s] -- The CXX compiler identification is GNU 11.4.0
+[0.256s] -- Detecting C compiler ABI info
+[0.299s] -- Detecting C compiler ABI info - done
+[0.307s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.307s] -- Detecting C compile features
+[0.307s] -- Detecting C compile features - done
+[0.311s] -- Detecting CXX compiler ABI info
+[0.363s] -- Detecting CXX compiler ABI info - done
+[0.374s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.374s] -- Detecting CXX compile features
+[0.374s] -- Detecting CXX compile features - done
+[0.376s] [31mCMake Error at CMakeLists.txt:4 (find_package):
+[0.376s]   By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has
+[0.376s]   asked CMake to find a package configuration file provided by "catkin", but
+[0.376s]   CMake did not find one.
+[0.376s] 
+[0.376s]   Could not find a package configuration file provided by "catkin" with any
+[0.376s]   of the following names:
+[0.376s] 
+[0.376s]     catkinConfig.cmake
+[0.376s]     catkin-config.cmake
+[0.376s] 
+[0.376s]   Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set
+[0.376s]   "catkin_DIR" to a directory containing one of the above files.  If "catkin"
+[0.376s]   provides a separate development package or SDK, be sure it has been
+[0.376s]   installed.
+[0.376s] 
+[0.377s] [0m
+[0.377s] -- Configuring incomplete, errors occurred!
+[0.377s] See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config/CMakeFiles/CMakeOutput.log".
+[0.395s] Invoked command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/panda_moveit_config' returned '1': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/panda_moveit_config -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/panda_moveit_config

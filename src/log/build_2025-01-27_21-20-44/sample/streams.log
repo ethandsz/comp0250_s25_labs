@@ -1,0 +1,59 @@
+[0.016s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/sample': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/sample -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/sample
+[0.030s] [0mCMake Deprecation Warning at CMakeLists.txt:3 (cmake_minimum_required):
+[0.030s]   Compatibility with CMake < 2.8.12 will be removed from a future version of
+[0.030s]   CMake.
+[0.030s] 
+[0.031s]   Update the VERSION argument <min> value or use a ...<max> suffix to tell
+[0.031s]   CMake that the project does not need compatibility with older versions.
+[0.031s] 
+[0.031s] [0m
+[0.063s] -- The C compiler identification is GNU 11.4.0
+[0.099s] -- The CXX compiler identification is GNU 11.4.0
+[0.104s] -- Detecting C compiler ABI info
+[0.147s] -- Detecting C compiler ABI info - done
+[0.155s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.155s] -- Detecting C compile features
+[0.155s] -- Detecting C compile features - done
+[0.158s] -- Detecting CXX compiler ABI info
+[0.218s] -- Detecting CXX compiler ABI info - done
+[0.226s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.226s] -- Detecting CXX compile features
+[0.227s] -- Detecting CXX compile features - done
+[0.229s] -- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/sample/devel
+[0.229s] -- Using CMAKE_PREFIX_PATH: 
+[0.243s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") 
+[0.243s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.243s] -- Using Debian Python package layout
+[0.243s] -- Using empy: /usr/bin/empy
+[0.318s] -- Using CATKIN_ENABLE_TESTING: ON
+[0.318s] -- Call enable_testing()
+[0.320s] -- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/sample/test_results
+[0.335s] -- GTest is not available. Please install libgtest-dev to enable tests involving GTest.
+[0.335s] -- GMock is not available. Please install libgmock-dev to enable tests involving GMock.
+[0.335s] -- nosetests not found, Python tests can not be run (try installing package 'python3-nose')
+[0.336s] -- Looking for pthread.h
+[0.383s] -- Looking for pthread.h - found
+[0.383s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.431s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[0.432s] -- Found Threads: TRUE  
+[0.466s] -- catkin 0.8.10
+[0.466s] -- BUILD_SHARED_LIBS is on
+[0.544s] -- Could NOT find roscpp (missing: roscpp_DIR)
+[0.544s] -- Could not find the required component 'roscpp'. The following CMake error indicates that you either need to install the package with the same name or change your environment so that it can be found.
+[0.548s] [31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):
+[0.548s]   Could not find a package configuration file provided by "roscpp" with any
+[0.548s]   of the following names:
+[0.548s] 
+[0.548s]     roscppConfig.cmake
+[0.548s]     roscpp-config.cmake
+[0.548s] 
+[0.548s]   Add the installation prefix of "roscpp" to CMAKE_PREFIX_PATH or set
+[0.549s]   "roscpp_DIR" to a directory containing one of the above files.  If "roscpp"
+[0.549s]   provides a separate development package or SDK, be sure it has been
+[0.549s]   installed.
+[0.549s] Call Stack (most recent call first):
+[0.549s]   CMakeLists.txt:10 (find_package)
+[0.549s] 
+[0.549s] [0m
+[0.549s] -- Configuring incomplete, errors occurred!
+[0.549s] See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/sample/CMakeFiles/CMakeOutput.log".

@@ -1,0 +1,32 @@
+[0.024s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/style_solution': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/labs/style_solution -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/style_solution
+[0.070s] -- The C compiler identification is GNU 11.4.0
+[0.108s] -- The CXX compiler identification is GNU 11.4.0
+[0.112s] -- Detecting C compiler ABI info
+[0.165s] -- Detecting C compiler ABI info - done
+[0.172s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.172s] -- Detecting C compile features
+[0.172s] -- Detecting C compile features - done
+[0.175s] -- Detecting CXX compiler ABI info
+[0.236s] -- Detecting CXX compiler ABI info - done
+[0.238s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.238s] -- Detecting CXX compile features
+[0.239s] -- Detecting CXX compile features - done
+[0.247s] [31mCMake Error at CMakeLists.txt:11 (find_package):
+[0.247s]   By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has
+[0.247s]   asked CMake to find a package configuration file provided by "catkin", but
+[0.247s]   CMake did not find one.
+[0.247s] 
+[0.247s]   Could not find a package configuration file provided by "catkin" with any
+[0.247s]   of the following names:
+[0.247s] 
+[0.247s]     catkinConfig.cmake
+[0.247s]     catkin-config.cmake
+[0.247s] 
+[0.247s]   Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set
+[0.247s]   "catkin_DIR" to a directory containing one of the above files.  If "catkin"
+[0.247s]   provides a separate development package or SDK, be sure it has been
+[0.247s]   installed.
+[0.247s] 
+[0.247s] [0m
+[0.247s] -- Configuring incomplete, errors occurred!
+[0.247s] See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/style_solution/CMakeFiles/CMakeOutput.log".

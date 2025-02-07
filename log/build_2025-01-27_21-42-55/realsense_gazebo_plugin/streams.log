@@ -1,0 +1,41 @@
+[0.011s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/realsense_gazebo_plugin': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/realsense_gazebo_plugin -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/realsense_gazebo_plugin
+[0.021s] [0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.023s]   Compatibility with CMake < 2.8.12 will be removed from a future version of
+[0.023s]   CMake.
+[0.023s] 
+[0.023s]   Update the VERSION argument <min> value or use a ...<max> suffix to tell
+[0.023s]   CMake that the project does not need compatibility with older versions.
+[0.023s] 
+[0.024s] [0m
+[0.203s] -- The C compiler identification is GNU 11.4.0
+[0.243s] -- The CXX compiler identification is GNU 11.4.0
+[0.248s] -- Detecting C compiler ABI info
+[0.293s] -- Detecting C compiler ABI info - done
+[0.298s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.298s] -- Detecting C compile features
+[0.298s] -- Detecting C compile features - done
+[0.300s] -- Detecting CXX compiler ABI info
+[0.359s] -- Detecting CXX compiler ABI info - done
+[0.368s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.368s] -- Detecting CXX compile features
+[0.369s] -- Detecting CXX compile features - done
+[0.371s] -- Configuring incomplete, errors occurred!
+[0.371s] See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/realsense_gazebo_plugin/CMakeFiles/CMakeOutput.log".
+[0.371s] [31mCMake Error at CMakeLists.txt:5 (find_package):
+[0.371s]   By not providing "Findcatkin.cmake" in CMAKE_MODULE_PATH this project has
+[0.371s]   asked CMake to find a package configuration file provided by "catkin", but
+[0.371s]   CMake did not find one.
+[0.371s] 
+[0.371s]   Could not find a package configuration file provided by "catkin" with any
+[0.371s]   of the following names:
+[0.371s] 
+[0.372s]     catkinConfig.cmake
+[0.372s]     catkin-config.cmake
+[0.372s] 
+[0.372s]   Add the installation prefix of "catkin" to CMAKE_PREFIX_PATH or set
+[0.372s]   "catkin_DIR" to a directory containing one of the above files.  If "catkin"
+[0.372s]   provides a separate development package or SDK, be sure it has been
+[0.372s]   installed.
+[0.372s] 
+[0.372s] [0m
+[0.379s] Invoked command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/build/realsense_gazebo_plugin' returned '1': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/realsense_gazebo_plugin -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/install/realsense_gazebo_plugin

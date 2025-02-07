@@ -1,0 +1,60 @@
+[0.016s] Invoking command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/rpl_panda_with_rs': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/rpl_panda_with_rs -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/rpl_panda_with_rs
+[0.031s] [0mCMake Deprecation Warning at CMakeLists.txt:1 (cmake_minimum_required):
+[0.031s]   Compatibility with CMake < 2.8.12 will be removed from a future version of
+[0.031s]   CMake.
+[0.031s] 
+[0.031s]   Update the VERSION argument <min> value or use a ...<max> suffix to tell
+[0.031s]   CMake that the project does not need compatibility with older versions.
+[0.031s] 
+[0.031s] [0m
+[0.062s] -- The C compiler identification is GNU 11.4.0
+[0.106s] -- The CXX compiler identification is GNU 11.4.0
+[0.112s] -- Detecting C compiler ABI info
+[0.162s] -- Detecting C compiler ABI info - done
+[0.167s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.167s] -- Detecting C compile features
+[0.167s] -- Detecting C compile features - done
+[0.169s] -- Detecting CXX compiler ABI info
+[0.220s] -- Detecting CXX compiler ABI info - done
+[0.228s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.228s] -- Detecting CXX compile features
+[0.228s] -- Detecting CXX compile features - done
+[0.232s] -- Using CATKIN_DEVEL_PREFIX: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/rpl_panda_with_rs/devel
+[0.232s] -- Using CMAKE_PREFIX_PATH: 
+[0.246s] -- Found PythonInterp: /usr/bin/python3 (found suitable version "3.10.12", minimum required is "3") 
+[0.246s] -- Using PYTHON_EXECUTABLE: /usr/bin/python3
+[0.247s] -- Using Debian Python package layout
+[0.247s] -- Using empy: /usr/bin/empy
+[0.323s] -- Using CATKIN_ENABLE_TESTING: ON
+[0.323s] -- Call enable_testing()
+[0.325s] -- Using CATKIN_TEST_RESULTS_DIR: /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/rpl_panda_with_rs/test_results
+[0.339s] -- GTest is not available. Please install libgtest-dev to enable tests involving GTest.
+[0.339s] -- GMock is not available. Please install libgmock-dev to enable tests involving GMock.
+[0.339s] -- nosetests not found, Python tests can not be run (try installing package 'python3-nose')
+[0.340s] -- Looking for pthread.h
+[0.384s] -- Looking for pthread.h - found
+[0.384s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.432s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[0.433s] -- Found Threads: TRUE  
+[0.466s] -- catkin 0.8.10
+[0.466s] -- BUILD_SHARED_LIBS is on
+[0.538s] -- Could NOT find roscpp (missing: roscpp_DIR)
+[0.538s] -- Could not find the required component 'roscpp'. The following CMake error indicates that you either need to install the package with the same name or change your environment so that it can be found.
+[0.541s] -- Configuring incomplete, errors occurred!
+[0.541s] See also "/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/rpl_panda_with_rs/CMakeFiles/CMakeOutput.log".
+[0.541s] [31mCMake Error at /usr/share/catkin/cmake/catkinConfig.cmake:82 (find_package):
+[0.541s]   Could not find a package configuration file provided by "roscpp" with any
+[0.541s]   of the following names:
+[0.541s] 
+[0.541s]     roscppConfig.cmake
+[0.542s]     roscpp-config.cmake
+[0.542s] 
+[0.542s]   Add the installation prefix of "roscpp" to CMAKE_PREFIX_PATH or set
+[0.542s]   "roscpp_DIR" to a directory containing one of the above files.  If "roscpp"
+[0.542s]   provides a separate development package or SDK, be sure it has been
+[0.542s]   installed.
+[0.542s] Call Stack (most recent call first):
+[0.542s]   CMakeLists.txt:10 (find_package)
+[0.542s] 
+[0.542s] [0m
+[0.545s] Invoked command in '/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/build/rpl_panda_with_rs' returned '1': /usr/bin/cmake /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/rpl_panda_with_rs -DCATKIN_INSTALL_INTO_PREFIX_ROOT=0 -DCMAKE_INSTALL_PREFIX=/home/ethan/Documents/Github/comp0250/comp0250_s25_labs/src/install/rpl_panda_with_rs
