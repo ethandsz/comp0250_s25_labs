@@ -63,6 +63,7 @@ find_package(catkin REQUIRED COMPONENTS
 add_service_files(
   FILES
   example.srv
+  set_arm.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -128,13 +129,17 @@ include_directories(
 
 # Declare a C++ library
 add_library(${PROJECT_NAME}_cw1_class_lib
+  src/robot_trajectory.cpp
   src/cw1_class.cpp
 )
-
+target_link_libraries(${PROJECT_NAME}_cw1_class_lib
+  ${catkin_LIBRARIES}
+)
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
 add_dependencies(${PROJECT_NAME}_cw1_class_lib 
+
   ${${PROJECT_NAME}_EXPORTED_TARGETS} 
   ${catkin_EXPORTED_TARGETS}
 )
