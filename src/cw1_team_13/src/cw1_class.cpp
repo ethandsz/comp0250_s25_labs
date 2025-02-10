@@ -3,6 +3,7 @@ you can do whatever you want with this template code, including deleting it all
 and starting from scratch. The only requirment is to make sure your entire 
 solution is contained within the cw1_team_<your_team_number> package */
 
+#include "geometry_msgs/Pose.h"
 #include <cw1_class.h>
 #include <robot_trajectory.h> 
 ///////////////////////////////////////////////////////////////////////////////
@@ -31,12 +32,13 @@ bool
 cw1::t1_callback(cw1_world_spawner::Task1Service::Request &request,
   cw1_world_spawner::Task1Service::Response &response) 
 {
+
+  geometry_msgs::Pose reset_pose;
   /* function which should solve task 1 */
   geometry_msgs::PoseStamped object_loc = request.object_loc; // or response.object_loc
+  geometry_msgs::PointStamped goal_loc = request.goal_loc; // or response.object_loc
 
   // Print the full pose (position + orientation)
-  ROS_INFO_STREAM("Object location:\n" << object_loc);
-
   // Print individual components (example for position):
   ROS_INFO("Position (x, y, z): [%.2f, %.2f, %.2f]",
            object_loc.pose.position.x,
@@ -49,48 +51,33 @@ cw1::t1_callback(cw1_world_spawner::Task1Service::Request &request,
            object_loc.pose.orientation.y,
            object_loc.pose.orientation.z,
            object_loc.pose.orientation.w);
+  geometry_msgs::Pose target_pose = object_loc.pose;
+  /*target_pose.orientation.x = -0.9239; // cos(pi/8)*/
+  /*target_pose.orientation.y = -0.3827; // sin(pi/8)*/
+  target_pose.orientation.x = -1; // cos(pi/8)
+  target_pose.orientation.y = 0.0; // sin(pi/8)
+  target_pose.orientation.z = 0;
+  target_pose.orientation.w = 0;
 
+  target_pose.position.z = 0.2;
+  robot_trajectory_.moveArm(target_pose); //hover over the cube
+  robot_trajectory_.moveGripper(0.08); //TODO: create open gripper function 
+  target_pose.position.z = 0.15; //pickup the cube
 
+  robot_trajectory_.moveArm(target_pose); //hover over the cube
+  robot_trajectory_.moveGripper(0); //TOOD: Create close gripper function 
+  target_pose.position.z = 0.3; //raise cube
+  robot_trajectory_.moveArm(target_pose);
+  target_pose.position.x = goal_loc.point.x;
+  target_pose.position.y = goal_loc.point.y;
+  robot_trajectory_.moveArm(target_pose); //move to above goal
+  robot_trajectory_.moveGripper(0.08);
   ROS_INFO("Teh coursework solving callback for task 1 has been triggered");
 
   return true;
 }
 
 
-/*bool */
-/*cw1::setArmCallback(cw1_team_13::set_arm::Request &request,*/
-/*  cw1_team_13::set_arm::Response &response)*/
-/*{*/
-/*  // set arm position, true if sucessful */
-/*  bool success = moveArm(request.pose);*/
-/**/
-/*  response.success = success;*/
-/**/
-/*  return success;*/
-/*}*/
-/**/
-/*bool */
-/*cw1::moveArm(geometry_msgs::Pose target_pose)*/
-/*{*/
-/*  // setup the target pose*/
-/*  ROS_INFO("Setting pose target");*/
-/*  arm_group_.setPoseTarget(target_pose);*/
-/**/
-/*  // create a movement plan for the arm*/
-/*  ROS_INFO("Attempting to plan the path");*/
-/*  moveit::planning_interface::MoveGroupInterface::Plan my_plan;*/
-/*  ROS_INFO("Before Planning");*/
-/*  bool success = (arm_group_.plan(my_plan) ==*/
-/*    moveit::planning_interface::MoveItErrorCode::SUCCESS);*/
-/*  ROS_INFO("After success");*/
-/*  // google 'c++ conditional operator' to understand this line*/
-/*  ROS_INFO("Visualising plan %s", success ? "" : "FAILED");*/
-/**/
-/*  // execute the planned path*/
-/*  arm_group_.move();*/
-/**/
-/*  return success;*/
-/*}*/
 
 ///////////////////////////////////////////////////////////////////////////////
 

@@ -16,6 +16,7 @@
 #include <tf2_ros/transform_listener.h>
 
 #include <cw1_team_13/set_arm.h>
+#include <cw1_team_13/set_gripper.h>
 
 class RobotTrajectory{
 public:
@@ -29,9 +30,21 @@ public:
   moveArm(geometry_msgs::Pose target_pose);
 
 
+  bool 
+  setGripperCallback(cw1_team_13::set_gripper::Request &request,
+    cw1_team_13::set_gripper::Response &response);
+
+  bool
+  moveGripper(float width);
+
   ros::ServiceServer set_arm_srv_;
+  ros::ServiceServer set_gripper_srv_;
 
   moveit::planning_interface::MoveGroupInterface arm_group_{"panda_arm"};
+  moveit::planning_interface::MoveGroupInterface hand_group_{"hand"};
+private: 
+  double gripper_open_ = 80e-3;
+  double gripper_closed_ = 0.0;
 }; 
 
 #endif // end of include guard for ROBOT_TRAJECTORY_H_

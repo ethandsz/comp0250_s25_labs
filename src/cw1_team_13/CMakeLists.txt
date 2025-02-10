@@ -64,6 +64,7 @@ add_service_files(
   FILES
   example.srv
   set_arm.srv
+  set_gripper.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -132,6 +133,7 @@ add_library(${PROJECT_NAME}_cw1_class_lib
   src/robot_trajectory.cpp
   src/cw1_class.cpp
 )
+
 target_link_libraries(${PROJECT_NAME}_cw1_class_lib
   ${catkin_LIBRARIES}
 )
