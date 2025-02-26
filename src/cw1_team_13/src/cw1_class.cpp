@@ -4,8 +4,10 @@ and starting from scratch. The only requirment is to make sure your entire
 solution is contained within the cw1_team_<your_team_number> package */
 
 #include "geometry_msgs/Pose.h"
+#include <cmath>
 #include <cw1_class.h>
 #include <robot_trajectory.h> 
+#include <vector>
 ///////////////////////////////////////////////////////////////////////////////
 
 cw1::cw1(ros::NodeHandle nh)
@@ -37,27 +39,22 @@ cw1::t1_callback(cw1_world_spawner::Task1Service::Request &request,
   /* function which should solve task 1 */
   geometry_msgs::PoseStamped object_loc = request.object_loc; // or response.object_loc
   geometry_msgs::PointStamped goal_loc = request.goal_loc; // or response.object_loc
-
+  double roll = M_PI; 
+  double pitch = 0;
+  double yaw = -M_PI/4;
+  std::vector<double> quaternionPose = robot_trajectory_.getQuaternionFromEuler(roll, pitch, yaw);
+  ROS_INFO("Quaternion: \nx:[%.2f]\ny:[%.2f]\nz:[%.2f]\nw:[%.2f]", quaternionPose[0], quaternionPose[1], quaternionPose[2], quaternionPose[3]);
   // Print the full pose (position + orientation)
   // Print individual components (example for position):
-  ROS_INFO("Position (x, y, z): [%.2f, %.2f, %.2f]",
-           object_loc.pose.position.x,
-           object_loc.pose.position.y,
-           object_loc.pose.position.z);
 
   // Print orientation (quaternion):
-  ROS_INFO("Orientation (x, y, z, w): [%.2f, %.2f, %.2f, %.2f]",
-           object_loc.pose.orientation.x,
-           object_loc.pose.orientation.y,
-           object_loc.pose.orientation.z,
-           object_loc.pose.orientation.w);
   geometry_msgs::Pose target_pose = object_loc.pose;
   /*target_pose.orientation.x = -0.9239; // cos(pi/8)*/
   /*target_pose.orientation.y = -0.3827; // sin(pi/8)*/
-  target_pose.orientation.x = -1; // cos(pi/8)
-  target_pose.orientation.y = 0.0; // sin(pi/8)
-  target_pose.orientation.z = 0;
-  target_pose.orientation.w = 0;
+  target_pose.orientation.x = quaternionPose[0]; // cos(pi/8)
+  target_pose.orientation.y = quaternionPose[1]; // sin(pi/8)
+  target_pose.orientation.z = quaternionPose[2];
+  target_pose.orientation.w = quaternionPose[3];
 
   target_pose.position.z = 0.2;
   robot_trajectory_.moveArm(target_pose); //hover over the cube
