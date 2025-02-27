@@ -1,0 +1,32 @@
+<launch>
+
+	<!-- we will launch with a delay (s) to allow gazebo to load, feel free to edit -->
+	<arg name="launch_delay" value="5.0"/>
+
+	<!-- load panda model and gazebo parameters -->
+	<include file="$(find panda_description)/launch/description.launch"/>
+
+	<!-- start the coursework world spawner with a delay -->
+	<arg name="models_dir" value="$(find cw1_world_spawner)/models/"/>
+	<include file="$(find cw1_world_spawner)/launch/world_spawner.launch">
+		<arg name="launch_delay" value="$(arg launch_delay)"/>
+		<arg name="models_dir" value="$(arg models_dir)"/>
+	</include>
+	
+	<!-- launch the cw solving node, change pkg to your team name here -->
+  <?ignore
+  <node pkg="cw1_team_13"
+        name="cw1_solution_node"
+        type="cw1_solution_node"
+        output="screen"
+  />
+  ?>
+  
+  <!-- if you want to launch any additional nodes, put them here -->
+    <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
+    <remap from="cloud_in" to="camera/depth/points" />
+    <param name="resolution" value="0.025" />
+    <param name="frame_id" type="string" value="camera_link" />
+    <param name="sensor_model/max_range" value="5.0" />
+  </node>
+</launch>
