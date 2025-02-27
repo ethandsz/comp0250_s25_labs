@@ -29,7 +29,6 @@ cw1::cw1(ros::NodeHandle nh)
 }
 
 ///////////////////////////////////////////////////////////////////////////////
-
 bool
 cw1::t1_callback(cw1_world_spawner::Task1Service::Request &request,
   cw1_world_spawner::Task1Service::Response &response) 

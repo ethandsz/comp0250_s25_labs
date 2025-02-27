@@ -8,6 +8,7 @@ solution is contained within the cw1_team_<your_team_number> package */
 #define CW1_CLASS_H_
 
 // system includes
+#include <boost/smart_ptr/shared_ptr.hpp>
 #include <ros/ros.h>
 
 #include <std_msgs/String.h>
@@ -50,7 +51,6 @@ public:
   bool 
   t3_callback(cw1_world_spawner::Task3Service::Request &request,
     cw1_world_spawner::Task3Service::Response &response);
-
   /*bool */
   /*setArmCallback(cw1_team_13::set_arm::Request &request,*/
   /*  cw1_team_13::set_arm::Response &response);*/

@@ -33,6 +33,7 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
 
   workspace_constraint.position_constraints.push_back(position_constraint);
   arm_group_.setPathConstraints(workspace_constraint);
+  hand_group_.setPathConstraints(workspace_constraint);
 
   std::vector<std::string> links = hand_group_.getLinkNames();
   geometry_msgs::PoseStamped currentPose = hand_group_.getCurrentPose(links.back());
