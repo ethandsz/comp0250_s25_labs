@@ -102,18 +102,23 @@ void realSenseCallback(const sensor_msgs::PointCloud2ConstPtr &input){
   pub.publish(rosCloud);
 }
 
+void callback(const ros::TimerEvent& event)
+{
+  ROS_INFO("Timer Callback"); 
+}
+
 
 int main(int argc, char **argv){
   
-  ros::init(argc,argv, "cw1_solution_node");
+  ros::init(argc,argv, "pointcloud_node");
   ros::NodeHandle nh;
 
   ros::Subscriber realSenseSub = nh.subscribe("r200/camera/depth_registered/points", 1, realSenseCallback);
+  ros::Timer timer = nh.createTimer(ros::Duration(1), callback);
   pub = nh.advertise<sensor_msgs::PointCloud2> ("pclPoints", 1);
+
   ros::AsyncSpinner spinner(1);
   spinner.start();
-  // create an instance of the cw1 class
-  cw1 cw_class(nh);
 
   ros::Rate loop_rate(10);
 

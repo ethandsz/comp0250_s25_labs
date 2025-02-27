@@ -149,7 +149,8 @@ add_dependencies(${PROJECT_NAME}_cw1_class_lib
 # Declare a C++ executable
 # With catkin_make all packages are built within a single CMake context
 # The recommended prefix ensures that target names across packages don't collide
-add_executable(cw1_solution_node src/cw1_node.cpp)
+add_executable(trajectory_node src/trajectory_node.cpp)
+add_executable(pointcloud_node src/pointcloud_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -159,17 +160,28 @@ add_executable(cw1_solution_node src/cw1_node.cpp)
 
 # Add cmake target dependencies of the executable
 # same as for the library above
-add_dependencies(cw1_solution_node 
+add_dependencies(trajectory_node
   ${${PROJECT_NAME}_EXPORTED_TARGETS} 
   ${catkin_EXPORTED_TARGETS}
 )
 
 # Specify libraries to link a library or executable target against
-target_link_libraries(cw1_solution_node
+target_link_libraries(trajectory_node
   ${catkin_LIBRARIES}
   ${PROJECT_NAME}_cw1_class_lib
 )
 
+
+add_dependencies(pointcloud_node
+  ${${PROJECT_NAME}_EXPORTED_TARGETS} 
+  ${catkin_EXPORTED_TARGETS}
+)
+
+# Specify libraries to link a library or executable target against
+target_link_libraries(pointcloud_node
+  ${catkin_LIBRARIES}
+  ${PROJECT_NAME}_cw1_class_lib
+)
 #############
 ## Install ##
 #############

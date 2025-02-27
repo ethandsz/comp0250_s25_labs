@@ -14,13 +14,11 @@
 	</include>
 	
 	<!-- launch the cw solving node, change pkg to your team name here -->
-  <?ignore
   <node pkg="cw1_team_13"
-        name="cw1_solution_node"
-        type="cw1_solution_node"
+        name="trajectory_node"
+        type="trajectory_node"
         output="screen"
   />
-  ?>
   
   <!-- if you want to launch any additional nodes, put them here -->
     <node pkg="octomap_server" type="octomap_server_node" name="octomap_server">
