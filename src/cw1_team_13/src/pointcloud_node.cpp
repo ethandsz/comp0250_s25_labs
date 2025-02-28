@@ -2,7 +2,12 @@
 you can do whatever you want with this template code, including deleting it all
 and starting from scratch. The only requirment is to make sure your entire 
 solution is contained within the cw1_team_<your_team_number> package */
-
+#include <cstddef>
+#include <pcl/common/transforms.h>
+#include <pcl/registration/icp.h>
+#include "Eigen/src/Geometry/Transform.h"
+#include "geometry_msgs/Pose.h"
+#include "geometry_msgs/TransformStamped.h"
 #include "ros/console.h"
 #include "ros/publisher.h"
 #include "ros/service_client.h"
@@ -21,8 +26,13 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <pcl/filters/extract_indices.h>
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl/ModelCoefficients.h>
+#include <pcl/filters/voxel_grid.h>
 #include "cw1_team_13/set_arm.h"  
-
+#include <tf2_ros/transform_listener.h>
+#include <tf_conversions/tf_eigen.h>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <pcl_ros/transforms.h>
+#include <tf2_eigen/tf2_eigen.h>
 ros::Publisher pub;
 ros::ServiceClient set_arm_client_;
 
@@ -97,31 +107,6 @@ void realSenseCallback(const sensor_msgs::PointCloud2ConstPtr &input){
   /*ROS_INFO("Accumulated cloud size: %ld", accumulatedCloud->points.size());*/
 }
 
-/*void callback(const ros::TimerEvent& event)*/
-/*{*/
-/*  ROS_INFO("RealseSenseCallback");*/
-/*  sensor_msgs::PointCloud2 rosCloud;*/
-/*  *filteredCloud = *cloud;*/
-/*  pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(new pcl::PointCloud<pcl::Normal>);*/
-/*  filterCloud(filteredCloud);*/
-/**/
-/*  ROS_INFO("Filtered Cloud");*/
-/*  calcNormals(filteredCloud, cloud_normals);*/
-/**/
-/*  ROS_INFO("Calculated Normals of Cloud");*/
-/*  pcl::PointIndices::Ptr inliers_plane(new pcl::PointIndices);*/
-/**/
-/*  // Remove Plane Surface*/
-/*  removePlaneSurface(filteredCloud, cloud_normals, inliers_plane);*/
-/**/
-/*  ROS_INFO("Removed Plane");*/
-/*  // Convert the filtered PCL cloud back to a ROS message and publish it*/
-/*  // Theres a short window here where we pub wrong cloud*/
-/*  pcl::toROSMsg(*filteredCloud, rosCloud);*/
-/*  pub.publish(rosCloud);*/
-/*}*/
-/**/
-
 void processPointCloud(){
 
   sensor_msgs::PointCloud2 rosCloud;
@@ -188,22 +173,20 @@ getQuaternionFromEuler(double roll, double pitch, double yaw){
     return {qx, qy, qz, qw};
 }
 
-bool
-getScans(){
+bool getScans(){
+  tf2_ros::Buffer tfBuffer;
+  tf2_ros::TransformListener transformListner(tfBuffer);
+
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr completeCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
 
   geometry_msgs::Pose basePose;
   basePose.position.x = 0.45;
   basePose.position.y = 0.0;
   basePose.position.z = 0.75;
-
-  double roll = M_PI; 
-  double pitch = 0;
-  double yaw = -M_PI/4;
-
+  double roll = M_PI, pitch = 0, yaw = -M_PI / 4;
   std::vector<double> quaternionPose = getQuaternionFromEuler(roll, pitch, yaw);
-
-  basePose.orientation.x = quaternionPose[0]; // cos(pi/8)
-  basePose.orientation.y = quaternionPose[1]; // sin(pi/8)
+  basePose.orientation.x = quaternionPose[0];
+  basePose.orientation.y = quaternionPose[1];
   basePose.orientation.z = quaternionPose[2];
   basePose.orientation.w = quaternionPose[3];
 
@@ -212,31 +195,42 @@ getScans(){
 
   geometry_msgs::Pose rightScan = basePose;
   rightScan.position.y = 0.3;
+  
+  std::vector<geometry_msgs::Pose> scanPoses = {leftScan, basePose, rightScan};
 
-  if (callSetArmService(rightScan)) {
-    *accumulatedCloud += *cloud;
-    ROS_INFO("Arm moved to base pose successfully!");
-  } else {
-    ROS_ERROR("Failed to move arm to base pose.");
-    return false;
-  }
-  if (callSetArmService(leftScan)) {
-    *accumulatedCloud += *cloud;
-    ROS_INFO("Arm moved to left pose successfully!");
-  } else {
-    ROS_ERROR("Failed to move arm to left pose.");
-    return false;
+  pcl::VoxelGrid<pcl::PointXYZRGB> sor;
+  sor.setLeafSize(0.01f, 0.01f, 0.01f);
+  for(size_t i = 0; i < scanPoses.size(); i++){
+    if(callSetArmService(scanPoses[i])){
+      ros::Duration(2.0).sleep();
+
+      geometry_msgs::TransformStamped transformStamped;
+      transformStamped = tfBuffer.lookupTransform("panda_link0", "color", ros::Time(0), ros::Duration(2.0));
+
+      Eigen::Affine3d transformEigen = tf2::transformToEigen(transformStamped);
+      pcl::PointCloud<pcl::PointXYZRGB>::Ptr transformedCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+      pcl::PointCloud<pcl::PointXYZRGB>::Ptr currentCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+      *currentCloud = *cloud;
+      sor.setInputCloud(currentCloud);
+      sor.filter(*currentCloud);
+      
+      pcl::transformPointCloud(*currentCloud, *transformedCloud, transformEigen);
+      *completeCloud += *transformedCloud;
+
+    }
+
   }
 
-  if (callSetArmService(basePose)) {
-    *accumulatedCloud += *cloud;
-    ROS_INFO("Arm moved right pose successfully!");
-  } else {
-    ROS_ERROR("Failed to move arm to right pose.");
-    return false;
-  }
+  sensor_msgs::PointCloud2 pointCloudRos;
+  pcl::toROSMsg(*completeCloud, pointCloudRos);
+  pointCloudRos.header.frame_id = "panda_link0";  // Ensure this matches your fixed frame in RViz.
+  pub.publish(pointCloudRos);
+  ROS_INFO("Published merged point cloud with %zu points.", completeCloud->points.size());
+
   return true;
+
 }
+
 int main(int argc, char **argv){
   ros::init(argc,argv, "pointcloud_node");
   ros::NodeHandle nh;
@@ -250,7 +244,7 @@ int main(int argc, char **argv){
 
   ros::Rate loop_rate(10);
   bool scansSuccessful = getScans();
-  processPointCloud();
+  /*processPointCloud();*/
   while (ros::ok()){
     ros::spinOnce();
     loop_rate.sleep();

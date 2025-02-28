@@ -17,6 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   pcl_ros
   cw1_world_spawner
+  tf2_eigen
 )
 
 ## System dependencies are found with CMake's conventions
