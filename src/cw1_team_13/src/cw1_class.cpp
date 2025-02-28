@@ -10,27 +10,11 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <vector>
 ///////////////////////////////////////////////////////////////////////////////
 
-geometry_msgs::Pose basePose;
 
 cw1::cw1(ros::NodeHandle nh)
   : nh_(nh),
     robot_trajectory_(nh_)
 {
-  basePose.position.x = 0.45;
-  basePose.position.y = 0.0;
-  basePose.position.z = 0.75;
-
-  double roll = M_PI; 
-  double pitch = 0;
-  double yaw = -M_PI/4;
-
-  std::vector<double> quaternionPose = robot_trajectory_.getQuaternionFromEuler(roll, pitch, yaw);
-  basePose.orientation.x = quaternionPose[0]; // cos(pi/8)
-  basePose.orientation.y = quaternionPose[1]; // sin(pi/8)
-  basePose.orientation.z = quaternionPose[2];
-  basePose.orientation.w = quaternionPose[3];
-
-  robot_trajectory_.moveArm(basePose); //return to start 
   // advertise solutions for coursework tasks
   t1_service_  = nh_.advertiseService("/task1_start", 
     &cw1::t1_callback, this);
@@ -82,7 +66,7 @@ cw1::t1_callback(cw1_world_spawner::Task1Service::Request &request,
   target_pose.position.y = goal_loc.point.y;
   robot_trajectory_.moveArm(target_pose); //move to above goal
   robot_trajectory_.moveGripper(0.08);
-  robot_trajectory_.moveArm(basePose); //return to start
+  robot_trajectory_.resetPose();
   ROS_INFO("Teh coursework solving callback for task 1 has been triggered");
 
   return true;

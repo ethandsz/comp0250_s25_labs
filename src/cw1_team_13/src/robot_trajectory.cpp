@@ -1,10 +1,29 @@
+#include "geometry_msgs/Pose.h"
 #include "ros/console.h"
+#include <boost/operators.hpp>
 #include <robot_trajectory.h>
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/planning_scene/planning_scene.h>
 #include <vector>
 
+geometry_msgs::Pose basePose;
+
 RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
+
+  basePose.position.x = 0.45;
+  basePose.position.y = 0.0;
+  basePose.position.z = 0.75;
+
+  double roll = M_PI; 
+  double pitch = 0;
+  double yaw = -M_PI/4;
+
+  std::vector<double> quaternionPose = getQuaternionFromEuler(roll, pitch, yaw);
+
+  basePose.orientation.x = quaternionPose[0]; // cos(pi/8)
+  basePose.orientation.y = quaternionPose[1]; // sin(pi/8)
+  basePose.orientation.z = quaternionPose[2];
+  basePose.orientation.w = quaternionPose[3];
   double xmin = workspace_dims_["xmin"];
   double xmax = workspace_dims_["xmax"];
   double ymin = workspace_dims_["ymin"];
@@ -64,6 +83,12 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
   ROS_INFO_STREAM("Test 1: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
 }
 
+bool
+RobotTrajectory::resetPose()
+{
+  bool success = moveArm(basePose);
+  return success;
+}
 
 bool 
 RobotTrajectory::setArmCallback(cw1_team_13::set_arm::Request &request,

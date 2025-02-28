@@ -40,6 +40,12 @@ public:
   bool
   moveGripper(float width);
 
+  bool
+  resetPose();
+
+  bool
+  scanEnvironment();
+
   std::vector<double>
   getQuaternionFromEuler(double roll, double pitch, double yaw);
 
