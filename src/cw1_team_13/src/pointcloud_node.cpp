@@ -39,6 +39,16 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <pcl_ros/transforms.h>
 #include <tf2_eigen/tf2_eigen.h>
 #include <pcl/segmentation/extract_clusters.h>
+
+struct ObjectData{
+  std::vector<Eigen::Vector3f> cartestianLocation;
+  std::vector<Eigen::Vector3i> rgbValue;
+
+  ObjectData(const std::vector<Eigen::Vector3f> &cartestianLocation, std::vector<Eigen::Vector3i> &rgbValue) 
+  : cartestianLocation(cartestianLocation), rgbValue(rgbValue) {}
+};
+
+
 ros::Publisher pointCloudPublisher;
 ros::Publisher objectMarkerPublisher;
 ros::ServiceClient set_arm_client_;
@@ -130,7 +140,7 @@ void realSenseCallback(const sensor_msgs::PointCloud2ConstPtr &input){
 
 }
 
-std::vector<Eigen::Vector3f> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+ObjectData extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
   pcl::search::KdTree<pcl::PointXYZRGB>::Ptr kdTree(new pcl::search::KdTree<pcl::PointXYZRGB>);
   kdTree->setInputCloud(cloud);
   std::vector<pcl::PointIndices> cluster_indices;
@@ -142,22 +152,33 @@ std::vector<Eigen::Vector3f> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZ
   ec.setSearchMethod (kdTree);
   ec.setInputCloud (cloud);
   ec.extract (cluster_indices);
+
   std::vector<Eigen::Vector3f> objectPositions;
+  std::vector<Eigen::Vector3i> objectRGBValues;
 
   for(size_t i = 0; i < cluster_indices.size(); i++){
     Eigen::Vector3f centroid(0, 0, 0);
+    Eigen::Vector3i rgbValue(0,0,0); 
     for (int idx : cluster_indices[i].indices){
       centroid += cloud->points[idx].getVector3fMap();
+      rgbValue += cloud->points[idx].getRGBVector3i();
+      ROS_INFO("RGB of [%i, %i, %i]", rgbValue[0], rgbValue[1], rgbValue[2]);
     }
     centroid /= static_cast<float>(cluster_indices[i].indices.size());
+    rgbValue /= cluster_indices[i].indices.size();
+
+    ROS_INFO("FINAL RGB of [%i, %i, %i]", rgbValue[0], rgbValue[1], rgbValue[2]);
     objectPositions.push_back(centroid);
+    objectRGBValues.push_back(rgbValue.cast<int>());
   }
 
   for(size_t i = 0; i < objectPositions.size(); i++){
     Eigen::Vector3f position = objectPositions[i];
-    ROS_INFO("Object at [x: %f, y: %f, z: %f]", position[0], position[1], position[2]);
+    Eigen::Vector3i rgb = objectRGBValues[i];
+    ROS_INFO("Object at [x: %f, y: %f, z: %f] with RGB of [%i, %i, %i]", position[0], position[1], position[2], rgb[0], rgb[1], rgb[2]);
   }
-  return objectPositions;
+  ObjectData objects(objectPositions, objectRGBValues);
+  return objects;
 }
 
 void publishObjectPositions(std::vector<Eigen::Vector3f> objectPositions){
@@ -202,7 +223,6 @@ void publishObjectPositions(std::vector<Eigen::Vector3f> objectPositions){
 }
 
 void processPointCloud(){
-
   sensor_msgs::PointCloud2 rosCloud;
   pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(new pcl::PointCloud<pcl::Normal>);
   filterCloud(completeCloud);
@@ -219,15 +239,14 @@ void processPointCloud(){
 
   ROS_INFO("Removed Plane");
 
-  
   pcl::toROSMsg(*completeCloud, rosCloud);
   ROS_INFO("Point Cloud Message: width=%d, height=%d", rosCloud.width, rosCloud.height);
   rosCloud.header.frame_id = "panda_link0";
   ROS_INFO("PointCloud frame ID: %s", rosCloud.header.frame_id.c_str());
   pointCloudPublisher.publish(rosCloud);
 
-  std::vector<Eigen::Vector3f> objectPositions = extractObjectsInScene(completeCloud);
-  publishObjectPositions(objectPositions);
+  ObjectData objects = extractObjectsInScene(completeCloud);
+  publishObjectPositions(objects.cartestianLocation);
 }
 
 
@@ -320,7 +339,7 @@ bool getScans(){
 
   sensor_msgs::PointCloud2 pointCloudRos;
   pcl::toROSMsg(*completeCloud, pointCloudRos);
-  pointCloudRos.header.frame_id = "panda_link0";  // Ensure this matches your fixed frame in RViz.
+  pointCloudRos.header.frame_id = "panda_link0";  
 
   return true;
 
