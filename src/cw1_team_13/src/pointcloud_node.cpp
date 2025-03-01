@@ -3,8 +3,11 @@ you can do whatever you want with this template code, including deleting it all
 and starting from scratch. The only requirment is to make sure your entire 
 solution is contained within the cw1_team_<your_team_number> package */
 #include <cstddef>
+#include <cstdlib>
+#include <iostream>
 #include <pcl/common/transforms.h>
 #include <pcl/registration/icp.h>
+#include "Eigen/src/Core/Matrix.h"
 #include "Eigen/src/Geometry/Transform.h"
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/TransformStamped.h"
@@ -28,13 +31,19 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <pcl/ModelCoefficients.h>
 #include <pcl/filters/voxel_grid.h>
 #include "cw1_team_13/set_arm.h"  
+#include "visualization_msgs/Marker.h"
+#include "visualization_msgs/MarkerArray.h"
 #include <tf2_ros/transform_listener.h>
 #include <tf_conversions/tf_eigen.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
 #include <pcl_ros/transforms.h>
 #include <tf2_eigen/tf2_eigen.h>
-ros::Publisher pub;
+#include <pcl/segmentation/extract_clusters.h>
+ros::Publisher pointCloudPublisher;
+ros::Publisher objectMarkerPublisher;
 ros::ServiceClient set_arm_client_;
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr completeCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
 
 void removePlaneSurface(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointCloud<pcl::Normal>::Ptr cloud_normals, pcl::PointIndices::Ptr inliers_plane)
 {
@@ -70,7 +79,7 @@ void filterCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
   pcl::PassThrough<pcl::PointXYZRGB> pass;
   pass.setInputCloud(cloud);
   pass.setFilterFieldName("z");
-  pass.setFilterLimits(0.0, 0.69);
+  pass.setFilterLimits(0.0, 0.68);
   pass.filter(*cloud);
 }
 
@@ -89,14 +98,29 @@ void calcNormals(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointCloud<p
   ne.setSearchMethod(tree);
   ne.setInputCloud(cloud);
   // Set the number of k nearest neighbors to use for the feature estimation.
-  ne.setKSearch(50);
+  ne.setKSearch(100);
   ne.compute(*cloud_normals);
 
 }
 
-pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
-pcl::PointCloud<pcl::PointXYZRGB>::Ptr filteredCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
-pcl::PointCloud<pcl::PointXYZRGB>::Ptr accumulatedCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+void filterColors(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+  pcl::PointCloud<pcl::PointXYZRGB>::Ptr colorFilteredCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+  for(size_t i = 0; i < cloud -> points.size(); i++){
+    Eigen::Vector3i colorVec = cloud -> points[i].getRGBVector3i();
+    uint8_t red = colorVec[0];  
+    uint8_t green = colorVec[1];  
+    uint8_t blue = colorVec[2];  
+    bool isGreen = (green > red && green > blue) && (green > 110);
+    bool isGray = (std::abs(red - green) < 10) && (std::abs(green - blue) < 10) && (std::abs(red - blue) < 10);
+
+    if(!(isGreen || isGray)){
+      colorFilteredCloud -> points.push_back(cloud -> points[i]);
+    }else{
+      ROS_INFO("Deleting point from cloud");
+    }
+  }
+  cloud->swap(*colorFilteredCloud);
+}
 
 void realSenseCallback(const sensor_msgs::PointCloud2ConstPtr &input){
   /*pcl::PointCloud<pcl::PointempCloudtXYZRGB>::Ptr tempCloud(new pcl::PointCloud<pcl::PointXYZRGB>);*/
@@ -104,33 +128,108 @@ void realSenseCallback(const sensor_msgs::PointCloud2ConstPtr &input){
   // Convert the ROS message to a PCL point cloud
   pcl::fromROSMsg(*input, *cloud);
 
-  /*ROS_INFO("Accumulated cloud size: %ld", accumulatedCloud->points.size());*/
+}
+
+std::vector<Eigen::Vector3f> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+  pcl::search::KdTree<pcl::PointXYZRGB>::Ptr kdTree(new pcl::search::KdTree<pcl::PointXYZRGB>);
+  kdTree->setInputCloud(cloud);
+  std::vector<pcl::PointIndices> cluster_indices;
+
+  pcl::EuclideanClusterExtraction<pcl::PointXYZRGB> ec;
+  ec.setClusterTolerance (0.03); // 2cm
+  ec.setMinClusterSize (75);
+  ec.setMaxClusterSize (25000);
+  ec.setSearchMethod (kdTree);
+  ec.setInputCloud (cloud);
+  ec.extract (cluster_indices);
+  std::vector<Eigen::Vector3f> objectPositions;
+
+  for(size_t i = 0; i < cluster_indices.size(); i++){
+    Eigen::Vector3f centroid(0, 0, 0);
+    for (int idx : cluster_indices[i].indices){
+      centroid += cloud->points[idx].getVector3fMap();
+    }
+    centroid /= static_cast<float>(cluster_indices[i].indices.size());
+    objectPositions.push_back(centroid);
+  }
+
+  for(size_t i = 0; i < objectPositions.size(); i++){
+    Eigen::Vector3f position = objectPositions[i];
+    ROS_INFO("Object at [x: %f, y: %f, z: %f]", position[0], position[1], position[2]);
+  }
+  return objectPositions;
+}
+
+void publishObjectPositions(std::vector<Eigen::Vector3f> objectPositions){
+  visualization_msgs::MarkerArray markerArray;
+
+  for(int i = 0; i < objectPositions.size(); i++){
+    visualization_msgs::Marker marker;
+    Eigen::Vector3f positions = objectPositions[i];
+
+    float x = positions[0], y = positions[1], z = positions[2];
+
+    marker.header.frame_id = "panda_link0";
+    marker.header.stamp = ros::Time::now();
+
+    marker.ns = "obj_pos";
+    marker.id = i;
+
+    marker.type = visualization_msgs::Marker::CUBE;
+
+    marker.action = visualization_msgs::Marker::ADD;
+
+    marker.pose.position.x = x;
+    marker.pose.position.y = y;
+    marker.pose.position.z = z + 0.05;
+    marker.pose.orientation.x = 0.0;
+    marker.pose.orientation.y = 0.0;
+    marker.pose.orientation.z = 0.0;
+    marker.pose.orientation.w = 1.0;
+
+    marker.scale.x = 0.02;
+    marker.scale.y = 0.02;
+    marker.scale.z = 0.02;
+
+    marker.color.r = 0.0f;
+    marker.color.g = 1.0f;
+    marker.color.b = 0.0f;
+    marker.color.a = 1.0;   // Don't forget to set the alpha!
+    markerArray.markers.push_back(marker);
+  }
+
+  objectMarkerPublisher.publish(markerArray);
 }
 
 void processPointCloud(){
 
   sensor_msgs::PointCloud2 rosCloud;
   pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(new pcl::PointCloud<pcl::Normal>);
-  filterCloud(accumulatedCloud);
+  filterCloud(completeCloud);
 
   ROS_INFO("Filtered Cloud");
-  calcNormals(accumulatedCloud, cloud_normals);
+  calcNormals(completeCloud, cloud_normals);
 
   ROS_INFO("Calculated Normals of Cloud");
   pcl::PointIndices::Ptr inliers_plane(new pcl::PointIndices);
 
   // Remove Plane Surface
-  removePlaneSurface(accumulatedCloud, cloud_normals, inliers_plane);
+  removePlaneSurface(completeCloud, cloud_normals, inliers_plane);
+  filterColors(completeCloud);
 
   ROS_INFO("Removed Plane");
-  // Convert the filtered PCL cloud back to a ROS message and publish it
-  // Theres a short window here where we pub wrong cloud
-  pcl::toROSMsg(*accumulatedCloud, rosCloud);
+
+  
+  pcl::toROSMsg(*completeCloud, rosCloud);
   ROS_INFO("Point Cloud Message: width=%d, height=%d", rosCloud.width, rosCloud.height);
-  rosCloud.header.frame_id = "color";
+  rosCloud.header.frame_id = "panda_link0";
   ROS_INFO("PointCloud frame ID: %s", rosCloud.header.frame_id.c_str());
-  pub.publish(rosCloud);
+  pointCloudPublisher.publish(rosCloud);
+
+  std::vector<Eigen::Vector3f> objectPositions = extractObjectsInScene(completeCloud);
+  publishObjectPositions(objectPositions);
 }
+
 
 bool callSetArmService(const geometry_msgs::Pose &target_pose) {
   // Wait for the service to be available
@@ -177,8 +276,6 @@ bool getScans(){
   tf2_ros::Buffer tfBuffer;
   tf2_ros::TransformListener transformListner(tfBuffer);
 
-  pcl::PointCloud<pcl::PointXYZRGB>::Ptr completeCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
-
   geometry_msgs::Pose basePose;
   basePose.position.x = 0.45;
   basePose.position.y = 0.0;
@@ -224,8 +321,6 @@ bool getScans(){
   sensor_msgs::PointCloud2 pointCloudRos;
   pcl::toROSMsg(*completeCloud, pointCloudRos);
   pointCloudRos.header.frame_id = "panda_link0";  // Ensure this matches your fixed frame in RViz.
-  pub.publish(pointCloudRos);
-  ROS_INFO("Published merged point cloud with %zu points.", completeCloud->points.size());
 
   return true;
 
@@ -237,14 +332,15 @@ int main(int argc, char **argv){
   set_arm_client_ = nh.serviceClient<cw1_team_13::set_arm>("/cw1/set_arm");
   ros::Subscriber realSenseSub = nh.subscribe("r200/camera/depth_registered/points", 1, realSenseCallback);
   /*ros::Timer timer = nh.createTimer(ros::Duration(2), callback);*/
-  pub = nh.advertise<sensor_msgs::PointCloud2> ("pclPoints", 1);
+  pointCloudPublisher = nh.advertise<sensor_msgs::PointCloud2> ("pclPoints", 1);
+  objectMarkerPublisher = nh.advertise<visualization_msgs::MarkerArray> ("objectPositions", 1);
 
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
   ros::Rate loop_rate(10);
   bool scansSuccessful = getScans();
-  /*processPointCloud();*/
+  processPointCloud();
   while (ros::ok()){
     ros::spinOnce();
     loop_rate.sleep();
