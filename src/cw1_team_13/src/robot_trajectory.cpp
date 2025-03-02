@@ -9,7 +9,6 @@
 geometry_msgs::Pose basePose;
 
 RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
-
   basePose.position.x = 0.45;
   basePose.position.y = 0.0;
   basePose.position.z = 0.75;
@@ -34,7 +33,7 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
 
   moveit_msgs::Constraints workspace_constraint;
   moveit_msgs::PositionConstraint position_constraint;
-  position_constraint.header.frame_id = "base_link";  // Adjust frame accordingly
+  position_constraint.header.frame_id = "panda_link0";  // Adjust frame accordingly
   position_constraint.link_name = arm_group_.getEndEffectorLink();
 
   shape_msgs::SolidPrimitive bounding_box;
@@ -187,4 +186,57 @@ RobotTrajectory::getQuaternionFromEuler(double roll, double pitch, double yaw){
  
     // Return as [qx, qy, qz, qw] to match the Python implementation
     return {qx, qy, qz, qw};
+}
+
+void
+RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_loc, const geometry_msgs::PointStamped &goal_loc, bool shouldResetPose)
+{
+    // Define desired orientation in Euler angles.
+    double roll  = M_PI;      // 180 degrees
+    double pitch = 0.0;
+    double yaw   = -M_PI/4;   // -45 degrees
+
+    // Compute quaternion from Euler angles.
+    std::vector<double> quaternionPose = getQuaternionFromEuler(roll, pitch, yaw);
+    ROS_INFO("Quaternion: \nx:[%.2f]\ny:[%.2f]\nz:[%.2f]\nw:[%.2f]",
+             quaternionPose[0], quaternionPose[1], quaternionPose[2], quaternionPose[3]);
+
+    // Use the provided object location as the base pose.
+    geometry_msgs::Pose target_pose = object_loc.pose;
+    // Set the orientation using the computed quaternion.
+    target_pose.orientation.x = quaternionPose[0];
+    target_pose.orientation.y = quaternionPose[1];
+    target_pose.orientation.z = quaternionPose[2];
+    target_pose.orientation.w = quaternionPose[3];
+
+    // Step 1: Hover above the cube.
+    target_pose.position.z = 0.2;
+    moveArm(target_pose);
+
+    // Step 2: Open the gripper (assuming 0.08 is open).
+    moveGripper(0.08);
+
+    // Step 3: Lower the arm to pick up the cube.
+    target_pose.position.z = 0.15;
+    moveArm(target_pose);
+
+    // Step 4: Close the gripper to grasp the cube (0.0 means closed).
+    moveGripper(0.0);
+
+    // Step 5: Raise the cube.
+    target_pose.position.z = 0.3;
+    moveArm(target_pose);
+
+    // Step 6: Move to a position above the goal location.
+    target_pose.position.x = goal_loc.point.x;
+    target_pose.position.y = goal_loc.point.y;
+    moveArm(target_pose);
+
+    // Step 7: Open the gripper to release the cube.
+    moveGripper(0.08);
+
+    // Step 8: Reset the robot's pose.
+    if(shouldResetPose){
+      resetPose();
+    }
 }

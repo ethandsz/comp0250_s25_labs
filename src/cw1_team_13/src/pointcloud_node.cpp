@@ -9,6 +9,7 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <pcl/registration/icp.h>
 #include "Eigen/src/Core/Matrix.h"
 #include "Eigen/src/Geometry/Transform.h"
+#include "geometry_msgs/PointStamped.h"
 #include "geometry_msgs/Pose.h"
 #include "geometry_msgs/TransformStamped.h"
 #include "ros/console.h"
@@ -31,6 +32,8 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <pcl/ModelCoefficients.h>
 #include <pcl/filters/voxel_grid.h>
 #include "cw1_team_13/set_arm.h"  
+#include "cw1_team_13/map_env.h"  
+#include "std_msgs/ColorRGBA.h"
 #include "visualization_msgs/Marker.h"
 #include "visualization_msgs/MarkerArray.h"
 #include <tf2_ros/transform_listener.h>
@@ -39,6 +42,7 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <pcl_ros/transforms.h>
 #include <tf2_eigen/tf2_eigen.h>
 #include <pcl/segmentation/extract_clusters.h>
+#include <vector>
 
 struct ObjectData{
   std::vector<Eigen::Vector3f> cartestianLocation;
@@ -51,6 +55,7 @@ struct ObjectData{
 
 ros::Publisher pointCloudPublisher;
 ros::Publisher objectMarkerPublisher;
+
 ros::ServiceClient set_arm_client_;
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr completeCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
@@ -189,6 +194,7 @@ void publishObjectPositions(std::vector<Eigen::Vector3f> objectPositions){
     Eigen::Vector3f positions = objectPositions[i];
 
     float x = positions[0], y = positions[1], z = positions[2];
+    
 
     marker.header.frame_id = "panda_link0";
     marker.header.stamp = ros::Time::now();
@@ -222,7 +228,7 @@ void publishObjectPositions(std::vector<Eigen::Vector3f> objectPositions){
   objectMarkerPublisher.publish(markerArray);
 }
 
-void processPointCloud(){
+ObjectData processPointCloud(){
   sensor_msgs::PointCloud2 rosCloud;
   pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(new pcl::PointCloud<pcl::Normal>);
   filterCloud(completeCloud);
@@ -247,6 +253,7 @@ void processPointCloud(){
 
   ObjectData objects = extractObjectsInScene(completeCloud);
   publishObjectPositions(objects.cartestianLocation);
+  return objects;
 }
 
 
@@ -316,10 +323,11 @@ bool getScans(){
 
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
   sor.setLeafSize(0.01f, 0.01f, 0.01f);
+  ROS_INFO("Preparing to scan");
   for(size_t i = 0; i < scanPoses.size(); i++){
     if(callSetArmService(scanPoses[i])){
       ros::Duration(2.0).sleep();
-
+      ROS_INFO("Moving to scan position");
       geometry_msgs::TransformStamped transformStamped;
       transformStamped = tfBuffer.lookupTransform("panda_link0", "color", ros::Time(0), ros::Duration(2.0));
 
@@ -345,21 +353,61 @@ bool getScans(){
 
 }
 
+bool mapEnvironment(cw1_team_13::map_env::Request &req, cw1_team_13::map_env::Response &res){
+  ROS_INFO("Map Environment Called");
+  completeCloud->clear();
+  bool scansSuccessful = getScans();
+  ROS_INFO("Scans completed: %s", scansSuccessful ? "true" : "false");
+
+  ObjectData objects = processPointCloud();
+  std::vector<Eigen::Vector3f> objectLocations = objects.cartestianLocation;
+  std::vector<Eigen::Vector3i> rgbValues = objects.rgbValue;
+
+  for (size_t i = 0; i < objectLocations.size(); i++) {
+    geometry_msgs::Point point;
+
+    Eigen::Vector3f location = objectLocations[i];
+    point.x = location[0];
+    point.y = location[1];
+    point.z = location[2];
+    res.objectLocations.push_back(point);
+  }
+
+  for (size_t i = 0; i < rgbValues.size(); i++) {
+    std_msgs::ColorRGBA rgba;
+
+    Eigen::Vector3i rgbValue = rgbValues[i];
+    rgba.r = rgbValue[0];
+    rgba.g = rgbValue[1];
+    rgba.b = rgbValue[2];
+    rgba.a = 0;
+    res.colors.push_back(rgba);
+  }
+
+  res.success = true; 
+  return true;
+}
+
 int main(int argc, char **argv){
   ros::init(argc,argv, "pointcloud_node");
   ros::NodeHandle nh;
+
+  ROS_INFO("Setting PointCloud node up");
   set_arm_client_ = nh.serviceClient<cw1_team_13::set_arm>("/cw1/set_arm");
+
   ros::Subscriber realSenseSub = nh.subscribe("r200/camera/depth_registered/points", 1, realSenseCallback);
-  /*ros::Timer timer = nh.createTimer(ros::Duration(2), callback);*/
+
   pointCloudPublisher = nh.advertise<sensor_msgs::PointCloud2> ("pclPoints", 1);
   objectMarkerPublisher = nh.advertise<visualization_msgs::MarkerArray> ("objectPositions", 1);
+
+  ros::ServiceServer mapService = nh.advertiseService("cw1/map_env", &mapEnvironment);
 
   ros::AsyncSpinner spinner(1);
   spinner.start();
 
+  ROS_INFO("Spun");
+
   ros::Rate loop_rate(10);
-  bool scansSuccessful = getScans();
-  processPointCloud();
   while (ros::ok()){
     ros::spinOnce();
     loop_rate.sleep();

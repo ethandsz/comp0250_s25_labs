@@ -1,0 +1,4 @@
+---
+bool success
+geometry_msgs/Point[] objectLocations 
+std_msgs/ColorRGBA[] colors

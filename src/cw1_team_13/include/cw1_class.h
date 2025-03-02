@@ -26,6 +26,7 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include "cw1_world_spawner/Task1Service.h"
 #include "cw1_world_spawner/Task2Service.h"
 #include "cw1_world_spawner/Task3Service.h"
+#include "ros/service_client.h"
 
 // // include any services created in this package
 // #include "cw1_team_13/example.h"
@@ -64,8 +65,12 @@ public:
   ros::ServiceServer t1_service_;
   ros::ServiceServer t2_service_;
   ros::ServiceServer t3_service_;
+
+  ros::ServiceClient map_env_service_;
+
 private:
   RobotTrajectory robot_trajectory_;
+
   /*moveit::planning_interface::MoveGroupInterface arm_group_{"panda_arm"};*/
 };
 

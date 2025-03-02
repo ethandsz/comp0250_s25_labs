@@ -4,12 +4,13 @@ and starting from scratch. The only requirment is to make sure your entire
 solution is contained within the cw1_team_<your_team_number> package */
 
 #include "geometry_msgs/Pose.h"
+#include "ros/console.h"
 #include <cmath>
 #include <cw1_class.h>
 #include <robot_trajectory.h> 
 #include <vector>
+#include <cw1_team_13/map_env.h>  
 ///////////////////////////////////////////////////////////////////////////////
-
 
 cw1::cw1(ros::NodeHandle nh)
   : nh_(nh),
@@ -23,8 +24,8 @@ cw1::cw1(ros::NodeHandle nh)
   t3_service_  = nh_.advertiseService("/task3_start",
     &cw1::t3_callback, this);
 
-  /*set_arm_srv_ = nh_.advertiseService(service_ns + "/set_arm",*/
-  /*  &cw1::setArmCallback, this);*/
+  map_env_service_ = nh.serviceClient<cw1_team_13::map_env>("/cw1/map_env");
+
   ROS_INFO("cw1 class initialised");
 }
 
@@ -36,38 +37,7 @@ cw1::t1_callback(cw1_world_spawner::Task1Service::Request &request,
   /* function which should solve task 1 */
   geometry_msgs::PoseStamped object_loc = request.object_loc; // or response.object_loc
   geometry_msgs::PointStamped goal_loc = request.goal_loc; // or response.object_loc
-  double roll = M_PI; 
-  double pitch = 0;
-  double yaw = -M_PI/4;
-  std::vector<double> quaternionPose = robot_trajectory_.getQuaternionFromEuler(roll, pitch, yaw);
-  ROS_INFO("Quaternion: \nx:[%.2f]\ny:[%.2f]\nz:[%.2f]\nw:[%.2f]", quaternionPose[0], quaternionPose[1], quaternionPose[2], quaternionPose[3]);
-  // Print the full pose (position + orientation)
-  // Print individual components (example for position):
-
-  // Print orientation (quaternion):
-  geometry_msgs::Pose target_pose = object_loc.pose;
-  /*target_pose.orientation.x = -0.9239; // cos(pi/8)*/
-  /*target_pose.orientation.y = -0.3827; // sin(pi/8)*/
-  target_pose.orientation.x = quaternionPose[0]; // cos(pi/8)
-  target_pose.orientation.y = quaternionPose[1]; // sin(pi/8)
-  target_pose.orientation.z = quaternionPose[2];
-  target_pose.orientation.w = quaternionPose[3];
-
-  target_pose.position.z = 0.2;
-  robot_trajectory_.moveArm(target_pose); //hover over the cube
-  robot_trajectory_.moveGripper(0.08); //TODO: create open gripper function 
-  target_pose.position.z = 0.15; //pickup the cube
-
-  robot_trajectory_.moveArm(target_pose); //hover over the cube
-  robot_trajectory_.moveGripper(0); //TOOD: Create close gripper function 
-  target_pose.position.z = 0.3; //raise cube
-  robot_trajectory_.moveArm(target_pose);
-  target_pose.position.x = goal_loc.point.x;
-  target_pose.position.y = goal_loc.point.y;
-  robot_trajectory_.moveArm(target_pose); //move to above goal
-  robot_trajectory_.moveGripper(0.08);
-  robot_trajectory_.resetPose();
-  ROS_INFO("Teh coursework solving callback for task 1 has been triggered");
+  robot_trajectory_.performPickAndPlace(object_loc, goal_loc);  
 
   return true;
 }
@@ -90,11 +60,136 @@ cw1::t2_callback(cw1_world_spawner::Task2Service::Request &request,
 
 bool
 cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
-  cw1_world_spawner::Task3Service::Response &response)
+                 cw1_world_spawner::Task3Service::Response &response)
 {
-  /* function which should solve task 3 */
+  cw1_team_13::map_env srv;
 
-  ROS_INFO("The coursework solving callback for task 3 has been triggered");
+  // Call the map_env service.
+  if (map_env_service_.call(srv)) {
+    std::vector<Eigen::Vector3f> cartesianLocations;
+    std::vector<Eigen::Vector3i> objectColors;
 
-  return true;
+    ROS_INFO("Service call successful: %s", srv.response.success ? "true" : "false");
+    ROS_INFO("Object Locations:");
+    for (size_t i = 0; i < srv.response.objectLocations.size(); i++) {
+      ROS_INFO("Object %lu -> (X: %.2f, Y: %.2f, Z: %.2f)",
+               i,
+               srv.response.objectLocations[i].x,
+               srv.response.objectLocations[i].y,
+               srv.response.objectLocations[i].z);
+
+      Eigen::Vector3f objectLocation(srv.response.objectLocations[i].x,
+                                     srv.response.objectLocations[i].y,
+                                     srv.response.objectLocations[i].z);
+      cartesianLocations.push_back(objectLocation);
+    }
+
+    ROS_INFO("Colors:");
+    for (size_t i = 0; i < srv.response.colors.size(); i++) {
+      ROS_INFO("Color %lu -> (R: %.2f, G: %.2f, B: %.2f, A: %.2f)",
+               i,
+               srv.response.colors[i].r,
+               srv.response.colors[i].g,
+               srv.response.colors[i].b,
+               srv.response.colors[i].a);
+
+      Eigen::Vector3i objectColor(srv.response.colors[i].r,
+                                  srv.response.colors[i].g,
+                                  srv.response.colors[i].b);
+      objectColors.push_back(objectColor);
+    }
+
+    // Separate objects into cubes and boxes.
+    // Cubes are objects with a z height < 0.06.
+    std::vector<Eigen::Vector3f> cubeLocations;
+    std::vector<Eigen::Vector3i> cubeColors;
+    std::vector<Eigen::Vector3f> boxLocations;
+    std::vector<Eigen::Vector3i> boxColors;
+
+    for (size_t i = 0; i < cartesianLocations.size(); i++) {
+      if (cartesianLocations[i].z() < 0.06) {
+        cubeLocations.push_back(cartesianLocations[i]);
+        cubeColors.push_back(objectColors[i]);
+      } else {
+        boxLocations.push_back(cartesianLocations[i]);
+        boxColors.push_back(objectColors[i]);
+      }
+    }
+
+    // Lambda to compare two colors with a tolerance of 30.
+    auto isColorMatch = [](const Eigen::Vector3i &color1, const Eigen::Vector3i &color2) -> bool {
+      const int tolerance = 60;
+      return (std::abs(color1.x() - color2.x()) < tolerance &&
+              std::abs(color1.y() - color2.y()) < tolerance &&
+              std::abs(color1.z() - color2.z()) < tolerance);
+    };
+
+    // Filter cubes: Remove any cube that does not have a matching box.
+    for (int i = static_cast<int>(cubeColors.size()) - 1; i >= 0; --i) {
+      bool matchFound = false;
+      for (const auto &bColor : boxColors) {
+        if (isColorMatch(cubeColors[i], bColor)) {
+          matchFound = true;
+          break;
+        }
+      }
+      if (!matchFound) {
+        ROS_INFO("Removing cube with color (%d, %d, %d) because no matching box was found.",
+                 cubeColors[i].x(), cubeColors[i].y(), cubeColors[i].z());
+        cubeColors.erase(cubeColors.begin() + i);
+        cubeLocations.erase(cubeLocations.begin() + i);
+      }
+    }
+
+    // (Optional) Log the filtered cubes.
+    ROS_INFO("Filtered cubes (with matching boxes):");
+    for (size_t i = 0; i < cubeLocations.size(); i++) {
+      ROS_INFO("Cube %lu -> Location: (X: %.2f, Y: %.2f, Z: %.2f) | Color: (%d, %d, %d)",
+               i,
+               cubeLocations[i].x(), cubeLocations[i].y(), cubeLocations[i].z(),
+               cubeColors[i].x(), cubeColors[i].y(), cubeColors[i].z());
+    }
+
+    // For each cube, find a matching box and perform pick-and-place.
+    for (size_t i = 0; i < cubeLocations.size(); i++) {
+      bool boxFound = false;
+      geometry_msgs::PointStamped goal_point;
+      // Find a box whose color matches the cube's color.
+      for (size_t j = 0; j < boxLocations.size(); j++) {
+        if (isColorMatch(cubeColors[i], boxColors[j])) {
+          goal_point.header.stamp = ros::Time::now();
+          goal_point.header.frame_id = "world";  // Adjust the frame if needed.
+          goal_point.point.x = boxLocations[j].x();
+          goal_point.point.y = boxLocations[j].y();
+          goal_point.point.z = boxLocations[j].z();
+          boxFound = true;
+          break;
+        }
+      }
+      if (boxFound) {
+        // Construct a PoseStamped for the cube (pickup location).
+        geometry_msgs::PoseStamped cube_pose;
+        cube_pose.header.stamp = ros::Time::now();
+        cube_pose.header.frame_id = "world";  // Adjust the frame if needed.
+        cube_pose.pose.position.x = cubeLocations[i].x();
+        cube_pose.pose.position.y = cubeLocations[i].y();
+        cube_pose.pose.position.z = cubeLocations[i].z();
+        // Orientation will be set in performPickAndPlace; use a default.
+        cube_pose.pose.orientation.x = 0;
+        cube_pose.pose.orientation.y = 0;
+        cube_pose.pose.orientation.z = 0;
+        cube_pose.pose.orientation.w = 1;
+
+        ROS_INFO("Performing pick and place for cube %lu", i);
+        robot_trajectory_.performPickAndPlace(cube_pose, goal_point, false);
+      } else {
+        ROS_WARN("No matching box found for cube %lu, skipping.", i);
+      }
+    }
+
+    return srv.response.success;
+  } else {
+    ROS_ERROR("Failed to call map_env service.");
+    return false;
+  }
 }

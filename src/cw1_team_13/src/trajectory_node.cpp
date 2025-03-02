@@ -6,7 +6,7 @@ int main(int argc, char **argv){
   ros::init(argc,argv, "trajectory_node");
   ros::NodeHandle nh;
 
-  ros::AsyncSpinner spinner(1);
+  ros::AsyncSpinner spinner(2);
   spinner.start();
   // create an instance of the cw1 class
   cw1 cw_class(nh);

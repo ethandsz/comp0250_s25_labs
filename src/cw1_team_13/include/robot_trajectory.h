@@ -43,8 +43,8 @@ public:
   bool
   resetPose();
 
-  bool
-  scanEnvironment();
+  void
+  performPickAndPlace(const geometry_msgs::PoseStamped &object_loc, const geometry_msgs::PointStamped &goal_loc, bool shouldResetPose = true);
 
   std::vector<double>
   getQuaternionFromEuler(double roll, double pitch, double yaw);
@@ -64,7 +64,7 @@ private:
     {"xmax", 0.75},
     {"ymin", -0.5},
     {"ymax", 0.5},
-    {"zmin", 0.0},
+    {"zmin", 0.058},
     {"zmax", 1.0},
   };
 }; 

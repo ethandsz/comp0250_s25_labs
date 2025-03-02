@@ -66,6 +66,7 @@ add_service_files(
   example.srv
   set_arm.srv
   set_gripper.srv
+  map_env.srv
 )
 
 ## Generate actions in the 'action' folder
