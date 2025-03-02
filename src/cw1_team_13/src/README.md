@@ -1,34 +1,20 @@
-## Task 1
+## Running solution
+To run the solution execute the following command in the terminal this will bring up two nodes, the trajectory and pointcloud node. The pointcloud node is used for scanning the environment and extracting relevant object information such as locations and color information. 
 ```bash
-sudo apt install ros-noetic-franka-ros ros-noetic-libfranka
-```
-Gazebo physics simluator is also needed (http://gazebosim.org/). This can be installed and then run with:
-```bash
-curl -sSL http://get.gazebosim.org | sh
-gazebo
+roslaunch cw1_team_13 run_solution.launch
 ```
 
+## Task 1
+
+```bash
+rosservice call /task 1 
+```
 ## Task 2
 ```bash
-git clone --recurse-submodules https://github.com/surgical-vision/comp0250_s25_labs.git
+rosservice call /task 2 
 ```
-```bash
-cd comp0250_s25_labs
-```
-```bash
-git submodule update --init --recursive
-```
-```bash
-catkin config --extend /opt/ros/${ROS_DISTRO} --cmake-args -DCMAKE_BUILD_TYPE=Release
-```
-```bash
-catkin build
-```
-
 ## Task 3
+This task first makes a service call to the pointcloud node to take a scan of the environment using the PCL library. We take multiple scans, get the transformation from the camera frame to the world frame and apply the transformation across scans to build a complete point cloud of the map. To save on computational costs we also voxelize these point clouds and finally publish the pointcloud and centroid of the object locations in RViz under the /pclPoints and /objectPositions topics.
 ```bash
-source devel/setup.bash
-```
-```bash
-roslaunch panda_description description.launch
+rosservice call /task 3 
 ```
