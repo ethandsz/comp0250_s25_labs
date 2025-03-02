@@ -119,9 +119,9 @@ cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
     // Lambda to compare two colors with a tolerance of 30.
     auto isColorMatch = [](const Eigen::Vector3i &color1, const Eigen::Vector3i &color2) -> bool {
       const int tolerance = 60;
-      return (std::abs(color1.x() - color2.x()) < tolerance &&
-              std::abs(color1.y() - color2.y()) < tolerance &&
-              std::abs(color1.z() - color2.z()) < tolerance);
+      return (std::abs(color1.x() - color2.x()) <= tolerance &&
+              std::abs(color1.y() - color2.y()) <= tolerance &&
+              std::abs(color1.z() - color2.z()) <= tolerance);
     };
 
     // Filter cubes: Remove any cube that does not have a matching box.

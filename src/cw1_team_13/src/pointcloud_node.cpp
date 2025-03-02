@@ -356,6 +356,10 @@ bool getScans(){
 bool mapEnvironment(cw1_team_13::map_env::Request &req, cw1_team_13::map_env::Response &res){
   ROS_INFO("Map Environment Called");
   completeCloud->clear();
+  cloud->clear();
+  visualization_msgs::MarkerArray emptyMarkers;
+  objectMarkerPublisher.publish(emptyMarkers);  // Clear previous markers
+  
   bool scansSuccessful = getScans();
   ROS_INFO("Scans completed: %s", scansSuccessful ? "true" : "false");
 
