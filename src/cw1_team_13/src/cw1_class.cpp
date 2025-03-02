@@ -116,7 +116,6 @@ cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
       }
     }
 
-    // Lambda to compare two colors with a tolerance of 30.
     auto isColorMatch = [](const Eigen::Vector3i &color1, const Eigen::Vector3i &color2) -> bool {
       const int tolerance = 60;
       return (std::abs(color1.x() - color2.x()) <= tolerance &&
@@ -141,7 +140,6 @@ cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
       }
     }
 
-    // (Optional) Log the filtered cubes.
     ROS_INFO("Filtered cubes (with matching boxes):");
     for (size_t i = 0; i < cubeLocations.size(); i++) {
       ROS_INFO("Cube %lu -> Location: (X: %.2f, Y: %.2f, Z: %.2f) | Color: (%d, %d, %d)",
@@ -167,10 +165,9 @@ cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
         }
       }
       if (boxFound) {
-        // Construct a PoseStamped for the cube (pickup location).
         geometry_msgs::PoseStamped cube_pose;
         cube_pose.header.stamp = ros::Time::now();
-        cube_pose.header.frame_id = "world";  // Adjust the frame if needed.
+        cube_pose.header.frame_id = "world";  
         cube_pose.pose.position.x = cubeLocations[i].x();
         cube_pose.pose.position.y = cubeLocations[i].y();
         cube_pose.pose.position.z = cubeLocations[i].z();
