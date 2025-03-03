@@ -221,11 +221,21 @@ void publishObjectPositions(std::vector<Eigen::Vector3f> objectPositions){
     marker.color.r = 0.0f;
     marker.color.g = 1.0f;
     marker.color.b = 0.0f;
-    marker.color.a = 1.0;   // Don't forget to set the alpha!
+    marker.color.a = 1.0;   
     markerArray.markers.push_back(marker);
   }
 
   objectMarkerPublisher.publish(markerArray);
+}
+
+void publishCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+  sensor_msgs::PointCloud2 rosCloud;
+
+  pcl::toROSMsg(*cloud, rosCloud);
+  ROS_INFO("Point Cloud Message: width=%d, height=%d", rosCloud.width, rosCloud.height);
+  rosCloud.header.frame_id = "panda_link0";
+  ROS_INFO("PointCloud frame ID: %s", rosCloud.header.frame_id.c_str());
+  pointCloudPublisher.publish(rosCloud);
 }
 
 ObjectData processPointCloud(){
@@ -244,12 +254,7 @@ ObjectData processPointCloud(){
   filterColors(completeCloud);
 
   ROS_INFO("Removed Plane");
-
-  pcl::toROSMsg(*completeCloud, rosCloud);
-  ROS_INFO("Point Cloud Message: width=%d, height=%d", rosCloud.width, rosCloud.height);
-  rosCloud.header.frame_id = "panda_link0";
-  ROS_INFO("PointCloud frame ID: %s", rosCloud.header.frame_id.c_str());
-  pointCloudPublisher.publish(rosCloud);
+  publishCloud(completeCloud);
 
   ObjectData objects = extractObjectsInScene(completeCloud);
   publishObjectPositions(objects.cartestianLocation);
@@ -340,6 +345,7 @@ bool getScans(){
       
       pcl::transformPointCloud(*currentCloud, *transformedCloud, transformEigen);
       *completeCloud += *transformedCloud;
+      publishCloud(completeCloud);
 
     }
 
@@ -358,6 +364,7 @@ bool mapEnvironment(cw1_team_13::map_env::Request &req, cw1_team_13::map_env::Re
   completeCloud->clear();
   cloud->clear();
   visualization_msgs::MarkerArray emptyMarkers;
+  emptyMarkers.markers[0].header.frame_id = "panda_link0";
   objectMarkerPublisher.publish(emptyMarkers);  // Clear previous markers
   
   bool scansSuccessful = getScans();

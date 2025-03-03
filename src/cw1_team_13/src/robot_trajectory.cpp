@@ -4,6 +4,7 @@
 #include <robot_trajectory.h>
 #include <moveit/robot_model_loader/robot_model_loader.h>
 #include <moveit/planning_scene/planning_scene.h>
+#include <string>
 #include <vector>
 
 geometry_msgs::Pose basePose;
@@ -80,6 +81,54 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
   collision_detection::CollisionResult collision_result;
   planning_scene.checkSelfCollision(collision_request, collision_result);
   ROS_INFO_STREAM("Test 1: Current state is " << (collision_result.collision ? "in" : "not in") << " self collision");
+}
+
+void 
+RobotTrajectory::addObjectsToScene(std::vector<Eigen::Vector3f> cartesianLocations, Eigen::Vector3f dimensions){
+  ROS_INFO("Adding new boxes to planning scene");
+  std::vector<moveit_msgs::CollisionObject> collisionBoxes;
+  for (size_t i = 0; i < cartesianLocations.size(); i++) {
+    Eigen::Vector3f cartesianLocation = cartesianLocations[i];
+    moveit_msgs::CollisionObject collisonBox;
+
+    collisonBox.header.frame_id = "panda_link0";
+    
+    collisonBox.pose.position.x = cartesianLocation[0];
+    collisonBox.pose.position.y = cartesianLocation[1];
+    collisonBox.pose.position.z = cartesianLocation[2];
+    
+    collisonBox.id = "Box_" + std::to_string(i); 
+
+
+    collisonBox.primitives.resize(1);
+    collisonBox.primitives[0].type = collisonBox.primitives[0].BOX;
+
+    ROS_INFO("Dim resize");
+    collisonBox.primitives[0].dimensions.resize(3);
+    collisonBox.primitives[0].dimensions[0] = dimensions[0];
+    collisonBox.primitives[0].dimensions[1] = dimensions[1];
+    collisonBox.primitives[0].dimensions[2] = dimensions[2];
+
+    ROS_INFO("Adding append");
+    collisonBox.operation = collisonBox.APPEND; 
+
+    ROS_INFO("Adding box to vec");
+    collisionBoxes.push_back(collisonBox);
+    ROS_INFO("Added box with id %s", collisonBox.id.c_str());
+  }
+
+  planning_scene_interface_.applyCollisionObjects(collisionBoxes);
+}
+
+void
+RobotTrajectory::removeObjectsFromScene(){
+  std::map<std::string,moveit_msgs::CollisionObject> currentCollisionObjects = planning_scene_interface_.getObjects();
+  std::vector<std::string> objectIds;
+
+  for(auto i : currentCollisionObjects){ 
+        objectIds.push_back( i.first);
+    }
+  planning_scene_interface_.removeCollisionObjects(objectIds);
 }
 
 bool

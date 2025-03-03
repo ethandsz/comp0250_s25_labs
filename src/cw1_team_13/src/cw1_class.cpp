@@ -62,6 +62,7 @@ bool
 cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
                  cw1_world_spawner::Task3Service::Response &response)
 {
+  robot_trajectory_.removeObjectsFromScene();
   cw1_team_13::map_env srv;
 
   // Call the map_env service.
@@ -105,7 +106,8 @@ cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
     std::vector<Eigen::Vector3i> cubeColors;
     std::vector<Eigen::Vector3f> boxLocations;
     std::vector<Eigen::Vector3i> boxColors;
-
+    Eigen::Vector3f boxDimensions(0.2,0.2,0.2);
+    /*Eigen::Vector3f cubeDimensions(0.1,0.1,0.1);*/
     for (size_t i = 0; i < cartesianLocations.size(); i++) {
       if (cartesianLocations[i].z() < 0.06) {
         cubeLocations.push_back(cartesianLocations[i]);
@@ -115,6 +117,9 @@ cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
         boxColors.push_back(objectColors[i]);
       }
     }
+    
+    robot_trajectory_.addObjectsToScene(boxLocations, boxDimensions);
+    /*robot_trajectory_.addObjectsToScene(cubeLocations, cubeDimensions);*/
 
     auto isColorMatch = [](const Eigen::Vector3i &color1, const Eigen::Vector3i &color2) -> bool {
       const int tolerance = 60;
@@ -184,6 +189,7 @@ cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
       }
     }
 
+    robot_trajectory_.resetPose();
     return srv.response.success;
   } else {
     ROS_ERROR("Failed to call map_env service.");

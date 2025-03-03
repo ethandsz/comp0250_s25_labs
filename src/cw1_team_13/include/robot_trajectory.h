@@ -1,6 +1,7 @@
 #ifndef ROBOT_TRAJECTORY_H_ 
 #define ROBOT_TRAJECTORY_H_ 
 
+#include "moveit/planning_scene_interface/planning_scene_interface.h"
 #include <map>
 #include <moveit/planning_scene/planning_scene.h>
 #include <ros/ros.h>
@@ -46,6 +47,12 @@ public:
   void
   performPickAndPlace(const geometry_msgs::PoseStamped &object_loc, const geometry_msgs::PointStamped &goal_loc, bool shouldResetPose = true);
 
+  void
+  addObjectsToScene(std::vector<Eigen::Vector3f> cartesianLocations, Eigen::Vector3f dimensions);
+  
+  void
+  removeObjectsFromScene();
+
   std::vector<double>
   getQuaternionFromEuler(double roll, double pitch, double yaw);
 
@@ -54,7 +61,8 @@ public:
 
   moveit::planning_interface::MoveGroupInterface arm_group_{"panda_arm"};
   moveit::planning_interface::MoveGroupInterface hand_group_{"hand"};
-
+  
+  moveit::planning_interface::PlanningSceneInterface planning_scene_interface_;
 
 private: 
   double gripper_open_ = 80e-3;
