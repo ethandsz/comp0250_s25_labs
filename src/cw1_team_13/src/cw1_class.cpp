@@ -8,8 +8,10 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <cmath>
 #include <cw1_class.h>
 #include <robot_trajectory.h> 
+#include <string>
 #include <vector>
 #include <cw1_team_13/map_env.h>  
+#include <sstream>
 ///////////////////////////////////////////////////////////////////////////////
 
 cw1::cw1(ros::NodeHandle nh)
@@ -34,6 +36,7 @@ bool
 cw1::t1_callback(cw1_world_spawner::Task1Service::Request &request,
   cw1_world_spawner::Task1Service::Response &response) 
 {
+  robot_trajectory_.removeObjectsFromScene();
   /* function which should solve task 1 */
   geometry_msgs::PoseStamped object_loc = request.object_loc; // or response.object_loc
   geometry_msgs::PointStamped goal_loc = request.goal_loc; // or response.object_loc
@@ -50,10 +53,71 @@ bool
 cw1::t2_callback(cw1_world_spawner::Task2Service::Request &request,
   cw1_world_spawner::Task2Service::Response &response)
 {
+  robot_trajectory_.removeObjectsFromScene();
   /* function which should solve task 2 */
   ROS_INFO("The coursework solving callback for task 2 has been triggered");
+  std::vector<geometry_msgs::PointStamped> basket_locs = request.basket_locs;
 
-  return true;
+  cw1_team_13::map_env srv;
+
+  std::vector<std::string> basket_colors;
+  //Map env return x y z  
+  //basket locs x y z 
+  if (map_env_service_.call(srv)) {
+  // Process each location
+    for(const auto& loc : basket_locs) {
+        /*std::string color = determineBasketColor(loc);*/
+        /*response.basket_colours.push_back(color);*/
+      float basket_x_min = loc.point.x - 0.1;
+      float basket_y_min = loc.point.y - 0.1;
+      float basket_z_min = loc.point.z;
+
+      float basket_x_max = loc.point.x + 0.1;
+      float basket_y_max = loc.point.y + 0.1;
+      float basket_z_max = loc.point.z + 0.08;
+
+      bool foundObject = false;
+      ROS_INFO("Checking point, x: %.2f, y: %.2f, z:%.2f", loc.point.x, loc.point.y, loc.point.z);
+      for (size_t i = 0; i < srv.response.objectLocations.size(); i++) {
+        geometry_msgs::Point pointCloudLoc = srv.response.objectLocations[i]; 
+        float pointcloud_x = pointCloudLoc.x;
+        float pointcloud_y = pointCloudLoc.y;
+        float pointcloud_z = pointCloudLoc.z;
+
+        if (pointcloud_x >= basket_x_min && pointcloud_x <= basket_x_max &&
+            pointcloud_y >= basket_y_min && pointcloud_y <= basket_y_max &&
+            pointcloud_z >= basket_z_min && pointcloud_z <= basket_z_max) {
+          foundObject = true;
+          Eigen::Vector3i objectColor(srv.response.colors[i].r, srv.response.colors[i].g, srv.response.colors[i].b);
+          std::string hrColor = determineColor(objectColor);
+          basket_colors.push_back(hrColor);
+          ROS_INFO("Color detected: %s", hrColor.c_str());
+          break;
+        }
+      }
+      if(!foundObject){
+        basket_colors.push_back("none");
+        ROS_INFO("No object found at x: %.2f, y: %.2f, z:%.2f", loc.point.x, loc.point.y, loc.point.z);
+      }
+    }
+    std::ostringstream ss;
+    ss << "[";
+    for (size_t i = 0; i < basket_colors.size(); i++) {
+        ss << "\"" << basket_colors[i] << "\"";
+        if (i != basket_colors.size() - 1) {
+            ss << ", ";
+        }
+    }
+    ss << "]";
+
+    response.basket_colours = basket_colors;
+    ROS_INFO("%s", ss.str().c_str());
+    return true;
+  }
+  else{
+    return false;
+  }
+
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -196,3 +260,26 @@ cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
     return false;
   }
 }
+
+
+std::string
+cw1::determineColor(Eigen::Vector3i colorVector){
+  int r = colorVector[0];
+  int g = colorVector[1];
+  int b = colorVector[2];
+
+  if(r > g && r > b){
+    return "red";
+  }
+
+  if(b > r && b > g){
+    return "blue";
+  }
+
+  return "purple";
+}
+
+
+
+
+

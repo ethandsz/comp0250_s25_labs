@@ -18,6 +18,7 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <geometry_msgs/Quaternion.h>
 /*#include <moveit/move_group_interface/move_group_interface.h>*/
 /*#include <moveit/planning_scene_interface/planning_scene_interface.h>*/
+#include <string>
 #include <tf2/LinearMath/Quaternion.h>
 #include <tf2/LinearMath/Scalar.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
@@ -52,6 +53,9 @@ public:
   bool 
   t3_callback(cw1_world_spawner::Task3Service::Request &request,
     cw1_world_spawner::Task3Service::Response &response);
+
+  std::string
+  determineColor(Eigen::Vector3i colorVector);
   /*bool */
   /*setArmCallback(cw1_team_13::set_arm::Request &request,*/
   /*  cw1_team_13::set_arm::Response &response);*/
