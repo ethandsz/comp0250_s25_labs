@@ -37,6 +37,7 @@ cw1::t1_callback(cw1_world_spawner::Task1Service::Request &request,
   cw1_world_spawner::Task1Service::Response &response) 
 {
   robot_trajectory_.removeObjectsFromScene();
+  robot_trajectory_.resetPose();
   /* function which should solve task 1 */
   geometry_msgs::PoseStamped object_loc = request.object_loc; // or response.object_loc
   geometry_msgs::PointStamped goal_loc = request.goal_loc; // or response.object_loc
@@ -112,6 +113,7 @@ cw1::t2_callback(cw1_world_spawner::Task2Service::Request &request,
 
     response.basket_colours = basket_colors;
     ROS_INFO("%s", ss.str().c_str());
+    robot_trajectory_.resetPose();
     return true;
   }
   else{
@@ -172,7 +174,7 @@ cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
     std::vector<Eigen::Vector3i> cubeColors;
     std::vector<Eigen::Vector3f> boxLocations;
     std::vector<Eigen::Vector3i> boxColors;
-    Eigen::Vector3f boxDimensions(0.2,0.2,0.2);
+    Eigen::Vector3f boxDimensions(0.125,0.125,0.2);
     Eigen::Vector3f cubeDimensions(0.1,0.1,0.1);
     for (size_t i = 0; i < cartesianLocations.size(); i++) {
       if (cartesianLocations[i].z() < 0.06) {
@@ -185,7 +187,7 @@ cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
     }
     
     robot_trajectory_.addObjectsToScene(boxLocations, boxDimensions);
-    robot_trajectory_.addObjectsToScene(cubeLocations, cubeDimensions);
+    /*robot_trajectory_.addObjectsToScene(cubeLocations, cubeDimensions);*/
 
     auto isColorMatch = [](const Eigen::Vector3i &color1, const Eigen::Vector3i &color2) -> bool {
       const int tolerance = 60;
