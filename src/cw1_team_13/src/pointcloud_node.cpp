@@ -329,7 +329,6 @@ bool getScans(){
       publishCloud(completeCloud);
 
     }
-
   }
 
   sensor_msgs::PointCloud2 pointCloudRos;

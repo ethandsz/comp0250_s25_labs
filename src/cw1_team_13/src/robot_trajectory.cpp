@@ -270,3 +270,35 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
       resetPose();
     }
 }
+
+void
+RobotTrajectory::addGroundPlaneToScene(){
+  ROS_INFO("Adding ground plane to planning scene");
+  moveit_msgs::CollisionObject collisonBox;
+
+  collisonBox.header.frame_id = "panda_link0";
+  
+  collisonBox.pose.position.x = 0.5;
+  collisonBox.pose.position.y = 0.0;
+  collisonBox.pose.position.z = 0.0;
+  
+  collisonBox.id = "groundplane";
+
+
+  collisonBox.primitives.resize(1);
+  collisonBox.primitives[0].type = collisonBox.primitives[0].BOX;
+
+  ROS_INFO("Dim resize");
+  collisonBox.primitives[0].dimensions.resize(3);
+  collisonBox.primitives[0].dimensions[0] = 0.5;
+  collisonBox.primitives[0].dimensions[1] = 1.0;
+  collisonBox.primitives[0].dimensions[2] = 0.1;
+
+  ROS_INFO("Adding append");
+  collisonBox.operation = collisonBox.APPEND; 
+
+  ROS_INFO("Adding box to vec");
+  ROS_INFO("Added box with id %s", collisonBox.id.c_str());
+
+  planning_scene_interface_.applyCollisionObject(collisonBox);
+}
