@@ -22,6 +22,10 @@ rosservice call /task 1
 <img src="assets/T1.png" alt="drawing" width="1000"/>
 
 
+
+## Task 2 & 3
+These tasks first make a service call to the pointcloud node to take a scan of the environment using the PCL library. We take multiple scans, get the transformation from the camera frame to the world frame and apply the transformation across scans to build a complete point cloud of the map. To save on computational costs we also voxelize these point clouds and finally publish the pointcloud and centroid of the object locations in RViz under the /pclPoints and /objectPositions topics.
+
 ## Task 2
 ```bash
 rosservice call /task 2 
@@ -31,7 +35,6 @@ rosservice call /task 2
 
 
 ## Task 3
-This task first makes a service call to the pointcloud node to take a scan of the environment using the PCL library. We take multiple scans, get the transformation from the camera frame to the world frame and apply the transformation across scans to build a complete point cloud of the map. To save on computational costs we also voxelize these point clouds and finally publish the pointcloud and centroid of the object locations in RViz under the /pclPoints and /objectPositions topics.
 ```bash
 rosservice call /task 3 
 ```
