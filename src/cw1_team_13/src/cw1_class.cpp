@@ -131,6 +131,7 @@ cw1::t3_callback(cw1_world_spawner::Task3Service::Request &request,
 
   // Call the map_env service.
   if (map_env_service_.call(srv)) {
+    robot_trajectory_.resetPose();
     std::vector<Eigen::Vector3f> cartesianLocations;
     std::vector<Eigen::Vector3i> objectColors;
 

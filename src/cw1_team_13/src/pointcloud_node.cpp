@@ -43,6 +43,7 @@ solution is contained within the cw1_team_<your_team_number> package */
 #include <tf2_eigen/tf2_eigen.h>
 #include <pcl/segmentation/extract_clusters.h>
 #include <vector>
+#include <helper_methods.h>
 
 struct ObjectData{
   std::vector<Eigen::Vector3f> cartestianLocation;
@@ -283,26 +284,6 @@ bool callSetArmService(const geometry_msgs::Pose &target_pose) {
   }
 }
 
-std::vector<double>
-getQuaternionFromEuler(double roll, double pitch, double yaw){
-    // Calculate trig values
-    double cr = cos(roll * 0.5);
-    double sr = sin(roll * 0.5);
-    double cp = cos(pitch * 0.5);
-    double sp = sin(pitch * 0.5);
-    double cy = cos(yaw * 0.5);
-    double sy = sin(yaw * 0.5);
- 
-    // Calculate quaternion components using the same formulas as the Python reference
-    double qx = sr * cp * cy - cr * sp * sy;
-    double qy = cr * sp * cy + sr * cp * sy;
-    double qz = cr * cp * sy - sr * sp * cy;
-    double qw = cr * cp * cy + sr * sp * sy;
- 
-    // Return as [qx, qy, qz, qw] to match the Python implementation
-    return {qx, qy, qz, qw};
-}
-
 bool getScans(){
   tf2_ros::Buffer tfBuffer;
   tf2_ros::TransformListener transformListner(tfBuffer);
@@ -312,7 +293,7 @@ bool getScans(){
   basePose.position.y = 0.0;
   basePose.position.z = 0.75;
   double roll = M_PI, pitch = 0, yaw = -M_PI / 4;
-  std::vector<double> quaternionPose = getQuaternionFromEuler(roll, pitch, yaw);
+  std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);
   basePose.orientation.x = quaternionPose[0];
   basePose.orientation.y = quaternionPose[1];
   basePose.orientation.z = quaternionPose[2];
@@ -363,10 +344,7 @@ bool mapEnvironment(cw1_team_13::map_env::Request &req, cw1_team_13::map_env::Re
   ROS_INFO("Map Environment Called");
   completeCloud->clear();
   cloud->clear();
-  visualization_msgs::MarkerArray emptyMarkers;
-  emptyMarkers.markers[0].header.frame_id = "panda_link0";
-  objectMarkerPublisher.publish(emptyMarkers);  // Clear previous markers
-  
+  ROS_INFO("Cleared Markers");
   bool scansSuccessful = getScans();
   ROS_INFO("Scans completed: %s", scansSuccessful ? "true" : "false");
 

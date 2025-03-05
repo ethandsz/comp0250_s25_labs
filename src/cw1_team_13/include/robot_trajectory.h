@@ -53,9 +53,6 @@ public:
   void
   removeObjectsFromScene();
 
-  std::vector<double>
-  getQuaternionFromEuler(double roll, double pitch, double yaw);
-
   ros::ServiceServer set_arm_srv_;
   ros::ServiceServer set_gripper_srv_;
 

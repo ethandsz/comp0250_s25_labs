@@ -6,6 +6,7 @@
 #include <moveit/planning_scene/planning_scene.h>
 #include <string>
 #include <vector>
+#include <helper_methods.h>
 
 geometry_msgs::Pose basePose;
 
@@ -18,7 +19,7 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
   double pitch = 0;
   double yaw = -M_PI/4;
 
-  std::vector<double> quaternionPose = getQuaternionFromEuler(roll, pitch, yaw);
+  std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);
 
   basePose.orientation.x = quaternionPose[0]; // cos(pi/8)
   basePose.orientation.y = quaternionPose[1]; // sin(pi/8)
@@ -217,26 +218,6 @@ RobotTrajectory::moveGripper(float width)
   return success;
 }
 
-std::vector<double>
-RobotTrajectory::getQuaternionFromEuler(double roll, double pitch, double yaw){
-    // Calculate trig values
-    double cr = cos(roll * 0.5);
-    double sr = sin(roll * 0.5);
-    double cp = cos(pitch * 0.5);
-    double sp = sin(pitch * 0.5);
-    double cy = cos(yaw * 0.5);
-    double sy = sin(yaw * 0.5);
- 
-    // Calculate quaternion components using the same formulas as the Python reference
-    double qx = sr * cp * cy - cr * sp * sy;
-    double qy = cr * sp * cy + sr * cp * sy;
-    double qz = cr * cp * sy - sr * sp * cy;
-    double qw = cr * cp * cy + sr * sp * sy;
- 
-    // Return as [qx, qy, qz, qw] to match the Python implementation
-    return {qx, qy, qz, qw};
-}
-
 void
 RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_loc, const geometry_msgs::PointStamped &goal_loc, bool shouldResetPose)
 {
@@ -246,7 +227,7 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     double yaw   = -M_PI/4;   // -45 degrees
 
     // Compute quaternion from Euler angles.
-    std::vector<double> quaternionPose = getQuaternionFromEuler(roll, pitch, yaw);
+    std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);
     ROS_INFO("Quaternion: \nx:[%.2f]\ny:[%.2f]\nz:[%.2f]\nw:[%.2f]",
              quaternionPose[0], quaternionPose[1], quaternionPose[2], quaternionPose[3]);
 
