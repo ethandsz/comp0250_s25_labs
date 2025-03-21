@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(moveit_tutorial)
+project(cw1_team_x) # change your team name here!
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -15,6 +15,8 @@ find_package(catkin REQUIRED COMPONENTS
   moveit_ros_planning_interface
   tf2
   tf2_ros
+  pcl_ros
+  cw1_world_spawner
 )
 
 ## System dependencies are found with CMake's conventions
@@ -60,9 +62,7 @@ find_package(catkin REQUIRED COMPONENTS
 # Generate services in the 'srv' folder
 add_service_files(
   FILES
-  set_arm.srv
-  set_gripper.srv
-  add_collision.srv
+  example.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -111,7 +111,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES move_panda
-  CATKIN_DEPENDS message_runtime
+ CATKIN_DEPENDS message_runtime cw1_world_spawner
 #  DEPENDS system_lib
 )
 
@@ -127,22 +127,22 @@ include_directories(
 )
 
 # Declare a C++ library
-add_library(${PROJECT_NAME}_SrvClass_lib
-  src/moveit_tutorial.cpp
+add_library(${PROJECT_NAME}_cw1_class_lib
+  src/cw1_class.cpp
 )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-add_dependencies(${PROJECT_NAME}_SrvClass_lib 
-  ${${PROJECT_NAME}_EXPORTED_TARGETS}
+add_dependencies(${PROJECT_NAME}_cw1_class_lib 
+  ${${PROJECT_NAME}_EXPORTED_TARGETS} 
   ${catkin_EXPORTED_TARGETS}
 )
 
 # Declare a C++ executable
 # With catkin_make all packages are built within a single CMake context
 # The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_node src/run_tutorial.cpp)
+add_executable(cw1_solution_node src/cw1_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -152,15 +152,15 @@ add_executable(${PROJECT_NAME}_node src/run_tutorial.cpp)
 
 # Add cmake target dependencies of the executable
 # same as for the library above
-add_dependencies(${PROJECT_NAME}_node
+add_dependencies(cw1_solution_node 
   ${${PROJECT_NAME}_EXPORTED_TARGETS} 
   ${catkin_EXPORTED_TARGETS}
 )
 
 # Specify libraries to link a library or executable target against
-target_link_libraries(${PROJECT_NAME}_node
+target_link_libraries(cw1_solution_node
   ${catkin_LIBRARIES}
-  ${PROJECT_NAME}_SrvClass_lib
+  ${PROJECT_NAME}_cw1_class_lib
 )
 
 #############

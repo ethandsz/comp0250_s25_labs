@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0.2)
-project(moveit_tutorial)
+project(moveit_solution)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -63,6 +63,8 @@ add_service_files(
   set_arm.srv
   set_gripper.srv
   add_collision.srv
+  remove_collision.srv
+  pick.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -127,14 +129,14 @@ include_directories(
 )
 
 # Declare a C++ library
-add_library(${PROJECT_NAME}_SrvClass_lib
-  src/moveit_tutorial.cpp
+add_library(SrvClass_lib_solution
+  src/moveit_solution.cpp
 )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-add_dependencies(${PROJECT_NAME}_SrvClass_lib 
+add_dependencies(SrvClass_lib_solution 
   ${${PROJECT_NAME}_EXPORTED_TARGETS}
   ${catkin_EXPORTED_TARGETS}
 )
@@ -142,7 +144,7 @@ add_dependencies(${PROJECT_NAME}_SrvClass_lib
 # Declare a C++ executable
 # With catkin_make all packages are built within a single CMake context
 # The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME}_node src/run_tutorial.cpp)
+add_executable(${PROJECT_NAME}_node src/run_solution.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -160,7 +162,7 @@ add_dependencies(${PROJECT_NAME}_node
 # Specify libraries to link a library or executable target against
 target_link_libraries(${PROJECT_NAME}_node
   ${catkin_LIBRARIES}
-  ${PROJECT_NAME}_SrvClass_lib
+  SrvClass_lib_solution
 )
 
 #############
