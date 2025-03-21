@@ -234,17 +234,17 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     // Use the provided object location as the base pose.
     geometry_msgs::Pose target_pose = object_loc.pose;
     // Set the orientation using the computed quaternion.
-    target_pose.orientation.x = quaternionPose[0];
-    target_pose.orientation.y = quaternionPose[1];
-    target_pose.orientation.z = quaternionPose[2];
-    target_pose.orientation.w = quaternionPose[3];
+    // target_pose.orientation.x = quaternionPose[0];
+    // target_pose.orientation.y = quaternionPose[1];
+    // target_pose.orientation.z = quaternionPose[2];
+    // target_pose.orientation.w = quaternionPose[3];
 
     // Step 1: Hover above the cube.
     target_pose.position.z = 0.2;
     moveArm(target_pose);
 
     // Step 2: Open the gripper (assuming 0.08 is open).
-    moveGripper(0.08);
+    moveGripper(0.1);
 
     // Step 3: Lower the arm to pick up the cube.
     target_pose.position.z = 0.15;
@@ -263,7 +263,7 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     moveArm(target_pose);
 
     // Step 7: Open the gripper to release the cube.
-    moveGripper(0.08);
+    moveGripper(0.1);
 
     // Step 8: Reset the robot's pose.
     if(shouldResetPose){
