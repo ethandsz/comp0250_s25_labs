@@ -59,7 +59,7 @@ std::cout << shape_type << std::endl;
 
 if (shape_type == "cross"){
 
-  yaw = -M_PI/2;
+  yaw = M_PI/4;
 
 }
 
