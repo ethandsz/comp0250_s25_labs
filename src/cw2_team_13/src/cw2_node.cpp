@@ -12,7 +12,7 @@ int main(int argc, char **argv){
 
   ros::AsyncSpinner spinner(2);
   spinner.start();
-  // create an instance of the cw1 class
+  // create an instance of the cw2 class
   cw2 cw_class(nh);
 
   ros::Rate loop_rate(10);

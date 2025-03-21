@@ -224,7 +224,7 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     // Define desired orientation in Euler angles.
     double roll  = M_PI;      // 180 degrees
     double pitch = 0.0;
-    double yaw   = -M_PI/4;   // -45 degrees
+    double yaw   = -M_PI;   // -45 degrees
 
     // Compute quaternion from Euler angles.
     std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);

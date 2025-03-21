@@ -6,6 +6,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <cw2_class.h> // change to your team name here!
 #include <robot_trajectory.h> 
 #include <helper_methods.h>
+#include <cw2_team_13/map_env.h>  
 ///////////////////////////////////////////////////////////////////////////////
 
 cw2::cw2(ros::NodeHandle nh)
@@ -24,6 +25,7 @@ cw2::cw2(ros::NodeHandle nh)
   t3_service_  = nh_.advertiseService("/task3_start",
     &cw2::t3_callback, this);
 
+  map_env_service_ = nh.serviceClient<cw2_team_13::map_env>("/cw2/map_env");
   ROS_INFO("cw2 class initialised");
 }
 

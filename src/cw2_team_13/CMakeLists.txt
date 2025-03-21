@@ -66,6 +66,7 @@ add_service_files(
   example.srv
   set_arm.srv
   set_gripper.srv
+  map_env.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -140,15 +141,23 @@ add_library(${PROJECT_NAME}_cw2_class_lib
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
 ## either from message generation or dynamic reconfigure
-add_dependencies(${PROJECT_NAME}_cw2_class_lib 
+
+target_link_libraries(${PROJECT_NAME}_cw2_class_lib
+  ${catkin_LIBRARIES}
+)
+## Add cmake target dependencies of the library
+## as an example, code may need to be generated before libraries
+## either from message generation or dynamic reconfigure
+add_dependencies(${PROJECT_NAME}_cw2_class_lib  
+
   ${${PROJECT_NAME}_EXPORTED_TARGETS} 
   ${catkin_EXPORTED_TARGETS}
 )
-
 # Declare a C++ executable
 # With catkin_make all packages are built within a single CMake context
 # The recommended prefix ensures that target names across packages don't collide
 add_executable(cw2_solution_node src/cw2_node.cpp)
+add_executable(pointcloud_node src/pointcloud_node.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -170,6 +179,17 @@ target_link_libraries(cw2_solution_node
   ${PCL_INCLUDE_DIRS}
 )
 
+
+add_dependencies(pointcloud_node
+  ${${PROJECT_NAME}_EXPORTED_TARGETS} 
+  ${catkin_EXPORTED_TARGETS}
+)
+
+# Specify libraries to link a library or executable target against
+target_link_libraries(pointcloud_node
+  ${catkin_LIBRARIES}
+  ${PROJECT_NAME}_cw2_class_lib
+)
 #############
 ## Install ##
 #############

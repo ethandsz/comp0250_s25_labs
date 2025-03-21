@@ -20,4 +20,9 @@
         output="screen"
   />
   
+  <node pkg="cw2_team_13"
+        name="pointcloud_node"
+        type="pointcloud_node"
+        output="screen"
+  />
 </launch>
