@@ -17,6 +17,7 @@ find_package(catkin REQUIRED COMPONENTS
   tf2_ros
   pcl_ros
   cw2_world_spawner
+  tf2_eigen
 )
 
 ## System dependencies are found with CMake's conventions
@@ -63,6 +64,8 @@ find_package(PCL REQUIRED)
 add_service_files(
   FILES
   example.srv
+  set_arm.srv
+  set_gripper.srv
 )
 
 ## Generate actions in the 'action' folder
@@ -129,6 +132,8 @@ include_directories(
 
 # Declare a C++ library
 add_library(${PROJECT_NAME}_cw2_class_lib
+  src/robot_trajectory.cpp
+  src/helper_methods.cpp
   src/cw2_class.cpp
 )
 

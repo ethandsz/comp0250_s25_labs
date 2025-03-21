@@ -4,10 +4,12 @@ and starting from scratch. The only requirment is to make sure your entire
 solution is contained within the cw2_team_<your_team_number> package */
 
 #include <cw2_class.h> // change to your team name here!
-
+#include <robot_trajectory.h> 
 ///////////////////////////////////////////////////////////////////////////////
 
 cw2::cw2(ros::NodeHandle nh)
+  : nh_(nh),
+    robot_trajectory_(nh_)
 {
   /* class constructor */
 
@@ -31,7 +33,8 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
   cw2_world_spawner::Task1Service::Response &response) 
 {
   /* function which should solve task 1 */
-
+  robot_trajectory_.removeObjectsFromScene();
+  robot_trajectory_.resetPose();
   ROS_INFO("The coursework solving callback for task 1 has been triggered");
 
   return true;
