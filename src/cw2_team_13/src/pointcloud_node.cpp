@@ -44,6 +44,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <pcl/segmentation/extract_clusters.h>
 #include <vector>
 #include <helper_methods.h>
+#include <pcl/common/pca.h>
 
 struct ObjectData{
   std::vector<Eigen::Vector3f> cartestianLocation;
@@ -371,6 +372,13 @@ bool mapEnvironment(cw2_team_13::map_env::Request &req, cw2_team_13::map_env::Re
     rgba.a = 0;
     res.colors.push_back(rgba);
   }
+
+  pcl::PCA<pcl::PointXYZRGB> pca;
+  pca.setInputCloud(completeCloud);
+  Eigen::Matrix3f eigenVectors = pca.getEigenVectors();
+  Eigen::Vector3f eigenValues = pca.getEigenValues();
+  Eigen::Quaternionf orientation(eigenVectors);
+  std::cout << "Quaternion: " << orientation.coeffs().transpose() << std::endl;
 
   res.success = true; 
   return true;
