@@ -25,6 +25,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <pcl/point_cloud.h>
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl/point_types.h>
+#include <ros/package.h>
 #include <pcl/filters/passthrough.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/filters/extract_indices.h>
@@ -45,6 +46,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <vector>
 #include <helper_methods.h>
 #include <pcl/common/pca.h>
+#include <pcl/registration/icp.h>
 
 struct ObjectData{
   std::vector<Eigen::Vector3f> cartestianLocation;
@@ -61,6 +63,35 @@ ros::Publisher objectMarkerPublisher;
 ros::ServiceClient set_arm_client_;
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr completeCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+pcl::PointCloud<pcl::PointXYZRGB>::Ptr knownModel(new pcl::PointCloud<pcl::PointXYZRGB>);
+
+Eigen::Matrix4f runICP(pcl::PointCloud<pcl::PointXYZRGB>::Ptr model,
+                       pcl::PointCloud<pcl::PointXYZRGB>::Ptr cluster)
+{
+  pcl::IterativeClosestPoint<pcl::PointXYZRGB, pcl::PointXYZRGB> icp;
+  icp.setInputSource(model);
+  icp.setInputTarget(cluster);
+
+  // icp.setMaximumIterations(50);
+  // icp.setTransformationEpsilon(1e-8);
+  // icp.setEuclideanFitnessEpsilon(1e-5);
+
+  pcl::PointCloud<pcl::PointXYZRGB> Final;
+  icp.align(Final);
+
+  if(icp.hasConverged())
+  {
+    ROS_INFO("ICP converged. Fitness score: %f", icp.getFitnessScore());
+    return icp.getFinalTransformation();
+  }
+  else
+  {
+    ROS_WARN("ICP did not converge.");
+    return Eigen::Matrix4f::Identity();
+  }
+}
+
+
 
 void removePlaneSurface(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointCloud<pcl::Normal>::Ptr cloud_normals, pcl::PointIndices::Ptr inliers_plane)
 {
@@ -166,17 +197,33 @@ ObjectData extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
   for(size_t i = 0; i < cluster_indices.size(); i++){
     Eigen::Vector3f centroid(0, 0, 0);
     Eigen::Vector3i rgbValue(0,0,0); 
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr objectCluster(new pcl::PointCloud<pcl::PointXYZRGB>);
     for (int idx : cluster_indices[i].indices){
+      objectCluster->points.push_back(completeCloud->points[idx]);
       centroid += cloud->points[idx].getVector3fMap();
       rgbValue += cloud->points[idx].getRGBVector3i();
       ROS_INFO("RGB of [%i, %i, %i]", rgbValue[0], rgbValue[1], rgbValue[2]);
     }
+    objectCluster->width = objectCluster->points.size();
+    objectCluster->height = 1;
+    objectCluster->is_dense = true;
     centroid /= static_cast<float>(cluster_indices[i].indices.size());
     rgbValue /= cluster_indices[i].indices.size();
 
     ROS_INFO("FINAL RGB of [%i, %i, %i]", rgbValue[0], rgbValue[1], rgbValue[2]);
     objectPositions.push_back(centroid);
     objectRGBValues.push_back(rgbValue.cast<int>());
+
+    Eigen::Matrix4f transformation = runICP(knownModel, objectCluster);
+    Eigen::Matrix3f rotation = transformation.block<3,3>(0,0);
+    Eigen::Vector3f translation = transformation.block<3,1>(0,3);
+    Eigen::Quaternionf quat(rotation);
+
+    std::vector<double> eulerAngles = HelperMethods::getEulerFromQuaternion(quat);
+
+    ROS_INFO("Estimated Pose: position [%f, %f, %f]", translation[0], translation[1], translation[2]);
+    ROS_INFO("Estimated Pose: orientation (rpy) [%f, %f, %f]",
+             eulerAngles[0], eulerAngles[1],eulerAngles[2]);
   }
 
   for(size_t i = 0; i < objectPositions.size(); i++){
@@ -397,6 +444,12 @@ int main(int argc, char **argv){
   objectMarkerPublisher = nh.advertise<visualization_msgs::MarkerArray> ("objectPositions", 1);
 
   ros::ServiceServer mapService = nh.advertiseService("cw2/map_env", &mapEnvironment);
+
+  std::string pkg_path = ros::package::getPath("cw2_team_13");
+  std::string model_file = pkg_path + "/data/nought_40mm.pcd";
+  if (pcl::io::loadPCDFile<pcl::PointXYZRGB>(model_file, *knownModel) == -1) {
+    ROS_ERROR("Could not load model file.");
+  }
 
   ros::AsyncSpinner spinner(1);
   spinner.start();
