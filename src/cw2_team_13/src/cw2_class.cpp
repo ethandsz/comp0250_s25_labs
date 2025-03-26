@@ -112,6 +112,11 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
 {
   /* function which should solve task 3 */
 
+  cw2_team_13::map_env srv;
+
+  if(map_env_service_.call(srv)){
+    return true;
+  }
   ROS_INFO("The coursework solving callback for task 3 has been triggered");
 
   return true;

@@ -51,11 +51,13 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <pcl/registration/icp.h>
 #include <pcl/common/common.h>
 struct ObjectData{
-  std::vector<Eigen::VectorXf> objCartesianInformation;
-  std::vector<Eigen::Vector3i> rgbValue;
+  Eigen::Vector3f objPointInCartesianSpace;
+  Eigen::Vector4f objectOrientation;
+  float width;
+  Eigen::Vector3i rgbValue;
 
-  ObjectData(const std::vector<Eigen::VectorXf> &objCartesianInformation, std::vector<Eigen::Vector3i> &rgbValue) 
-  : objCartesianInformation(objCartesianInformation), rgbValue(rgbValue) {}
+  ObjectData(Eigen::Vector3f &objPointInCartesianSpace, Eigen::Vector4f &objectOrientation, float &width, Eigen::Vector3i &rgbValue) 
+  : objPointInCartesianSpace(objPointInCartesianSpace), objectOrientation(objectOrientation), width(width), rgbValue(rgbValue) {}
 };
 
 
@@ -67,34 +69,6 @@ ros::ServiceClient set_arm_client_;
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr completeCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr knownModel(new pcl::PointCloud<pcl::PointXYZRGB>);
-
-Eigen::Matrix4f runICP(pcl::PointCloud<pcl::PointXYZRGB>::Ptr model,
-                       pcl::PointCloud<pcl::PointXYZRGB>::Ptr cluster)
-{
-  pcl::IterativeClosestPoint<pcl::PointXYZRGB, pcl::PointXYZRGB> icp;
-  icp.setInputSource(model);
-  icp.setInputTarget(cluster);
-
-  // icp.setMaximumIterations(50);
-  // icp.setTransformationEpsilon(1e-8);
-  // icp.setEuclideanFitnessEpsilon(1e-5);
-
-  pcl::PointCloud<pcl::PointXYZRGB> Final;
-  icp.align(Final);
-
-  if(icp.hasConverged())
-  {
-    ROS_INFO("ICP converged. Fitness score: %f", icp.getFitnessScore());
-    return icp.getFinalTransformation();
-  }
-  else
-  {
-    ROS_WARN("ICP did not converge.");
-    return Eigen::Matrix4f::Identity();
-  }
-}
-
-
 
 void removePlaneSurface(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointCloud<pcl::Normal>::Ptr cloud_normals, pcl::PointIndices::Ptr inliers_plane)
 {
@@ -174,14 +148,12 @@ void filterColors(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
 }
 
 void realSenseCallback(const sensor_msgs::PointCloud2ConstPtr &input){
-  /*pcl::PointCloud<pcl::PointempCloudtXYZRGB>::Ptr tempCloud(new pcl::PointCloud<pcl::PointXYZRGB>);*/
-
   // Convert the ROS message to a PCL point cloud
   pcl::fromROSMsg(*input, *cloud);
-
 }
 
-ObjectData extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+  std::vector<ObjectData> objects;
   pcl::search::KdTree<pcl::PointXYZRGB>::Ptr kdTree(new pcl::search::KdTree<pcl::PointXYZRGB>);
   kdTree->setInputCloud(cloud);
   std::vector<pcl::PointIndices> cluster_indices;
@@ -193,9 +165,6 @@ ObjectData extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
   ec.setSearchMethod (kdTree);
   ec.setInputCloud (cloud);
   ec.extract (cluster_indices);
-
-  std::vector<Eigen::VectorXf> objectPositions;
-  std::vector<Eigen::Vector3i> objectRGBValues;
 
   for(size_t i = 0; i < cluster_indices.size(); i++){
     Eigen::Vector3f centroid(0, 0, 0);
@@ -222,6 +191,7 @@ ObjectData extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
     double obPitch = 0.0;
     double objYaw = objAngle;
     std::vector<double> objQuaternion = HelperMethods::getQuaternionFromEuler(objRoll,obPitch,objYaw);
+    Eigen::Vector4f objOrientation(objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3]);
 
     ROS_INFO("objAngle: %f", objAngle);
     std::stringstream ss;
@@ -244,45 +214,48 @@ ObjectData extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
     centroid /= static_cast<float>(cluster_indices[i].indices.size());
     rgbValue /= cluster_indices[i].indices.size();
 
-    Eigen::VectorXf curObjCartesianInfo(8);  // 4-element vector
-    objectRGBValues.push_back(rgbValue.cast<int>());
+    Eigen::Vector3f curObjCartesianInfo(8);  // 4-element vector
 
     curObjCartesianInfo << centroid[0], centroid[1], centroid[2], objWidth, objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3];
-    objectPositions.push_back(curObjCartesianInfo);
+    ObjectData object(centroid, objOrientation, objWidth, rgbValue);
+    objects.push_back(object);
   }
 
-  for(size_t i = 0; i < objectPositions.size(); i++){
-    Eigen::VectorXf position = objectPositions[i];
-    Eigen::Vector3i rgb = objectRGBValues[i];
+  for(size_t i = 0; i < objects.size(); i++){
+    ObjectData object = objects[i];
+    Eigen::Vector3f position = object.objPointInCartesianSpace;
+    Eigen::Vector3i rgb = object.rgbValue;
     ROS_INFO("Object at [x: %f, y: %f, z: %f] with RGB of [%i, %i, %i]", position[0], position[1], position[2], rgb[0], rgb[1], rgb[2]);
   }
-  ObjectData objects(objectPositions, objectRGBValues);
   return objects;
 }
 
-void publishObjectPositions(std::vector<Eigen::VectorXf> objectPositions){
+void publishObjectPositions(std::vector<ObjectData> objects){
   visualization_msgs::MarkerArray markerArray;
   geometry_msgs::PoseArray poseArray;
 
   poseArray.header.frame_id = "panda_link0";
   poseArray.header.stamp = ros::Time::now();
 
-  for(int i = 0; i < objectPositions.size(); i++){
+  for(size_t i = 0; i < objects.size(); i++){
+    ObjectData object = objects[i];
     visualization_msgs::Marker marker;
     geometry_msgs::Pose pose;
 
-    Eigen::VectorXf positions = objectPositions[i];
+    Eigen::Vector3f positions = object.objPointInCartesianSpace;
 
     float x = positions[0], y = positions[1], z = positions[2];
+
+    Eigen::Vector4f objQuat = object.objectOrientation;
 
 
     pose.position.x = x;
     pose.position.y = y;
     pose.position.z = z + 0.05;
-    pose.orientation.x = positions[4];
-    pose.orientation.y = positions[5];
-    pose.orientation.z = positions[6];
-    pose.orientation.w = positions[7];
+    pose.orientation.x = objQuat[0];
+    pose.orientation.y = objQuat[1];
+    pose.orientation.z = objQuat[2];
+    pose.orientation.w = objQuat[3];
     poseArray.poses.push_back(pose);
     
 
@@ -292,7 +265,7 @@ void publishObjectPositions(std::vector<Eigen::VectorXf> objectPositions){
     marker.ns = "obj_pos";
     marker.id = i;
 
-    marker.type = visualization_msgs::Marker::LINE_STRIP;
+    marker.type = visualization_msgs::Marker::CUBE;
 
     marker.action = visualization_msgs::Marker::ADD;
 
@@ -300,30 +273,19 @@ void publishObjectPositions(std::vector<Eigen::VectorXf> objectPositions){
     marker.pose.position.y = y;
     marker.pose.position.z = z + 0.025;
 
-    /*Eigen::Quaternionf quat(positions[7], positions[4], positions[5], positions[6]);  // (w, x, y, z)*/
-    /*std::vector<double> eulerAngle = HelperMethods::getEulerFromQuaternion(quat);*/
-    /*eulerAngle[0] = 0.0;*/
-    /*eulerAngle[1] = 0.0;*/
-    /*eulerAngle[2] = eulerAngle[2];*/
-    /*std::vector<double> adjustedYawQuat = HelperMethods::getQuaternionFromEuler(eulerAngle[0], eulerAngle[1], eulerAngle[2]);*/
+    marker.pose.orientation.x = objQuat[0];
+    marker.pose.orientation.y = objQuat[1];
+    marker.pose.orientation.z = objQuat[2];
+    marker.pose.orientation.w = objQuat[3];
 
-    /*ROS_INFO("Plotting with yaw set to [%f]", eulerAngle[2]);*/
-    marker.pose.orientation.x = positions[4];
-    marker.pose.orientation.y = positions[5];
-    marker.pose.orientation.z = positions[6];
-    marker.pose.orientation.w = positions[7];
-
-    /*ROS_INFO("Estimated Marker orientation (xyzw) [%f, %f, %f, %f]",*/
-    /*         adjustedYawQuat[0], adjustedYawQuat[1],adjustedYawQuat[2], adjustedYawQuat[3]);*/
-
-    marker.scale.x = positions[3];
+    marker.scale.x = object.width;
     marker.scale.y = 0.02;
     marker.scale.z = 0.02;
 
-    marker.color.r = 0.0f;
-    marker.color.g = 1.0f;
-    marker.color.b = 0.0f;
-    marker.color.a = 1.0;   
+    marker.color.r = 1.0f;
+    marker.color.g = 0.0f;
+    marker.color.b = 1.0f;
+    marker.color.a = 1.0f;   
     markerArray.markers.push_back(marker);
   }
 
@@ -341,7 +303,7 @@ void publishCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
   pointCloudPublisher.publish(rosCloud);
 }
 
-ObjectData processPointCloud(){
+  std::vector<ObjectData> processPointCloud(){
   sensor_msgs::PointCloud2 rosCloud;
   pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(new pcl::PointCloud<pcl::Normal>);
   filterCloud(completeCloud);
@@ -359,8 +321,8 @@ ObjectData processPointCloud(){
   ROS_INFO("Removed Plane");
   publishCloud(completeCloud);
 
-  ObjectData objects = extractObjectsInScene(completeCloud);
-  publishObjectPositions(objects.objCartesianInformation);
+  std::vector<ObjectData> objects = extractObjectsInScene(completeCloud);
+  publishObjectPositions(objects);
   return objects;
 }
 
@@ -449,37 +411,30 @@ bool mapEnvironment(cw2_team_13::map_env::Request &req, cw2_team_13::map_env::Re
   bool scansSuccessful = getScans();
   ROS_INFO("Scans completed: %s", scansSuccessful ? "true" : "false");
 
-  ObjectData objects = processPointCloud();
-  std::vector<Eigen::VectorXf> objectLocations = objects.objCartesianInformation;
-  std::vector<Eigen::Vector3i> rgbValues = objects.rgbValue;
+  std::vector<ObjectData> objects = processPointCloud();
 
-  for (size_t i = 0; i < objectLocations.size(); i++) {
+  for(size_t i = 0; i < objects.size(); i++){
+    std_msgs::ColorRGBA rgba;
     geometry_msgs::Point point;
 
-    Eigen::VectorXf location = objectLocations[i];
+    ObjectData object = objects[i];
+
+    Eigen::Vector3f location = object.objPointInCartesianSpace;
+    Eigen::Vector4f orientation = object.objectOrientation;
+    Eigen::Vector3i rgbValue = object.rgbValue;
+
     point.x = location[0];
     point.y = location[1];
     point.z = location[2];
-    res.objectLocations.push_back(point);
-  }
 
-  for (size_t i = 0; i < rgbValues.size(); i++) {
-    std_msgs::ColorRGBA rgba;
-
-    Eigen::Vector3i rgbValue = rgbValues[i];
     rgba.r = rgbValue[0];
     rgba.g = rgbValue[1];
     rgba.b = rgbValue[2];
     rgba.a = 0;
+
+    res.objectLocations.push_back(point);
     res.colors.push_back(rgba);
   }
-
-  pcl::PCA<pcl::PointXYZRGB> pca;
-  pca.setInputCloud(completeCloud);
-  Eigen::Matrix3f eigenVectors = pca.getEigenVectors();
-  Eigen::Vector3f eigenValues = pca.getEigenValues();
-  Eigen::Quaternionf orientation(eigenVectors);
-  std::cout << "Quaternion: " << orientation.coeffs().transpose() << std::endl;
 
   res.success = true; 
   return true;
