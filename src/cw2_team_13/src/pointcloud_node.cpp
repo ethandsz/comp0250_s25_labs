@@ -2,6 +2,7 @@
 you can do whatever you want with this template code, including deleting it all
 and starting from scratch. The only requirment is to make sure your entire 
 solution is contained within the cw2_team_<your_team_number> package */
+#include <cmath>
 #include <cstddef>
 #include <cstdlib>
 #include <iostream>
@@ -37,6 +38,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include "std_msgs/ColorRGBA.h"
 #include "visualization_msgs/Marker.h"
 #include "visualization_msgs/MarkerArray.h"
+#include <geometry_msgs/PoseArray.h>
 #include <tf2_ros/transform_listener.h>
 #include <tf_conversions/tf_eigen.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
@@ -47,18 +49,19 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <helper_methods.h>
 #include <pcl/common/pca.h>
 #include <pcl/registration/icp.h>
-
+#include <pcl/common/common.h>
 struct ObjectData{
-  std::vector<Eigen::Vector3f> cartestianLocation;
+  std::vector<Eigen::VectorXf> objCartesianInformation;
   std::vector<Eigen::Vector3i> rgbValue;
 
-  ObjectData(const std::vector<Eigen::Vector3f> &cartestianLocation, std::vector<Eigen::Vector3i> &rgbValue) 
-  : cartestianLocation(cartestianLocation), rgbValue(rgbValue) {}
+  ObjectData(const std::vector<Eigen::VectorXf> &objCartesianInformation, std::vector<Eigen::Vector3i> &rgbValue) 
+  : objCartesianInformation(objCartesianInformation), rgbValue(rgbValue) {}
 };
 
 
 ros::Publisher pointCloudPublisher;
 ros::Publisher objectMarkerPublisher;
+ros::Publisher objectPosePublisher;
 
 ros::ServiceClient set_arm_client_;
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr completeCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
@@ -191,7 +194,7 @@ ObjectData extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
   ec.setInputCloud (cloud);
   ec.extract (cluster_indices);
 
-  std::vector<Eigen::Vector3f> objectPositions;
+  std::vector<Eigen::VectorXf> objectPositions;
   std::vector<Eigen::Vector3i> objectRGBValues;
 
   for(size_t i = 0; i < cluster_indices.size(); i++){
@@ -202,32 +205,54 @@ ObjectData extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
       objectCluster->points.push_back(completeCloud->points[idx]);
       centroid += cloud->points[idx].getVector3fMap();
       rgbValue += cloud->points[idx].getRGBVector3i();
-      ROS_INFO("RGB of [%i, %i, %i]", rgbValue[0], rgbValue[1], rgbValue[2]);
     }
+
     objectCluster->width = objectCluster->points.size();
+    Eigen::Vector4f minPoint, maxPoint;
+    pcl::getMinMax3D(*objectCluster, minPoint, maxPoint);
+    pcl::PCA<pcl::PointXYZRGB> pca;
+    pca.setInputCloud(objectCluster);
+    
+    Eigen::Matrix3f pcaEigenVectors = pca.getEigenVectors(); 
+    Eigen::Vector3f pcaEigenValues = pca.getEigenValues(); 
+
+    float objAngle = atan2(pcaEigenVectors(1,0), pcaEigenVectors(0,0));
+
+    double objRoll = 0.0;
+    double obPitch = 0.0;
+    double objYaw = objAngle;
+    std::vector<double> objQuaternion = HelperMethods::getQuaternionFromEuler(objRoll,obPitch,objYaw);
+
+    ROS_INFO("objAngle: %f", objAngle);
+    std::stringstream ss;
+    ss << "Eigen Vectors:\n" << pcaEigenVectors;
+    ROS_INFO_STREAM(ss.str());
+
+    std::stringstream ss2;
+    ss2 << "Eigen Values: " << pcaEigenValues.transpose();
+    ROS_INFO_STREAM(ss2.str());
+
+
+
+    float objLength = maxPoint[0] - minPoint[1];
+    float objWidth = maxPoint[1] - minPoint[1];
+    float objHeight = maxPoint[2] - minPoint[2];
+
+    ROS_INFO("ESTIMATED WIDTH OF OBJECT: %f", objWidth); 
     objectCluster->height = 1;
     objectCluster->is_dense = true;
     centroid /= static_cast<float>(cluster_indices[i].indices.size());
     rgbValue /= cluster_indices[i].indices.size();
 
-    ROS_INFO("FINAL RGB of [%i, %i, %i]", rgbValue[0], rgbValue[1], rgbValue[2]);
-    objectPositions.push_back(centroid);
+    Eigen::VectorXf curObjCartesianInfo(8);  // 4-element vector
     objectRGBValues.push_back(rgbValue.cast<int>());
 
-    Eigen::Matrix4f transformation = runICP(knownModel, objectCluster);
-    Eigen::Matrix3f rotation = transformation.block<3,3>(0,0);
-    Eigen::Vector3f translation = transformation.block<3,1>(0,3);
-    Eigen::Quaternionf quat(rotation);
-
-    std::vector<double> eulerAngles = HelperMethods::getEulerFromQuaternion(quat);
-
-    ROS_INFO("Estimated Pose: position [%f, %f, %f]", translation[0], translation[1], translation[2]);
-    ROS_INFO("Estimated Pose: orientation (rpy) [%f, %f, %f]",
-             eulerAngles[0], eulerAngles[1],eulerAngles[2]);
+    curObjCartesianInfo << centroid[0], centroid[1], centroid[2], objWidth, objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3];
+    objectPositions.push_back(curObjCartesianInfo);
   }
 
   for(size_t i = 0; i < objectPositions.size(); i++){
-    Eigen::Vector3f position = objectPositions[i];
+    Eigen::VectorXf position = objectPositions[i];
     Eigen::Vector3i rgb = objectRGBValues[i];
     ROS_INFO("Object at [x: %f, y: %f, z: %f] with RGB of [%i, %i, %i]", position[0], position[1], position[2], rgb[0], rgb[1], rgb[2]);
   }
@@ -235,14 +260,30 @@ ObjectData extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
   return objects;
 }
 
-void publishObjectPositions(std::vector<Eigen::Vector3f> objectPositions){
+void publishObjectPositions(std::vector<Eigen::VectorXf> objectPositions){
   visualization_msgs::MarkerArray markerArray;
+  geometry_msgs::PoseArray poseArray;
+
+  poseArray.header.frame_id = "panda_link0";
+  poseArray.header.stamp = ros::Time::now();
 
   for(int i = 0; i < objectPositions.size(); i++){
     visualization_msgs::Marker marker;
-    Eigen::Vector3f positions = objectPositions[i];
+    geometry_msgs::Pose pose;
+
+    Eigen::VectorXf positions = objectPositions[i];
 
     float x = positions[0], y = positions[1], z = positions[2];
+
+
+    pose.position.x = x;
+    pose.position.y = y;
+    pose.position.z = z + 0.05;
+    pose.orientation.x = positions[4];
+    pose.orientation.y = positions[5];
+    pose.orientation.z = positions[6];
+    pose.orientation.w = positions[7];
+    poseArray.poses.push_back(pose);
     
 
     marker.header.frame_id = "panda_link0";
@@ -251,19 +292,31 @@ void publishObjectPositions(std::vector<Eigen::Vector3f> objectPositions){
     marker.ns = "obj_pos";
     marker.id = i;
 
-    marker.type = visualization_msgs::Marker::CUBE;
+    marker.type = visualization_msgs::Marker::LINE_STRIP;
 
     marker.action = visualization_msgs::Marker::ADD;
 
     marker.pose.position.x = x;
     marker.pose.position.y = y;
-    marker.pose.position.z = z + 0.05;
-    marker.pose.orientation.x = 0.0;
-    marker.pose.orientation.y = 0.0;
-    marker.pose.orientation.z = 0.0;
-    marker.pose.orientation.w = 1.0;
+    marker.pose.position.z = z + 0.025;
 
-    marker.scale.x = 0.02;
+    /*Eigen::Quaternionf quat(positions[7], positions[4], positions[5], positions[6]);  // (w, x, y, z)*/
+    /*std::vector<double> eulerAngle = HelperMethods::getEulerFromQuaternion(quat);*/
+    /*eulerAngle[0] = 0.0;*/
+    /*eulerAngle[1] = 0.0;*/
+    /*eulerAngle[2] = eulerAngle[2];*/
+    /*std::vector<double> adjustedYawQuat = HelperMethods::getQuaternionFromEuler(eulerAngle[0], eulerAngle[1], eulerAngle[2]);*/
+
+    /*ROS_INFO("Plotting with yaw set to [%f]", eulerAngle[2]);*/
+    marker.pose.orientation.x = positions[4];
+    marker.pose.orientation.y = positions[5];
+    marker.pose.orientation.z = positions[6];
+    marker.pose.orientation.w = positions[7];
+
+    /*ROS_INFO("Estimated Marker orientation (xyzw) [%f, %f, %f, %f]",*/
+    /*         adjustedYawQuat[0], adjustedYawQuat[1],adjustedYawQuat[2], adjustedYawQuat[3]);*/
+
+    marker.scale.x = positions[3];
     marker.scale.y = 0.02;
     marker.scale.z = 0.02;
 
@@ -275,6 +328,7 @@ void publishObjectPositions(std::vector<Eigen::Vector3f> objectPositions){
   }
 
   objectMarkerPublisher.publish(markerArray);
+  objectPosePublisher.publish(poseArray);
 }
 
 void publishCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
@@ -306,7 +360,7 @@ ObjectData processPointCloud(){
   publishCloud(completeCloud);
 
   ObjectData objects = extractObjectsInScene(completeCloud);
-  publishObjectPositions(objects.cartestianLocation);
+  publishObjectPositions(objects.objCartesianInformation);
   return objects;
 }
 
@@ -396,13 +450,13 @@ bool mapEnvironment(cw2_team_13::map_env::Request &req, cw2_team_13::map_env::Re
   ROS_INFO("Scans completed: %s", scansSuccessful ? "true" : "false");
 
   ObjectData objects = processPointCloud();
-  std::vector<Eigen::Vector3f> objectLocations = objects.cartestianLocation;
+  std::vector<Eigen::VectorXf> objectLocations = objects.objCartesianInformation;
   std::vector<Eigen::Vector3i> rgbValues = objects.rgbValue;
 
   for (size_t i = 0; i < objectLocations.size(); i++) {
     geometry_msgs::Point point;
 
-    Eigen::Vector3f location = objectLocations[i];
+    Eigen::VectorXf location = objectLocations[i];
     point.x = location[0];
     point.y = location[1];
     point.z = location[2];
@@ -442,6 +496,7 @@ int main(int argc, char **argv){
 
   pointCloudPublisher = nh.advertise<sensor_msgs::PointCloud2> ("pclPoints", 1);
   objectMarkerPublisher = nh.advertise<visualization_msgs::MarkerArray> ("objectPositions", 1);
+  objectPosePublisher = nh.advertise<geometry_msgs::PoseArray> ("objectPoses", 1);
 
   ros::ServiceServer mapService = nh.advertiseService("cw2/map_env", &mapEnvironment);
 
