@@ -203,7 +203,6 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     ROS_INFO_STREAM(ss2.str());
 
 
-
     float objLength = maxPoint[0] - minPoint[1];
     float objWidth = maxPoint[1] - minPoint[1];
     float objHeight = maxPoint[2] - minPoint[2];
@@ -214,9 +213,6 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     centroid /= static_cast<float>(cluster_indices[i].indices.size());
     rgbValue /= cluster_indices[i].indices.size();
 
-    Eigen::Vector3f curObjCartesianInfo(8);  // 4-element vector
-
-    curObjCartesianInfo << centroid[0], centroid[1], centroid[2], objWidth, objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3];
     ObjectData object(centroid, objOrientation, objWidth, rgbValue);
     objects.push_back(object);
   }
