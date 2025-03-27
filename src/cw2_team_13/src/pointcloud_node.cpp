@@ -50,6 +50,8 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <pcl/common/pca.h>
 #include <pcl/registration/icp.h>
 #include <pcl/common/common.h>
+#include "cw2_team_13/ObjectInfo.h"
+
 struct ObjectData{
   Eigen::Vector3f objPointInCartesianSpace;
   Eigen::Vector4f objectOrientation;
@@ -410,26 +412,52 @@ bool mapEnvironment(cw2_team_13::map_env::Request &req, cw2_team_13::map_env::Re
   std::vector<ObjectData> objects = processPointCloud();
 
   for(size_t i = 0; i < objects.size(); i++){
-    std_msgs::ColorRGBA rgba;
-    geometry_msgs::Point point;
+    cw2_team_13::ObjectInfo objInfo;
 
     ObjectData object = objects[i];
+
+    //std_msgs::ColorRGBA rgba;
+    //geometry_msgs::Point point;
+
+    //ObjectData object = objects[i];
 
     Eigen::Vector3f location = object.objPointInCartesianSpace;
     Eigen::Vector4f orientation = object.objectOrientation;
     Eigen::Vector3i rgbValue = object.rgbValue;
 
-    point.x = location[0];
-    point.y = location[1];
-    point.z = location[2];
+    // Fill position
+    objInfo.position.x = location[0];
+    objInfo.position.y = location[1];
+    objInfo.position.z = location[2];
+    
+    // Fill orientation
+    objInfo.orientation.x = orientation[0];
+    objInfo.orientation.y = orientation[1];
+    objInfo.orientation.z = orientation[2];
+    objInfo.orientation.w = orientation[3];
+    
+    // Fill width
+    objInfo.width = object.width;
 
-    rgba.r = rgbValue[0];
-    rgba.g = rgbValue[1];
-    rgba.b = rgbValue[2];
-    rgba.a = 0;
+    // Fill color
+    objInfo.color.r = static_cast<float>(rgbValue[0]) / 255.0f;
+    objInfo.color.g = static_cast<float>(rgbValue[1]) / 255.0f;
+    objInfo.color.b = static_cast<float>(rgbValue[2]) / 255.0f;
+    objInfo.color.a = 1.0f;
 
-    res.objectLocations.push_back(point);
-    res.colors.push_back(rgba);
+    res.objects.push_back(objInfo);
+
+    //point.x = location[0];
+    //point.y = location[1];
+    //point.z = location[2];
+
+    //rgba.r = rgbValue[0];
+    //rgba.g = rgbValue[1];
+    //rgba.b = rgbValue[2];
+    //rgba.a = 0;
+
+    //res.objectLocations.push_back(point);
+    //res.colors.push_back(rgba);
   }
 
   res.success = true; 
