@@ -178,45 +178,38 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
       rgbValue += cloud->points[idx].getRGBVector3i();
     }
 
+    centroid /= static_cast<float>(cluster_indices[i].indices.size());
+    rgbValue /= cluster_indices[i].indices.size();
+    Eigen::Vector3f roundedCentroid(
+        std::round(centroid(0)), 
+        std::round(centroid(1)), 
+        std::round(centroid(2))
+    );
+
     objectCluster->width = objectCluster->points.size();
+    objectCluster->height = 1;
+    objectCluster->is_dense = true;
+
     Eigen::Vector4f minPoint, maxPoint;
     pcl::getMinMax3D(*objectCluster, minPoint, maxPoint);
-    pcl::PCA<pcl::PointXYZRGB> pca;
-    pca.setInputCloud(objectCluster);
-    
-    Eigen::Matrix3f pcaEigenVectors = pca.getEigenVectors(); 
-    Eigen::Vector3f pcaEigenValues = pca.getEigenValues(); 
-
-    float objAngle = atan2(pcaEigenVectors(1,0), pcaEigenVectors(0,0));
-
-    double objRoll = 0.0;
-    double obPitch = 0.0;
-    double objYaw = objAngle;
-    std::vector<double> objQuaternion = HelperMethods::getQuaternionFromEuler(objRoll,obPitch,objYaw);
-    Eigen::Vector4f objOrientation(objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3]);
-
-    ROS_INFO("objAngle: %f", objAngle);
-    std::stringstream ss;
-    ss << "Eigen Vectors:\n" << pcaEigenVectors;
-    ROS_INFO_STREAM(ss.str());
-
-    std::stringstream ss2;
-    ss2 << "Eigen Values: " << pcaEigenValues.transpose();
-    ROS_INFO_STREAM(ss2.str());
-
-
     float objLength = maxPoint[0] - minPoint[1];
     float objWidth = maxPoint[1] - minPoint[1];
     float objHeight = maxPoint[2] - minPoint[2];
 
+    double objRoll = 0.0;
+    double obPitch = 0.0;
+    double objYaw = 0.0;
+    std::vector<double> objQuaternion = HelperMethods::getQuaternionFromEuler(objRoll,obPitch,objYaw);
+    Eigen::Vector4f objOrientation(objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3]);
+
     ROS_INFO("ESTIMATED WIDTH OF OBJECT: %f", objWidth); 
-    objectCluster->height = 1;
-    objectCluster->is_dense = true;
-    centroid /= static_cast<float>(cluster_indices[i].indices.size());
-    rgbValue /= cluster_indices[i].indices.size();
+    ROS_INFO("ESTIMATED LENGTH OF OBJECT: %f", objLength); 
 
     ObjectData object(centroid, objOrientation, objWidth, rgbValue);
     objects.push_back(object);
+
+    pcl::io::savePCDFileASCII ("data/object.pcd", *objectCluster);
+
   }
 
   for(size_t i = 0; i < objects.size(); i++){
@@ -370,7 +363,7 @@ bool getScans(){
   std::vector<geometry_msgs::Pose> scanPoses = {leftScan, basePose, rightScan};
 
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
-  sor.setLeafSize(0.01f, 0.01f, 0.01f);
+  sor.setLeafSize(0.0025f, 0.0025f, 0.0025f);
   ROS_INFO("Preparing to scan");
   for(size_t i = 0; i < scanPoses.size(); i++){
     if(callSetArmService(scanPoses[i])){
@@ -480,10 +473,6 @@ int main(int argc, char **argv){
   ros::ServiceServer mapService = nh.advertiseService("cw2/map_env", &mapEnvironment);
 
   std::string pkg_path = ros::package::getPath("cw2_team_13");
-  std::string model_file = pkg_path + "/data/nought_40mm.pcd";
-  if (pcl::io::loadPCDFile<pcl::PointXYZRGB>(model_file, *knownModel) == -1) {
-    ROS_ERROR("Could not load model file.");
-  }
 
   ros::AsyncSpinner spinner(1);
   spinner.start();
