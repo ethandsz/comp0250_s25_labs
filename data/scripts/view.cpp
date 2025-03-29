@@ -19,8 +19,8 @@ void pointPickingCallback(const pcl::visualization::PointPickingEvent& event, vo
 
 void visualizePointCloudWithCorners(float radius)  // Take radius as a parameter
 {
-    /*x: 0.502995, y: -0.185540, z: 0.060319*/
-    float x = 0.502995, y = -0.185540, z = 0.060319, width = 0.230402;
+    /*x: 0.444309, y: 0.265715, z: 0.060348*/
+    float x = 0.444309, y = 0.265715, z = 0.060348, width = 0.126564;
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
     if (pcl::io::loadPCDFile<pcl::PointXYZ>("../object.pcd", *cloud) == -1)
