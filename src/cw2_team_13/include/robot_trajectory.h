@@ -56,6 +56,10 @@ public:
   void
   addGroundPlaneToScene();
 
+  void
+  scanSceneWithConstraint();
+
+
   ros::ServiceServer set_arm_srv_;
   ros::ServiceServer set_gripper_srv_;
 
