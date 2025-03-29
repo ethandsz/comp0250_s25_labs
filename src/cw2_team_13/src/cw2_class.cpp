@@ -36,50 +36,58 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
   cw2_world_spawner::Task1Service::Response &response) 
 {
   /* function which should solve task 1 */
+
   robot_trajectory_.removeObjectsFromScene();
   robot_trajectory_.resetPose();
-  geometry_msgs::PointStamped object_point = request.object_point;
-  geometry_msgs::PointStamped goal_point = request.goal_point;
-  std::string shape_type = request.shape_type;
+  cw2_team_13::map_env srv;
 
-  //Target pose
-  geometry_msgs::PoseStamped target_pose;
+  if(map_env_service_.call(srv)){
+    ROS_INFO("Width of object = %f", srv.response.objects[0].width);
+    geometry_msgs::PointStamped object_point = request.object_point;
+    geometry_msgs::PointStamped goal_point = request.goal_point;
+    std::string shape_type = request.shape_type;
 
-  target_pose.pose.position = object_point.point;
+    //Target pose
+    geometry_msgs::PoseStamped target_pose;
 
-  // Define desired orientation in Euler angles.
-  double roll  = M_PI;      // 180 degrees
-  double pitch = 0.0;
-  double yaw   = -M_PI/4;   // -45 degrees
+    target_pose.pose.position = object_point.point;
 
-  target_pose.pose.position.y = object_point.point.y + 0.08;
-  goal_point.point.y = goal_point.point.y + 0.08;
+    // Define desired orientation in Euler angles.
+    double roll  = M_PI;      // 180 degrees
+    double pitch = 0.0;
+    double yaw   = -M_PI/4;   // -45 degrees
+
+    target_pose.pose.position.y = object_point.point.y + 0.08;
+    goal_point.point.y = goal_point.point.y + 0.08;
 
 
-  std::cout << shape_type << std::endl;
+    std::cout << shape_type << std::endl;
 
-  if (shape_type == "cross"){
+    if (shape_type == "cross"){
 
-    yaw = M_PI/4;
+      yaw = M_PI/4;
 
+    }
+
+
+    //srv.response.objects[0].orientation;
+    
+
+    // Compute quaternion from Euler angles.
+    std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);
+    ROS_INFO("Quaternion: \nx:[%.2f]\ny:[%.2f]\nz:[%.2f]\nw:[%.2f]",
+             quaternionPose[0], quaternionPose[1], quaternionPose[2], quaternionPose[3]);
+
+    // Set the orientation using the computed quaternion.
+    target_pose.pose.orientation.x = quaternionPose[0];
+    target_pose.pose.orientation.y = quaternionPose[1];
+    target_pose.pose.orientation.z = quaternionPose[2];
+    target_pose.pose.orientation.w = quaternionPose[3];
+
+
+
+    robot_trajectory_.performPickAndPlace(target_pose, goal_point);  
   }
-
-  // Compute quaternion from Euler angles.
-  std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);
-  ROS_INFO("Quaternion: \nx:[%.2f]\ny:[%.2f]\nz:[%.2f]\nw:[%.2f]",
-           quaternionPose[0], quaternionPose[1], quaternionPose[2], quaternionPose[3]);
-
-  // Set the orientation using the computed quaternion.
-  target_pose.pose.orientation.x = quaternionPose[0];
-  target_pose.pose.orientation.y = quaternionPose[1];
-  target_pose.pose.orientation.z = quaternionPose[2];
-  target_pose.pose.orientation.w = quaternionPose[3];
-
-
-
-  robot_trajectory_.performPickAndPlace(target_pose, goal_point);  
-
-
   ROS_INFO("The coursework solving callback for task 1 has been triggered");
 
   return true;
