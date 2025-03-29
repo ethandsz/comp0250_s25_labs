@@ -124,7 +124,7 @@ RobotTrajectory::addObjectsToScene(std::vector<Eigen::Vector3f> cartesianLocatio
 void
 RobotTrajectory::scanSceneWithConstraint(){
   std::vector<Eigen::Vector3f> cartesianLocations;
-  Eigen::Vector3f front(0,0,0);
+  Eigen::Vector3f homePosition(0,0,0);
   Eigen::Vector3f dimensions(1,1,0.6);
   cartesianLocations.push_back(homePosition);
   addObjectsToScene(cartesianLocations, dimensions);
