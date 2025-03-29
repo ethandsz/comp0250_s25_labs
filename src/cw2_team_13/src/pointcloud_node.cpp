@@ -2,6 +2,8 @@
 you can do whatever you want with this template code, including deleting it all
 and starting from scratch. The only requirment is to make sure your entire 
 solution is contained within the cw2_team_<your_team_number> package */
+
+#include <pcl/keypoints/harris_3d.h>
 #include <cmath>
 #include <cstddef>
 #include <cstdlib>
@@ -45,6 +47,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <pcl_ros/transforms.h>
 #include <tf2_eigen/tf2_eigen.h>
 #include <pcl/segmentation/extract_clusters.h>
+#include <utility>
 #include <vector>
 #include <helper_methods.h>
 #include <pcl/common/pca.h>
@@ -52,14 +55,43 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <pcl/common/common.h>
 #include "cw2_team_13/ObjectInfo.h"
 
+enum ObjectType{
+  Square,   // 0
+  Cross,    // 1
+  Obstacle, // 2
+  Box       // 3
+};
+
+const char* objectTypeToString(ObjectType type) {
+    switch(type) {
+        case Square:   return "Square";
+        case Cross:    return "Cross";
+        case Obstacle: return "Obstacle";
+        case Box:      return "Box";
+        default:       return "Unknown";
+    }
+}
+
 struct ObjectData{
   Eigen::Vector3f objPointInCartesianSpace;
   Eigen::Vector4f objectOrientation;
   float width;
+  std::pair<float, float> detectedCornerPosition;
   Eigen::Vector3i rgbValue;
+  ObjectType objType;
 
-  ObjectData(Eigen::Vector3f &objPointInCartesianSpace, Eigen::Vector4f &objectOrientation, float &width, Eigen::Vector3i &rgbValue) 
-  : objPointInCartesianSpace(objPointInCartesianSpace), objectOrientation(objectOrientation), width(width), rgbValue(rgbValue) {}
+  ObjectData(Eigen::Vector3f &objPointInCartesianSpace,
+             Eigen::Vector4f &objectOrientation,
+             float &width,
+             std::pair<float, float> &detectedCornerPosition,
+             Eigen::Vector3i &rgbValue,
+             ObjectType objType) 
+  : objPointInCartesianSpace(objPointInCartesianSpace),
+    objectOrientation(objectOrientation),
+    width(width),
+    detectedCornerPosition(detectedCornerPosition),
+    rgbValue(rgbValue),
+    objType(objType) {}
 };
 
 
@@ -106,7 +138,7 @@ void filterCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
   pcl::PassThrough<pcl::PointXYZRGB> pass;
   pass.setInputCloud(cloud);
   pass.setFilterFieldName("z");
-  pass.setFilterLimits(0.0, 0.68);
+  pass.setFilterLimits(0.0, 0.67);
   pass.filter(*cloud);
 }
 
@@ -172,41 +204,174 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     Eigen::Vector3f centroid(0, 0, 0);
     Eigen::Vector3i rgbValue(0,0,0); 
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr objectCluster(new pcl::PointCloud<pcl::PointXYZRGB>);
+    int pointsAddedToCentroid = 0;
     for (int idx : cluster_indices[i].indices){
       objectCluster->points.push_back(completeCloud->points[idx]);
-      centroid += cloud->points[idx].getVector3fMap();
-      rgbValue += cloud->points[idx].getRGBVector3i();
+      auto point = completeCloud -> points[idx];
+      if(point.z > 0.059){
+      pointsAddedToCentroid += 1;
+      centroid += completeCloud->points[idx].getVector3fMap();
+      rgbValue += completeCloud->points[idx].getRGBVector3i();
+      }
     }
 
-    centroid /= static_cast<float>(cluster_indices[i].indices.size());
-    rgbValue /= cluster_indices[i].indices.size();
-    Eigen::Vector3f roundedCentroid(
-        std::round(centroid(0)), 
-        std::round(centroid(1)), 
-        std::round(centroid(2))
-    );
+    ROS_INFO("CENTROID: %f, %f", centroid[0], centroid[1]);
 
+
+    //setting up object cluster point cloud
     objectCluster->width = objectCluster->points.size();
     objectCluster->height = 1;
     objectCluster->is_dense = true;
 
+    centroid /= static_cast<float>(pointsAddedToCentroid);
+    rgbValue /= cluster_indices[i].indices.size();
+    
+    float x = centroid[0], y = centroid[1], z = centroid[2];
+
+    double tolerance = 0.01;
+    bool foundPoint = false;
+    for (size_t i = 0; i < objectCluster->points.size(); i++) {
+        if (std::abs(objectCluster->points[i].x - x) <= tolerance &&
+            std::abs(objectCluster->points[i].y - y) <= tolerance &&
+            std::abs(objectCluster->points[i].z - z) <= tolerance) {
+          foundPoint = true;
+          break;
+        }
+    }
+
+    //Type of object
+    ObjectType objectType;
+    if(foundPoint){
+      objectType = Cross;
+    }
+    else{
+      objectType = Square;
+    }
+
+
+    //calculating the clouds dimensions
     Eigen::Vector4f minPoint, maxPoint;
     pcl::getMinMax3D(*objectCluster, minPoint, maxPoint);
     float objLength = maxPoint[0] - minPoint[1];
     float objWidth = maxPoint[1] - minPoint[1];
     float objHeight = maxPoint[2] - minPoint[2];
 
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr augmentedCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+    *augmentedCloud = *cloud;
+    
+    float max_z = -std::numeric_limits<float>::max();
+    for (size_t i = 0; i < cloud->points.size(); ++i)
+    {
+        if (cloud->points[i].z > max_z)
+            max_z = cloud->points[i].z;
+    }
+    
+    float toleranceZHeight = 0.005f;
+    int numLayers = 5;
+    float layerSpacing = 0.0025f;  // the amount by which z is decreased each layer
+    
+    for (size_t i = 0; i < objectCluster->points.size(); ++i)
+    {
+        const pcl::PointXYZRGB& pt = objectCluster->points[i];
+        if ( (max_z - pt.z) < toleranceZHeight) 
+        {
+            // For each top point, add several layers below it
+            for (int layer = 1; layer <= numLayers; ++layer)
+            {
+                pcl::PointXYZRGB newPt = pt;
+                newPt.z = pt.z - layer * layerSpacing;
+                augmentedCloud->points.push_back(newPt);
+            }
+        }
+    }
+    
+    augmentedCloud->width = augmentedCloud->points.size();
+    augmentedCloud->height = 1;
+
+    //harris corner detection
+    pcl::PointCloud<pcl::PointXYZI>::Ptr corners(new pcl::PointCloud<pcl::PointXYZI>);
+    pcl::HarrisKeypoint3D<pcl::PointXYZRGB, pcl::PointXYZI> harris;
+    harris.setInputCloud(augmentedCloud);
+    harris.setMethod(pcl::HarrisKeypoint3D<pcl::PointXYZRGB, pcl::PointXYZI>::TOMASI);
+    harris.setRadius(0.01);
+    harris.setNonMaxSupression(true);
+    harris.setThreshold(1e-2);
+    harris.compute(*corners);
+
+    //Harris corner detection cloud
+    pcl::PointCloud<pcl::PointXYZRGB>::Ptr cornerCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+    std::pair<float, float> lowPointYAxis;
+    std::pair<float, float> cornerToProjectOn(-100.0f, -100.0f);
+
+    if(objectType == Square){
+      lowPointYAxis.first = x;
+      lowPointYAxis.second = y - objWidth / 2;
+      for (const auto& point : corners->points)
+      {
+          if(point.x > x && point.y < y + 0.01){
+            if(point.x > cornerToProjectOn.first){
+              cornerToProjectOn.first = point.x;
+              cornerToProjectOn.second = point.y;
+            }
+          }
+      }
+    }
+    else if (objectType == Cross){
+      bool leftMostCornerInitialized = false;
+      float tolX = 0.2;
+      float tolY = 0.4;
+
+      float max_x = x + tolX * fabs(objWidth);
+      float min_x = x - tolX * fabs(objWidth);
+
+      float max_y = y + tolY * fabs(objWidth);
+      float min_y = y - tolY * fabs(objWidth);
+
+      float yLineToleranceMin = y - 0.025 * fabs(y);
+      float xLineToleranceMin = x - 0.025 * fabs(x);
+
+      std::cout << "yLineToleranceMin: " << yLineToleranceMin << std::endl;
+
+      std::cout << "y: " << y << std::endl;
+      std::cout << "Max y: " << max_y << std::endl;
+      for (const auto& point : corners->points)
+      {
+          if((point.x < max_x && point.x > min_x) && (point.y < max_y && point.y > min_y)){
+              if((!leftMostCornerInitialized || point.x < lowPointYAxis.first) && (point.y < yLineToleranceMin) && (point.x > xLineToleranceMin)){
+                lowPointYAxis.first = point.x; 
+                lowPointYAxis.second = point.y; 
+                leftMostCornerInitialized = true;
+              }  
+              
+              if(point.x > cornerToProjectOn.first){
+              cornerToProjectOn.first = point.x;
+              cornerToProjectOn.second = point.y;
+            }
+          }
+      }
+    }
+
+    std::cout << "Lowest Point: " << lowPointYAxis.first << " ," << lowPointYAxis.second << std::endl;
+    std::cout << "Corner Point: " << cornerToProjectOn.first << " ," << cornerToProjectOn.second << std::endl;
+    float angleRadians = atan2((cornerToProjectOn.second - lowPointYAxis.second), (cornerToProjectOn.first - lowPointYAxis.first));
+    std::cout << "Angle in radians: " << angleRadians << std::endl;
+    std::cout << "Angle in degrees: " << (angleRadians * 180/M_PI) << std::endl;
+
     double objRoll = 0.0;
     double obPitch = 0.0;
-    double objYaw = 0.0;
+    double objYaw = angleRadians;
     std::vector<double> objQuaternion = HelperMethods::getQuaternionFromEuler(objRoll,obPitch,objYaw);
     Eigen::Vector4f objOrientation(objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3]);
 
     ROS_INFO("ESTIMATED WIDTH OF OBJECT: %f", objWidth); 
     ROS_INFO("ESTIMATED LENGTH OF OBJECT: %f", objLength); 
+    ROS_INFO("ESTIMATED TYPE OF OBJECT: %s", objectTypeToString(objectType));
 
-    ObjectData object(centroid, objOrientation, objWidth, rgbValue);
-    objects.push_back(object);
+
+    if (!(std::isnan(x) || std::isnan(y) || std::isnan(z))){
+      ObjectData object(centroid, objOrientation, objWidth, cornerToProjectOn, rgbValue, objectType);
+      objects.push_back(object);
+    }
 
     pcl::io::savePCDFileASCII ("data/object.pcd", *objectCluster);
 
@@ -216,7 +381,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     ObjectData object = objects[i];
     Eigen::Vector3f position = object.objPointInCartesianSpace;
     Eigen::Vector3i rgb = object.rgbValue;
-    ROS_INFO("Object at [x: %f, y: %f, z: %f] with RGB of [%i, %i, %i]", position[0], position[1], position[2], rgb[0], rgb[1], rgb[2]);
+    ROS_INFO("%s at [x: %f, y: %f, z: %f] with RGB of [%i, %i, %i]", objectTypeToString(object.objType),position[0], position[1], position[2], rgb[0], rgb[1], rgb[2]);
   }
   return objects;
 }
@@ -231,6 +396,7 @@ void publishObjectPositions(std::vector<ObjectData> objects){
   for(size_t i = 0; i < objects.size(); i++){
     ObjectData object = objects[i];
     visualization_msgs::Marker marker;
+    visualization_msgs::Marker cornerMarker;
     geometry_msgs::Pose pose;
 
     Eigen::Vector3f positions = object.objPointInCartesianSpace;
@@ -238,6 +404,8 @@ void publishObjectPositions(std::vector<ObjectData> objects){
     float x = positions[0], y = positions[1], z = positions[2];
 
     Eigen::Vector4f objQuat = object.objectOrientation;
+
+    std::pair<float, float> detectedCornerPosition = object.detectedCornerPosition;
 
 
     pose.position.x = x;
@@ -253,30 +421,59 @@ void publishObjectPositions(std::vector<ObjectData> objects){
     marker.header.frame_id = "panda_link0";
     marker.header.stamp = ros::Time::now();
 
-    marker.ns = "obj_pos";
-    marker.id = i;
+    marker.ns = "obj_half_width";
+    marker.id = i * 2 + 1;
 
-    marker.type = visualization_msgs::Marker::CUBE;
+    marker.type = visualization_msgs::Marker::SPHERE;
 
     marker.action = visualization_msgs::Marker::ADD;
 
     marker.pose.position.x = x;
-    marker.pose.position.y = y;
+    marker.pose.position.y = y - object.width/2;
     marker.pose.position.z = z + 0.025;
 
-    marker.pose.orientation.x = objQuat[0];
-    marker.pose.orientation.y = objQuat[1];
-    marker.pose.orientation.z = objQuat[2];
-    marker.pose.orientation.w = objQuat[3];
+    marker.pose.orientation.x = 0.0;
+    marker.pose.orientation.y = 0.0;
+    marker.pose.orientation.z = 0.0;
+    marker.pose.orientation.w = 0.0;
 
-    marker.scale.x = object.width;
+    marker.scale.x = 0.02;
     marker.scale.y = 0.02;
     marker.scale.z = 0.02;
 
-    marker.color.r = 1.0f;
+    marker.color.r = 0.0f;
     marker.color.g = 0.0f;
     marker.color.b = 1.0f;
     marker.color.a = 1.0f;   
+
+    cornerMarker.header.frame_id = "panda_link0";
+    cornerMarker.header.stamp = ros::Time::now();
+
+    cornerMarker.ns = "obj_cor";
+    cornerMarker.id = i * 2;
+
+    cornerMarker.type = visualization_msgs::Marker::SPHERE;
+
+    cornerMarker.action = visualization_msgs::Marker::ADD;
+
+    cornerMarker.pose.position.x = detectedCornerPosition.first;
+    cornerMarker.pose.position.y = detectedCornerPosition.second;
+    cornerMarker.pose.position.z = z + 0.025;
+
+    cornerMarker.pose.orientation.x = 0.0;
+    cornerMarker.pose.orientation.y = 0.0;
+    cornerMarker.pose.orientation.z = 0.0;
+    cornerMarker.pose.orientation.w = 0.0;
+
+    cornerMarker.scale.x = 0.02;
+    cornerMarker.scale.y = 0.02;
+    cornerMarker.scale.z = 0.02;
+
+    cornerMarker.color.r = 1.0f;
+    cornerMarker.color.g = 0.0f;
+    cornerMarker.color.b = 0.0f;
+    cornerMarker.color.a = 1.0f; 
+    markerArray.markers.push_back(cornerMarker);
     markerArray.markers.push_back(marker);
   }
 
@@ -357,10 +554,49 @@ bool getScans(){
   geometry_msgs::Pose leftScan = basePose;
   leftScan.position.y = -0.3;
 
+
   geometry_msgs::Pose rightScan = basePose;
   rightScan.position.y = 0.3;
+
+  geometry_msgs::Pose leftMiddleScan = leftScan;
+  std::vector<double> quaternionLeftPose = HelperMethods::getQuaternionFromEuler(roll, pitch, 5*M_PI/4);
+  leftMiddleScan.position.x = 0.15;
+  leftMiddleScan.position.y -= 0.1;
+
+  leftMiddleScan.orientation.x = quaternionLeftPose[0];
+  leftMiddleScan.orientation.y = quaternionLeftPose[1];
+  leftMiddleScan.orientation.z = quaternionLeftPose[2];
+  leftMiddleScan.orientation.w = quaternionLeftPose[3];
+
+
+  geometry_msgs::Pose rightMiddleScan = rightScan;
+  std::vector<double> quaternionrightPose = HelperMethods::getQuaternionFromEuler(roll, pitch, M_PI/4);
+  rightMiddleScan.position.x = 0.15;
+  rightMiddleScan.orientation.x = quaternionrightPose[0];
+  rightMiddleScan.orientation.y = quaternionrightPose[1];
+  rightMiddleScan.orientation.z = quaternionrightPose[2];
+  rightMiddleScan.orientation.w = quaternionrightPose[3];
+
+
+  geometry_msgs::Pose rightBackScan = rightMiddleScan;
+  std::vector<double> quaternionrightBackPose = HelperMethods::getQuaternionFromEuler(roll, pitch, 3*M_PI/4);
+  rightBackScan.position.x = -0.3;
+  rightBackScan.orientation.x = quaternionrightBackPose[0];
+  rightBackScan.orientation.y = quaternionrightBackPose[1];
+  rightBackScan.orientation.z = quaternionrightBackPose[2];
+  rightBackScan.orientation.w = quaternionrightBackPose[3];
+
+
+  geometry_msgs::Pose backLeftScan = rightBackScan;
+  backLeftScan.position.y = 0.0;
+
+
+  geometry_msgs::Pose backScan = backLeftScan;
+  backScan.position.y = -0.3;
+
+
   
-  std::vector<geometry_msgs::Pose> scanPoses = {leftScan, basePose, rightScan};
+  std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleScan,leftScan, basePose, rightScan, rightMiddleScan, rightBackScan,backLeftScan, backScan };
 
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
   sor.setLeafSize(0.0025f, 0.0025f, 0.0025f);
@@ -374,8 +610,16 @@ bool getScans(){
 
       Eigen::Affine3d transformEigen = tf2::transformToEigen(transformStamped);
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr transformedCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+      /*pcl::PointCloud<pcl::PointXYZRGB>::Ptr currentCloud(new pcl::PointCloud<pcl::PointXYZRGB>);*/
+      /**currentCloud = *cloud;*/
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr currentCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
-      *currentCloud = *cloud;
+
+      // Iterate through each point in the RGB point cloud and copy the XYZ values
+      for (const auto& point : cloud->points) {
+          pcl::PointXYZRGB newPoint;
+          newPoint = point;
+          currentCloud->points.push_back(newPoint);
+      }
       sor.setInputCloud(currentCloud);
       sor.filter(*currentCloud);
       
