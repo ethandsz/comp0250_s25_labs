@@ -19,8 +19,8 @@ void pointPickingCallback(const pcl::visualization::PointPickingEvent& event, vo
 
 void visualizePointCloudWithCorners(float radius)  // Take radius as a parameter
 {
-    /*x: 0.444309, y: 0.265715, z: 0.060348*/
-    float x = 0.444309, y = 0.265715, z = 0.060348, width = 0.126564;
+    /*[x: 0.497563, y: 0.022230, z: 0.060409]*/
+    float x = 0.497563, y = 0.022230, z = 0.060409, width = 0.121262;
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
     if (pcl::io::loadPCDFile<pcl::PointXYZ>("../object.pcd", *cloud) == -1)
@@ -74,7 +74,7 @@ void visualizePointCloudWithCorners(float radius)  // Take radius as a parameter
     harris.setMethod(pcl::HarrisKeypoint3D<pcl::PointXYZ, pcl::PointXYZI>::TOMASI);
     harris.setRadius(radius);  // Use the radius passed from the command line
     harris.setNonMaxSupression(true);
-    harris.setThreshold(1e-2);
+    harris.setThreshold(0.1);
     harris.compute(*corners);
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cornerCloud(new pcl::PointCloud<pcl::PointXYZ>);
@@ -87,10 +87,18 @@ void visualizePointCloudWithCorners(float radius)  // Take radius as a parameter
     int shapeType = 0;
 
     float yLineToleranceMin = y - 0.025 * fabs(y);
-    float xLineToleranceMin = x - 0.025 * fabs(x);
+
+    float xLineToleranceMin = x - 0.0025 * fabs(x);
+    float xLineToleranceMax = x + 0.0025 * fabs(x);
+
+
+    std::cout << "XLineToleranceMin: " << xLineToleranceMin << std::endl;
+    std::cout << "XLineToleranceMax: " << xLineToleranceMax << std::endl;
+
+    std::cout << "x: " << x << std::endl;
     if(shapeType == 0){
       lowPointYAxis.first = x;
-      lowPointYAxis.second = y - width / 2;
+      lowPointYAxis.second = 100.0f;
       for (const auto& point : corners->points)
       {
 
@@ -102,8 +110,16 @@ void visualizePointCloudWithCorners(float radius)  // Take radius as a parameter
 
               /*cornerCloud->clear();*/
             }
+            
           }
+
       }
+      
+    for(const auto& point: cloud->points){
+            if(point.y < lowPointYAxis.second && point.x > xLineToleranceMin && point.x < xLineToleranceMax){
+            lowPointYAxis.second = point.y;
+        }
+    }
   }
   else{
     float tolX = 0.2;
@@ -150,7 +166,7 @@ void visualizePointCloudWithCorners(float radius)  // Take radius as a parameter
     std::cout << "Angle in degrees: " << (angleRadians * 180 / M_PI) << std::endl;
 
     centroidCloud->push_back(pcl::PointXYZ(x,y, z));
-    cornerToProjectOnCloud->push_back(pcl::PointXYZ(cornerToProjectOn.first, cornerToProjectOn.second, z + 0.025));
+    cornerToProjectOnCloud->push_back(pcl::PointXYZ(cornerToProjectOn.first, cornerToProjectOn.second, z));
     lowestPointCloud->push_back(pcl::PointXYZ(lowPointYAxis.first, lowPointYAxis.second, z));
     pcl::visualization::PCLVisualizer::Ptr viewer(new pcl::visualization::PCLVisualizer("Harris Corner Detection"));
     viewer->setBackgroundColor(0, 0, 0);
