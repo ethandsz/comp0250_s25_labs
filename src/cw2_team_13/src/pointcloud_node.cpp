@@ -295,7 +295,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     harris.setMethod(pcl::HarrisKeypoint3D<pcl::PointXYZRGB, pcl::PointXYZI>::TOMASI);
     harris.setRadius(0.01);
     harris.setNonMaxSupression(true);
-    harris.setThreshold(1e-2);
+    harris.setThreshold(1e-1);
     harris.compute(*corners);
 
     //Harris corner detection cloud
@@ -305,7 +305,10 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
 
     if(objectType == Square){
       lowPointYAxis.first = x;
-      lowPointYAxis.second = y - objWidth / 2;
+      lowPointYAxis.second = 100.0f;
+
+      float xLineToleranceMin = x - 0.0025 * fabs(x);
+      float xLineToleranceMax = x + 0.0025 * fabs(x);
       for (const auto& point : corners->points)
       {
           if(point.x > x && point.y < y + 0.01){
@@ -314,6 +317,11 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
               cornerToProjectOn.second = point.y;
             }
           }
+      }
+      for (const auto& point: objectCluster->points){
+        if(point.y < lowPointYAxis.second && point.x > xLineToleranceMin && point.x < xLineToleranceMax){
+            lowPointYAxis.second = point.y;
+        }
       }
     }
     else if (objectType == Cross){
@@ -596,7 +604,7 @@ bool getScans(){
 
 
   
-  std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleScan,leftScan, basePose, rightScan, rightMiddleScan, rightBackScan,backLeftScan, backScan };
+  std::vector<geometry_msgs::Pose> scanPoses = {leftScan, basePose, rightScan};
 
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
   sor.setLeafSize(0.0025f, 0.0025f, 0.0025f);
