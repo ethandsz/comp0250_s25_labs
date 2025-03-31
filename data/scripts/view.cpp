@@ -5,7 +5,7 @@
 #include <pcl/point_types.h>
 #include <pcl/keypoints/harris_3d.h>
 #include <iostream>
-#include <cstdlib>  // for std::atof to convert string to float
+#include <cstdlib>  
 
 // Callback function to display the picked point's coordinates
 void pointPickingCallback(const pcl::visualization::PointPickingEvent& event, void* viewer_void)
@@ -17,13 +17,19 @@ void pointPickingCallback(const pcl::visualization::PointPickingEvent& event, vo
     std::cout << "Point coordinates: x = " << x << ", y = " << y << ", z = " << z << std::endl;
 }
 
-void visualizePointCloudWithCorners(float radius)  // Take radius as a parameter
+void visualizePointCloudWithCorners(std::string objId) 
 {
-    /*[x: 0.497563, y: 0.022230, z: 0.060409]*/
-    float x = 0.497563, y = 0.022230, z = 0.060409, width = 0.121262;
+    std::string pointCloudFileName = "../object" + objId + ".pcd";
+    std::string pointCloudInfoFileName = "../objectInfo" + objId + ".txt";
+
+    std::ifstream inFile(pointCloudInfoFileName);  
+    float x, y, z, width;
+    int shapeType;
+    inFile >> x >> y >> z >> width >> shapeType;
+    inFile.close();  
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZ>);
-    if (pcl::io::loadPCDFile<pcl::PointXYZ>("../object.pcd", *cloud) == -1)
+    if (pcl::io::loadPCDFile<pcl::PointXYZ>(pointCloudFileName, *cloud) == -1)
     {
         PCL_ERROR("Couldn't read file object-transformed.pcd \n");
         return;
@@ -72,7 +78,7 @@ void visualizePointCloudWithCorners(float radius)  // Take radius as a parameter
 
     harris.setInputCloud(augmentedCloud);
     harris.setMethod(pcl::HarrisKeypoint3D<pcl::PointXYZ, pcl::PointXYZI>::TOMASI);
-    harris.setRadius(radius);  // Use the radius passed from the command line
+    harris.setRadius(0.01);
     harris.setNonMaxSupression(true);
     harris.setThreshold(0.1);
     harris.compute(*corners);
@@ -84,7 +90,6 @@ void visualizePointCloudWithCorners(float radius)  // Take radius as a parameter
 
     std::pair<float, float> cornerToProjectOn(-100.0f, -100.0f);
     std::pair<float, float> lowPointYAxis(100.0f, 100.0f);
-    int shapeType = 0;
 
     float yLineToleranceMin = y - 0.025 * fabs(y);
 
@@ -191,9 +196,6 @@ void visualizePointCloudWithCorners(float radius)  // Take radius as a parameter
     viewer->addPointCloud<pcl::PointXYZ>(cornerToProjectOnCloud, cornerToProjectOnColor, "cornerToProjectOn cloud");
     viewer->setPointCloudRenderingProperties(pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 6, "cornerToProjectOn cloud");
 
-    // Register the point picking callback function
-    viewer->registerPointPickingCallback(pointPickingCallback, nullptr);
-
     while (!viewer->wasStopped())
     {
         viewer->spinOnce(100);
@@ -204,16 +206,14 @@ int main(int argc, char** argv)
 {
     if (argc < 2)
     {
-        std::cerr << "Usage: " << argv[0] << " <radius>" << std::endl;
+        std::cerr << "Usage: " << argv[0] << " <objId>" << std::endl;
         return -1;
     }
 
-    // Parse the radius argument from command line input
-    float radius = std::atof(argv[1]);
-    std::cout << "Using radius: " << radius << std::endl;
+    std::string objId = (argv[1]);
+    std::cout << "Using objId: " << objId << std::endl;
 
-    // Call the function with the parsed radius value
-    visualizePointCloudWithCorners(radius);
+    visualizePointCloudWithCorners(objId);
 
     return 0;
 }

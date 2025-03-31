@@ -8,3 +8,5 @@ logs
 .catkin_tools
 .vscode
 /src/cw2_world_spawner/src/cw2_world_spawner_lib/__pycache__
+*.txt
+*.pcd

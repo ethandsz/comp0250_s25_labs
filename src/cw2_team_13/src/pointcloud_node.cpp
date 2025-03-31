@@ -41,6 +41,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include "visualization_msgs/Marker.h"
 #include "visualization_msgs/MarkerArray.h"
 #include <geometry_msgs/PoseArray.h>
+#include <string>
 #include <tf2_ros/transform_listener.h>
 #include <tf_conversions/tf_eigen.h>
 #include <tf2_geometry_msgs/tf2_geometry_msgs.h>
@@ -54,6 +55,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <pcl/registration/icp.h>
 #include <pcl/common/common.h>
 #include "cw2_team_13/ObjectInfo.h"
+#include <fstream>
 
 enum ObjectType{
   Square,   // 0
@@ -174,8 +176,6 @@ void filterColors(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
 
     if(!(isGreen || isGray)){
       colorFilteredCloud -> points.push_back(cloud -> points[i]);
-    }else{
-      ROS_INFO("Deleting point from cloud");
     }
   }
   cloud->swap(*colorFilteredCloud);
@@ -200,6 +200,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
   ec.setInputCloud (cloud);
   ec.extract (cluster_indices);
 
+  int objId = 0;
   for(size_t i = 0; i < cluster_indices.size(); i++){
     Eigen::Vector3f centroid(0, 0, 0);
     Eigen::Vector3i rgbValue(0,0,0); 
@@ -381,8 +382,17 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
       objects.push_back(object);
     }
 
-    pcl::io::savePCDFileASCII ("data/object.pcd", *objectCluster);
+    std::string pointCloudFileName = "data/object" + std::to_string(objId) + ".pcd";
+    std::string pointCloudInfoFileName = "data/objectInfo" + std::to_string(objId) + ".txt";
+    ROS_INFO("Saving pcd as %s", pointCloudFileName.c_str());
+    pcl::io::savePCDFileASCII(pointCloudFileName, *objectCluster);
 
+
+    ROS_INFO("Saving pcd info as %s", pointCloudInfoFileName.c_str());
+    std::ofstream pointCloudInfoFile(pointCloudInfoFileName);
+    pointCloudInfoFile << x << "\n" << y << "\n" << z << "\n" << objWidth << "\n" << objectType << "\n";  
+    pointCloudInfoFile.close();
+    objId += 1;
   }
 
   for(size_t i = 0; i < objects.size(); i++){
@@ -499,7 +509,7 @@ void publishCloud(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
   pointCloudPublisher.publish(rosCloud);
 }
 
-  std::vector<ObjectData> processPointCloud(){
+std::vector<ObjectData> processPointCloud(){
   sensor_msgs::PointCloud2 rosCloud;
   pcl::PointCloud<pcl::Normal>::Ptr cloud_normals(new pcl::PointCloud<pcl::Normal>);
   filterCloud(completeCloud);
@@ -604,7 +614,9 @@ bool getScans(){
 
 
   
-  std::vector<geometry_msgs::Pose> scanPoses = {leftScan, basePose, rightScan};
+  /*std::vector<geometry_msgs::Pose> scanPoses = {leftScan, basePose, rightScan};*/
+  std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleScan,leftScan, basePose, rightScan, rightMiddleScan, rightBackScan,backLeftScan, backScan };
+
 
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
   sor.setLeafSize(0.0025f, 0.0025f, 0.0025f);
