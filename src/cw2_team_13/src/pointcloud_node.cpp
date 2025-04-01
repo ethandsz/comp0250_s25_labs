@@ -267,8 +267,9 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     float max_z = -std::numeric_limits<float>::max();
     for (size_t i = 0; i < objectCluster->points.size(); ++i)
     {
-        if (objectCluster->points[i].z > max_z)
+        if (objectCluster->points[i].z > max_z){
             max_z = objectCluster->points[i].z;
+        }
     }
     
     float toleranceZHeight = 0.005f;
@@ -280,7 +281,6 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
         const pcl::PointXYZRGB& pt = objectCluster->points[i];
         if ( (max_z - pt.z) < toleranceZHeight) 
         {
-            // For each top point, add several layers below it
             for (int layer = 1; layer <= numLayers; ++layer)
             {
                 pcl::PointXYZRGB newPt = pt;
@@ -321,14 +321,11 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
       {
 
           if(point.x > x && point.y < y + 0.01){
-
             if(point.x > cornerToProjectOn.first || cornerToProjectOn.first == 0.0){
               cornerToProjectOn.first = point.x;
               cornerToProjectOn.second = point.y;
             }
-            
           }
-
       }
       
     for(const auto& point: objectCluster->points){
@@ -351,64 +348,59 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     {
 
       if((point.x < max_x && point.x > min_x) && (point.y < max_y && point.y > min_y)){
-
         if(point.x > x && point.y < y){
             if(point.x > cornerToProjectOn.first || cornerToProjectOn.first == 0.0){
               cornerToProjectOn.first = point.x;
               cornerToProjectOn.second = point.y;
-              /*cornerCloud->clear();*/
             }
-
       }
 
        if(point.x < x && point.y < y){
             if(point.x < lowPointYAxis.first || lowPointYAxis.first == 0.0){
               lowPointYAxis.first = point.x;
               lowPointYAxis.second = point.y;
-              /*cornerCloud->clear();*/
             }
-
+        }
       }
-    }
     }
   }
 
-    float angleRadians = atan2((cornerToProjectOn.second - lowPointYAxis.second), (cornerToProjectOn.first - lowPointYAxis.first));
+  float angleRadians = atan2((cornerToProjectOn.second - lowPointYAxis.second), (cornerToProjectOn.first - lowPointYAxis.first));
 
-    double objRoll = 0.0;
-    double obPitch = 0.0;
-    double objYaw = angleRadians;
-    std::vector<double> objQuaternion = HelperMethods::getQuaternionFromEuler(objRoll,obPitch,objYaw);
-    Eigen::Vector4f objOrientation(objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3]);
+  double objRoll = 0.0;
+  double obPitch = 0.0;
+  double objYaw = angleRadians;
+  std::vector<double> objQuaternion = HelperMethods::getQuaternionFromEuler(objRoll,obPitch,objYaw);
+  Eigen::Vector4f objOrientation(objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3]);
 
-    ROS_INFO("-------------OBJECT SUMMARY-------------");
-    ROS_INFO("ESTIMATED WIDTH OF OBJECT: %f", objWidth); 
-    ROS_INFO("ESTIMATED TYPE OF OBJECT: %s", objectTypeToString(objectType));
+  ROS_INFO("-------------OBJECT SUMMARY-------------");
+  ROS_INFO("ESTIMATED WIDTH OF OBJECT: %f", objWidth); 
+  ROS_INFO("ESTIMATED TYPE OF OBJECT: %s", objectTypeToString(objectType));
 
-    ROS_INFO("LOWEST POINT: %f, %f", lowPointYAxis.first, lowPointYAxis.second);
-    ROS_INFO("CORNER POINT: %f, %f", cornerToProjectOn.first, cornerToProjectOn.second);
-    ROS_INFO("CENTROID: %f, %f", centroid[0], centroid[1]);
-    ROS_INFO("ANGLE IN RADIANS: %f", angleRadians);
-    ROS_INFO("ANGLE IN DEGREES: %f", angleRadians * 180/M_PI);
-    ROS_INFO("MAX Z HEIGHT: %f", maxPoint[2]); 
-
-
-    if (!(std::isnan(x) || std::isnan(y) || std::isnan(z))){
-      ObjectData object(centroid, objOrientation, objWidth, cornerToProjectOn, rgbValue, objectType);
-      objects.push_back(object);
-    }
-
-    std::string pointCloudFileName = "data/object" + std::to_string(objId) + ".pcd";
-    std::string pointCloudInfoFileName = "data/objectInfo" + std::to_string(objId) + ".txt";
-    ROS_INFO("Saving pcd as %s", pointCloudFileName.c_str());
-    pcl::io::savePCDFileASCII(pointCloudFileName, *objectCluster);
+  ROS_INFO("LOWEST POINT: %f, %f", lowPointYAxis.first, lowPointYAxis.second);
+  ROS_INFO("CORNER POINT: %f, %f", cornerToProjectOn.first, cornerToProjectOn.second);
+  ROS_INFO("CENTROID: %f, %f", centroid[0], centroid[1]);
+  ROS_INFO("ANGLE IN RADIANS: %f", angleRadians);
+  ROS_INFO("ANGLE IN DEGREES: %f", angleRadians * 180/M_PI);
+  ROS_INFO("MAX Z HEIGHT: %f", maxPoint[2]); 
 
 
-    ROS_INFO("Saving pcd info as %s", pointCloudInfoFileName.c_str());
-    std::ofstream pointCloudInfoFile(pointCloudInfoFileName);
-    pointCloudInfoFile << x << "\n" << y << "\n" << z << "\n" << objWidth << "\n" << objectType << "\n";  
-    pointCloudInfoFile.close();
-    objId += 1;
+  if (!(std::isnan(x) || std::isnan(y) || std::isnan(z))){
+    ObjectData object(centroid, objOrientation, objWidth, cornerToProjectOn, rgbValue, objectType);
+    objects.push_back(object);
+  }
+
+  std::string pointCloudFileName = "data/object" + std::to_string(objId) + ".pcd";
+  std::string pointCloudInfoFileName = "data/objectInfo" + std::to_string(objId) + ".txt";
+  ROS_INFO("Saving pcd as %s", pointCloudFileName.c_str());
+  pcl::io::savePCDFileASCII(pointCloudFileName, *objectCluster);
+
+
+  ROS_INFO("Saving pcd info as %s", pointCloudInfoFileName.c_str());
+  std::ofstream pointCloudInfoFile(pointCloudInfoFileName);
+  pointCloudInfoFile << x << "\n" << y << "\n" << z << "\n" << objWidth << "\n" << objectType << "\n";  
+  pointCloudInfoFile.close();
+  objId += 1;
   }
 
   for(size_t i = 0; i < objects.size(); i++){
