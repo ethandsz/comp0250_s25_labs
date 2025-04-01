@@ -76,11 +76,14 @@ void visualizePointCloudWithCorners(std::string objId)
     pcl::PointCloud<pcl::PointXYZI>::Ptr corners(new pcl::PointCloud<pcl::PointXYZI>);
     pcl::HarrisKeypoint3D<pcl::PointXYZ, pcl::PointXYZI> harris;
 
+
+    float harrisThreshold = shapeType == 0 ? 0.075 : 0.05;
+
     harris.setInputCloud(augmentedCloud);
     harris.setMethod(pcl::HarrisKeypoint3D<pcl::PointXYZ, pcl::PointXYZI>::TOMASI);
     harris.setRadius(0.01);
     harris.setNonMaxSupression(true);
-    harris.setThreshold(0.1);
+    harris.setThreshold(0.06);
     harris.compute(*corners);
 
     pcl::PointCloud<pcl::PointXYZ>::Ptr cornerCloud(new pcl::PointCloud<pcl::PointXYZ>);
@@ -88,13 +91,12 @@ void visualizePointCloudWithCorners(std::string objId)
     pcl::PointCloud<pcl::PointXYZ>::Ptr lowestPointCloud(new pcl::PointCloud<pcl::PointXYZ>);
     pcl::PointCloud<pcl::PointXYZ>::Ptr cornerToProjectOnCloud(new pcl::PointCloud<pcl::PointXYZ>);
 
-    std::pair<float, float> cornerToProjectOn(-100.0f, -100.0f);
-    std::pair<float, float> lowPointYAxis(100.0f, 100.0f);
+    std::pair<float, float> cornerToProjectOn;
+    std::pair<float, float> lowPointYAxis;
 
-    float yLineToleranceMin = y - 0.025 * fabs(y);
-
-    float xLineToleranceMin = x - 0.0025 * fabs(x);
-    float xLineToleranceMax = x + 0.0025 * fabs(x);
+    float yLineToleranceMin = y - 0.005 * fabs(y);
+    float xLineToleranceMin = x - 0.005 * fabs(x);
+    float xLineToleranceMax = x + 0.005 * fabs(x);
 
 
     std::cout << "XLineToleranceMin: " << xLineToleranceMin << std::endl;
@@ -107,9 +109,13 @@ void visualizePointCloudWithCorners(std::string objId)
       for (const auto& point : corners->points)
       {
 
-              cornerCloud->push_back(pcl::PointXYZ(point.x, point.y, point.z));
+          cornerCloud->push_back(pcl::PointXYZ(point.x, point.y, point.z));
           if(point.x > x && point.y < y + 0.01){
-            if(point.x > cornerToProjectOn.first){
+
+            if(point.x > cornerToProjectOn.first || cornerToProjectOn.first == 0.0){
+
+              
+              std::cout << "X updated: " << point.x << std::endl;
               cornerToProjectOn.first = point.x;
               cornerToProjectOn.second = point.y;
 
@@ -143,23 +149,27 @@ void visualizePointCloudWithCorners(std::string objId)
     for (const auto& point : corners->points)
     {
 
+      cornerCloud->push_back(pcl::PointXYZ(point.x, point.y, point.z));
+      if((point.x < max_x && point.x > min_x) && (point.y < max_y && point.y > min_y)){
 
-        if((point.x < max_x && point.x > min_x) && (point.y < max_y && point.y > min_y)){
-            if((point.x < lowPointYAxis.first) && (point.y < yLineToleranceMin) && (point.x > xLineToleranceMin)){
-              lowPointYAxis.first = point.x; 
-              lowPointYAxis.second = point.y; 
-            }  
-            
+        if(point.x > x && point.y < y){
+            if(point.x > cornerToProjectOn.first || cornerToProjectOn.first == 0.0){
+              cornerToProjectOn.first = point.x;
+              cornerToProjectOn.second = point.y;
+              /*cornerCloud->clear();*/
+            }
 
-            cornerCloud->push_back(pcl::PointXYZ(point.x, point.y, point.z));
-            /*cornerCloud->clear();*/
+      }
 
-            if(point.x > cornerToProjectOn.first){
-            cornerToProjectOn.first = point.x;
-            cornerToProjectOn.second = point.y;
+       if(point.x < x && point.y < y){
+            if(point.x < lowPointYAxis.first || lowPointYAxis.first == 0.0){
+              lowPointYAxis.first = point.x;
+              lowPointYAxis.second = point.y;
+              /*cornerCloud->clear();*/
+            }
 
-          }
-        }
+      }
+    }
     }
   }
 

@@ -56,6 +56,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <pcl/common/common.h>
 #include "cw2_team_13/ObjectInfo.h"
 #include <fstream>
+#include <cstdlib>
 
 enum ObjectType{
   Square,   // 0
@@ -205,18 +206,27 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     Eigen::Vector3f centroid(0, 0, 0);
     Eigen::Vector3i rgbValue(0,0,0); 
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr objectCluster(new pcl::PointCloud<pcl::PointXYZRGB>);
-    int pointsAddedToCentroid = 0;
     for (int idx : cluster_indices[i].indices){
       objectCluster->points.push_back(completeCloud->points[idx]);
       auto point = completeCloud -> points[idx];
-      if(point.z > 0.059){
-      pointsAddedToCentroid += 1;
-      centroid += completeCloud->points[idx].getVector3fMap();
-      rgbValue += completeCloud->points[idx].getRGBVector3i();
-      }
     }
 
-    ROS_INFO("CENTROID: %f, %f", centroid[0], centroid[1]);
+
+    Eigen::Vector4f minPoint, maxPoint;
+    pcl::getMinMax3D(*objectCluster, minPoint, maxPoint);
+    float objLength = maxPoint[0] - minPoint[1];
+    float objWidth = maxPoint[1] - minPoint[1];
+    float objHeight = maxPoint[2] - minPoint[2];
+
+
+    int pointsAddedToCentroid = 0;
+    for (size_t i = 0; i < objectCluster->points.size(); i++) {
+      if(objectCluster -> points[i].z >= maxPoint[2] * 0.9){
+        pointsAddedToCentroid += 1;
+        centroid += Eigen::Vector3f(objectCluster -> points[i].x, objectCluster -> points[i].y, objectCluster -> points[i].z); 
+        rgbValue += Eigen::Vector3i(objectCluster -> points[i].r, objectCluster -> points[i].g, objectCluster -> points[i].b);
+      }
+    }
 
 
     //setting up object cluster point cloud
@@ -250,21 +260,15 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     }
 
 
-    //calculating the clouds dimensions
-    Eigen::Vector4f minPoint, maxPoint;
-    pcl::getMinMax3D(*objectCluster, minPoint, maxPoint);
-    float objLength = maxPoint[0] - minPoint[1];
-    float objWidth = maxPoint[1] - minPoint[1];
-    float objHeight = maxPoint[2] - minPoint[2];
 
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr augmentedCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
-    *augmentedCloud = *cloud;
+    *augmentedCloud = *objectCluster;
     
     float max_z = -std::numeric_limits<float>::max();
-    for (size_t i = 0; i < cloud->points.size(); ++i)
+    for (size_t i = 0; i < objectCluster->points.size(); ++i)
     {
-        if (cloud->points[i].z > max_z)
-            max_z = cloud->points[i].z;
+        if (objectCluster->points[i].z > max_z)
+            max_z = objectCluster->points[i].z;
     }
     
     float toleranceZHeight = 0.005f;
@@ -289,6 +293,8 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     augmentedCloud->width = augmentedCloud->points.size();
     augmentedCloud->height = 1;
 
+    float harrisThreshold = objectType == Square ? 0.075 : 0.05;
+
     //harris corner detection
     pcl::PointCloud<pcl::PointXYZI>::Ptr corners(new pcl::PointCloud<pcl::PointXYZI>);
     pcl::HarrisKeypoint3D<pcl::PointXYZRGB, pcl::PointXYZI> harris;
@@ -296,75 +302,78 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     harris.setMethod(pcl::HarrisKeypoint3D<pcl::PointXYZRGB, pcl::PointXYZI>::TOMASI);
     harris.setRadius(0.01);
     harris.setNonMaxSupression(true);
-    harris.setThreshold(1e-1);
+    harris.setThreshold(harrisThreshold);
     harris.compute(*corners);
 
     //Harris corner detection cloud
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr cornerCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
     std::pair<float, float> lowPointYAxis;
-    std::pair<float, float> cornerToProjectOn(-100.0f, -100.0f);
+    std::pair<float, float> cornerToProjectOn;
 
-    if(objectType == Square){
+
+    float yLineToleranceMin = y - 0.005 * fabs(y);
+    float xLineToleranceMin = x - 0.005 * fabs(x);
+    float xLineToleranceMax = x + 0.005 * fabs(x);
+   if(objectType == Square){
       lowPointYAxis.first = x;
       lowPointYAxis.second = 100.0f;
-
-      float xLineToleranceMin = x - 0.0025 * fabs(x);
-      float xLineToleranceMax = x + 0.0025 * fabs(x);
       for (const auto& point : corners->points)
       {
+
           if(point.x > x && point.y < y + 0.01){
-            if(point.x > cornerToProjectOn.first){
+
+            if(point.x > cornerToProjectOn.first || cornerToProjectOn.first == 0.0){
               cornerToProjectOn.first = point.x;
               cornerToProjectOn.second = point.y;
             }
+            
           }
+
       }
-      for (const auto& point: objectCluster->points){
-        if(point.y < lowPointYAxis.second && point.x > xLineToleranceMin && point.x < xLineToleranceMax){
+      
+    for(const auto& point: objectCluster->points){
+            if(point.y < lowPointYAxis.second && point.x > xLineToleranceMin && point.x < xLineToleranceMax){
             lowPointYAxis.second = point.y;
         }
-      }
     }
-    else if (objectType == Cross){
-      bool leftMostCornerInitialized = false;
-      float tolX = 0.2;
-      float tolY = 0.4;
+  }
+  else{
+    float tolX = 0.2;
+    float tolY = 0.2;
 
-      float max_x = x + tolX * fabs(objWidth);
-      float min_x = x - tolX * fabs(objWidth);
+    float max_x = x + tolX * fabs(objWidth);
+    float min_x = x - tolX * fabs(objWidth);
 
-      float max_y = y + tolY * fabs(objWidth);
-      float min_y = y - tolY * fabs(objWidth);
+    float max_y = y + tolY * fabs(objWidth);
+    float min_y = y - tolY * fabs(objWidth);
 
-      float yLineToleranceMin = y - 0.025 * fabs(y);
-      float xLineToleranceMin = x - 0.025 * fabs(x);
+    for (const auto& point : corners->points)
+    {
 
-      std::cout << "yLineToleranceMin: " << yLineToleranceMin << std::endl;
+      if((point.x < max_x && point.x > min_x) && (point.y < max_y && point.y > min_y)){
 
-      std::cout << "y: " << y << std::endl;
-      std::cout << "Max y: " << max_y << std::endl;
-      for (const auto& point : corners->points)
-      {
-          if((point.x < max_x && point.x > min_x) && (point.y < max_y && point.y > min_y)){
-              if((!leftMostCornerInitialized || point.x < lowPointYAxis.first) && (point.y < yLineToleranceMin) && (point.x > xLineToleranceMin)){
-                lowPointYAxis.first = point.x; 
-                lowPointYAxis.second = point.y; 
-                leftMostCornerInitialized = true;
-              }  
-              
-              if(point.x > cornerToProjectOn.first){
+        if(point.x > x && point.y < y){
+            if(point.x > cornerToProjectOn.first || cornerToProjectOn.first == 0.0){
               cornerToProjectOn.first = point.x;
               cornerToProjectOn.second = point.y;
+              /*cornerCloud->clear();*/
             }
-          }
+
+      }
+
+       if(point.x < x && point.y < y){
+            if(point.x < lowPointYAxis.first || lowPointYAxis.first == 0.0){
+              lowPointYAxis.first = point.x;
+              lowPointYAxis.second = point.y;
+              /*cornerCloud->clear();*/
+            }
+
       }
     }
+    }
+  }
 
-    std::cout << "Lowest Point: " << lowPointYAxis.first << " ," << lowPointYAxis.second << std::endl;
-    std::cout << "Corner Point: " << cornerToProjectOn.first << " ," << cornerToProjectOn.second << std::endl;
     float angleRadians = atan2((cornerToProjectOn.second - lowPointYAxis.second), (cornerToProjectOn.first - lowPointYAxis.first));
-    std::cout << "Angle in radians: " << angleRadians << std::endl;
-    std::cout << "Angle in degrees: " << (angleRadians * 180/M_PI) << std::endl;
 
     double objRoll = 0.0;
     double obPitch = 0.0;
@@ -372,9 +381,16 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     std::vector<double> objQuaternion = HelperMethods::getQuaternionFromEuler(objRoll,obPitch,objYaw);
     Eigen::Vector4f objOrientation(objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3]);
 
+    ROS_INFO("-------------OBJECT SUMMARY-------------");
     ROS_INFO("ESTIMATED WIDTH OF OBJECT: %f", objWidth); 
-    ROS_INFO("ESTIMATED LENGTH OF OBJECT: %f", objLength); 
     ROS_INFO("ESTIMATED TYPE OF OBJECT: %s", objectTypeToString(objectType));
+
+    ROS_INFO("LOWEST POINT: %f, %f", lowPointYAxis.first, lowPointYAxis.second);
+    ROS_INFO("CORNER POINT: %f, %f", cornerToProjectOn.first, cornerToProjectOn.second);
+    ROS_INFO("CENTROID: %f, %f", centroid[0], centroid[1]);
+    ROS_INFO("ANGLE IN RADIANS: %f", angleRadians);
+    ROS_INFO("ANGLE IN DEGREES: %f", angleRadians * 180/M_PI);
+    ROS_INFO("MAX Z HEIGHT: %f", maxPoint[2]); 
 
 
     if (!(std::isnan(x) || std::isnan(y) || std::isnan(z))){
@@ -440,7 +456,7 @@ void publishObjectPositions(std::vector<ObjectData> objects){
     marker.header.stamp = ros::Time::now();
 
     marker.ns = "obj_half_width";
-    marker.id = i * 2 + 1;
+    marker.id = rand() % 1001;
 
     marker.type = visualization_msgs::Marker::SPHERE;
 
