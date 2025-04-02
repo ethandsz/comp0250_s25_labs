@@ -21,7 +21,8 @@ HelperMethods::getQuaternionFromEuler(double roll, double pitch, double yaw){
 }
 
 
-std::vector<double> HelperMethods::getEulerFromQuaternion(Eigen::Quaternionf q) {
+std::vector<double> 
+HelperMethods::getEulerFromQuaternion(Eigen::Quaternionf q) {
   // roll (x-axis rotation)
   double sinr_cosp = 2 * (q.w() * q.x() + q.y() * q.z());
   double cosr_cosp = 1 - 2 * (q.x() * q.x() + q.y() * q.y());

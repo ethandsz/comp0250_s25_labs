@@ -49,13 +49,18 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
 
     //Target pose
     geometry_msgs::PoseStamped target_pose;
+    geometry_msgs::Quaternion objOrientation = srv.response.objects[0].orientation;
+    Eigen::Quaternionf eigenQuat(objOrientation.w, objOrientation.x, objOrientation.y, objOrientation.z); 
+    std::vector<double> targetEuler = HelperMethods::getEulerFromQuaternion(eigenQuat);
+
 
     target_pose.pose.position = object_point.point;
+    ROS_INFO("Objects yaw is %f", targetEuler[2]);
 
     // Define desired orientation in Euler angles.
     double roll  = M_PI;      // 180 degrees
     double pitch = 0.0;
-    double yaw   = -M_PI/4;   // -45 degrees
+    double yaw   = -M_PI/4 + targetEuler[2];   // -45 degrees
 
     target_pose.pose.position.y = object_point.point.y + 0.08;
     goal_point.point.y = goal_point.point.y + 0.08;
@@ -65,7 +70,7 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
 
     if (shape_type == "cross"){
 
-      yaw = M_PI/4;
+      yaw = M_PI/4 + targetEuler[2];
 
     }
 
