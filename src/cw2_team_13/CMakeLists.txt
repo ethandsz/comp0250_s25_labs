@@ -64,6 +64,7 @@ add_service_files(
   FILES
   example.srv
   set_arm.srv
+  set_arm_cart.srv
   set_gripper.srv
   map_env.srv
 )

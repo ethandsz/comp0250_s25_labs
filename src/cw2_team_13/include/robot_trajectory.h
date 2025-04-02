@@ -20,12 +20,14 @@
 #include <tf2_ros/transform_listener.h>
 
 #include <cw2_team_13/set_arm.h>
+#include <cw2_team_13/set_arm_cart.h>
 #include <cw2_team_13/set_gripper.h>
 
 class RobotTrajectory{
 public:
 
   RobotTrajectory(ros::NodeHandle &nh);
+
   bool 
   setArmCallback(cw2_team_13::set_arm::Request &request,
     cw2_team_13::set_arm::Response &response);
@@ -33,6 +35,12 @@ public:
   bool 
   moveArm(geometry_msgs::Pose target_pose);
 
+  bool 
+  setArmCartCallback(cw2_team_13::set_arm_cart::Request &request,
+    cw2_team_13::set_arm_cart::Response &response);
+
+  bool 
+  moveArmCart(geometry_msgs::Pose target_pose);
 
   bool 
   setGripperCallback(cw2_team_13::set_gripper::Request &request,
@@ -61,6 +69,7 @@ public:
 
 
   ros::ServiceServer set_arm_srv_;
+  ros::ServiceServer set_arm_cart_srv_;
   ros::ServiceServer set_gripper_srv_;
 
   moveit::planning_interface::MoveGroupInterface arm_group_{"panda_arm"};

@@ -66,6 +66,10 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
   set_arm_srv_ = nh.advertiseService(service_ns + "/set_arm",
     &RobotTrajectory::setArmCallback, this);
 
+
+  set_arm_cart_srv_ = nh.advertiseService(service_ns + "/set_arm_cart",
+    &RobotTrajectory::setArmCartCallback, this);
+
   set_gripper_srv_ = nh.advertiseService(service_ns + "/set_gripper",
     &RobotTrajectory::setGripperCallback, this);
   geometry_msgs::PoseStamped starting_pose = arm_group_.getPoseTarget();
@@ -148,6 +152,19 @@ RobotTrajectory::resetPose()
   return success;
 }
 
+
+bool 
+RobotTrajectory::setArmCartCallback(cw2_team_13::set_arm_cart::Request &request,
+  cw2_team_13::set_arm_cart::Response &response)
+{
+  // set arm position, true if sucessful 
+  bool success = moveArmCart(request.pose);
+
+  response.success = success;
+
+  return success;
+}
+
 bool 
 RobotTrajectory::setArmCallback(cw2_team_13::set_arm::Request &request,
   cw2_team_13::set_arm::Response &response)
@@ -158,6 +175,39 @@ RobotTrajectory::setArmCallback(cw2_team_13::set_arm::Request &request,
   response.success = success;
 
   return success;
+}
+
+bool 
+RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose)
+{
+  std::vector<geometry_msgs::Pose> waypoints;
+  
+  geometry_msgs::Pose start_pose = arm_group_.getCurrentPose().pose;
+
+  waypoints.push_back(target_pose);
+
+  moveit_msgs::RobotTrajectory trajectory;
+  const double eef_step = 0.01;  
+
+  ROS_INFO("Computing Cartesian Path");
+  double fraction = arm_group_.computeCartesianPath(waypoints, eef_step, 0.0,trajectory);
+
+  ROS_INFO("Cartesian Path computed with success rate: %.2f%%", fraction * 100.0);
+
+  if (fraction < 0.5)
+  {
+    ROS_WARN("Could not compute the full Cartesian path");
+    return false;
+  }
+
+  // Execute the trajectory
+  moveit::planning_interface::MoveGroupInterface::Plan my_plan;
+  my_plan.trajectory_ = trajectory;
+  
+  ROS_INFO("Executing Cartesian Path");
+  arm_group_.execute(my_plan);
+
+  return true;
 }
 
 bool 
