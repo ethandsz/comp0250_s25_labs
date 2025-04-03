@@ -8,6 +8,7 @@
 #include <vector>
 #include <helper_methods.h>
 #include <collision_object.h>
+#include "moveit_msgs/Grasp.h"
 geometry_msgs::Pose basePose;
 
 RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
@@ -340,6 +341,21 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     // Step 5: Raise the cube.
     target_pose.position.z = 0.415;
     moveArm(target_pose);
+
+
+    moveit_msgs::OrientationConstraint ocm;
+    ocm.link_name = "panda_link7";
+    ocm.header.frame_id = "panda_link0";
+    ocm.orientation = target_pose.orientation;
+    ocm.absolute_x_axis_tolerance = 0.1;
+    ocm.absolute_y_axis_tolerance = 0.1;
+    ocm.absolute_z_axis_tolerance = 0.1;
+    ocm.weight = 1.0;
+
+    moveit_msgs::Constraints test_constraints;
+    test_constraints.orientation_constraints.push_back(ocm);
+    arm_group_.setPathConstraints(test_constraints);
+
     
     scanSceneWithConstraint();
     // Step 6: Move to a position above the goal location.
@@ -356,6 +372,7 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
 
     target_pose.position.z = 0.415;
     moveArm(target_pose);
+    arm_group_.clearPathConstraints();
 
     // Step 8: Reset the robot's pose.
     if(shouldResetPose){
