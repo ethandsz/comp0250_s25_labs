@@ -10,3 +10,5 @@ logs
 /src/cw2_world_spawner/src/cw2_world_spawner_lib/__pycache__
 *.txt
 *.pcd
+/data/scripts/CMakeFiles
+data/scripts/pcl_visualizer_demo
