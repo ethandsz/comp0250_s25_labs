@@ -245,6 +245,18 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     //if point is dark red (r < 80) and the width is > 50mm
     //then object type = Box
 
+
+    double tolerance = 0.01;
+    bool foundPoint = false;
+    for (size_t i = 0; i < objectCluster->points.size(); i++) {
+        if (std::abs(objectCluster->points[i].x - x) <= tolerance &&
+            std::abs(objectCluster->points[i].y - y) <= tolerance &&
+            std::abs(objectCluster->points[i].z - z) <= tolerance) {
+          foundPoint = true;
+          break;
+        }
+    }
+
     // Type of object determination
     ObjectType objectType;
     
@@ -266,18 +278,6 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     }
 
 
-
-
-    double tolerance = 0.01;
-    bool foundPoint = false;
-    for (size_t i = 0; i < objectCluster->points.size(); i++) {
-        if (std::abs(objectCluster->points[i].x - x) <= tolerance &&
-            std::abs(objectCluster->points[i].y - y) <= tolerance &&
-            std::abs(objectCluster->points[i].z - z) <= tolerance) {
-          foundPoint = true;
-          break;
-        }
-    }
 
     //Type of object
     //ObjectType objectType;
@@ -404,7 +404,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
   Eigen::Vector4f objOrientation(objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3]);
 
 
-  bool allPointsFound = lowPointYAxis.first != 0.0 && lowPointYAxis.second != 0.0 && cornerToProjectOn.first != 0.0 && cornerToProjectOn.second != 0.0;
+  bool allPointsFound = objectType == Box || lowPointYAxis.first != 0.0 && lowPointYAxis.second != 0.0 && cornerToProjectOn.first != 0.0 && cornerToProjectOn.second != 0.0;
   if (!(std::isnan(x) || std::isnan(y) || std::isnan(z)) && (allPointsFound)){
     ObjectData object(centroid, objOrientation, objWidth, cornerToProjectOn, rgbValue, objectType);
     objects.push_back(object);
