@@ -120,6 +120,45 @@ cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
   cw2_team_13::map_env srv;
 
   if(map_env_service_.call(srv)){
+    std::vector<cw2_team_13::ObjectInfo> objects = srv.response.objects;
+    cw2_team_13::ObjectInfo refShape_1;
+    cw2_team_13::ObjectInfo refShape_2;
+    cw2_team_13::ObjectInfo mysteryShape;
+    
+    for(size_t i = 0; objects.size(); i++){
+      cw2_team_13::ObjectInfo object = objects[i];
+      if(object.position.x < 0 && object.position.y > 0){
+        refShape_2 = object;
+      }
+
+      else if(object.position.x < 0 && object.position.y < 0){
+        refShape_1 = object;
+      }
+
+
+      else if(object.position.x > 0){
+        mysteryShape = object;
+      }
+
+      else{
+        ROS_ERROR("No object match");
+      }
+    }
+
+    if(mysteryShape.objectType == refShape_1.objectType){
+      response.mystery_object_num = 1;
+      ROS_INFO("Mystery Shape matches reference 1");
+    }
+
+    else if(mysteryShape.objectType == refShape_2.objectType){
+      response.mystery_object_num = 2;
+      ROS_INFO("Mystery Shape matches reference 2");
+    }
+
+    else{
+      ROS_ERROR("No reference found for mystery shape");
+    }
+
     return true;
   }
 
