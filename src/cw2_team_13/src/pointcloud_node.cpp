@@ -740,6 +740,8 @@ bool mapEnvironment(cw2_team_13::map_env::Request &req, cw2_team_13::map_env::Re
     objInfo.color.b = static_cast<float>(rgbValue[2]) / 255.0f;
     objInfo.color.a = 1.0f;
 
+    objInfo.objectType = object.objType;
+
     res.objects.push_back(objInfo);
 
     //point.x = location[0];

@@ -7,6 +7,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <robot_trajectory.h> 
 #include <helper_methods.h>
 #include <cw2_team_13/map_env.h>  
+#include <vector>
 ///////////////////////////////////////////////////////////////////////////////
 
 cw2::cw2(ros::NodeHandle nh)
@@ -43,14 +44,23 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
   cw2_team_13::map_env srv;
 
   if(map_env_service_.call(srv)){
-    ROS_INFO("Width of object = %f", srv.response.objects[0].width);
+    
+    std::vector<cw2_team_13::ObjectInfo> objects = srv.response.objects;
+    cw2_team_13::ObjectInfo object;
+    for(size_t i = 0; objects.size(); i ++){
+      if(objects[i].objectType != 2 && objects[i].objectType != 3){
+        object = objects[i];
+        break;
+      }
+    }
+    ROS_INFO("Type of object = %i", object.objectType);
     geometry_msgs::PointStamped object_point = request.object_point;
     geometry_msgs::PointStamped goal_point = request.goal_point;
     std::string shape_type = request.shape_type;
 
     //Target pose
     geometry_msgs::PoseStamped target_pose;
-    geometry_msgs::Quaternion objOrientation = srv.response.objects[0].orientation;
+    geometry_msgs::Quaternion objOrientation = object.orientation;
     Eigen::Quaternionf eigenQuat(objOrientation.w, objOrientation.x, objOrientation.y, objOrientation.z); 
     std::vector<double> targetEuler = HelperMethods::getEulerFromQuaternion(eigenQuat);
 
