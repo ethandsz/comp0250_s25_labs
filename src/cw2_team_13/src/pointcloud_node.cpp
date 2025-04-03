@@ -420,16 +420,19 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     ROS_INFO("MAX Z HEIGHT: %f", maxPoint[2]); 
   }
 
-  std::string pointCloudFileName = "data/object" + std::to_string(objId) + ".pcd";
-  std::string pointCloudInfoFileName = "data/objectInfo" + std::to_string(objId) + ".txt";
-  ROS_INFO("Saving pcd as %s", pointCloudFileName.c_str());
-  pcl::io::savePCDFileASCII(pointCloudFileName, *objectCluster);
+  bool debugPointCloudData = 0;
+  if (debugPointCloudData == 1){
+    std::string pointCloudFileName = "data/object" + std::to_string(objId) + ".pcd";
+    std::string pointCloudInfoFileName = "data/objectInfo" + std::to_string(objId) + ".txt";
+    ROS_INFO("Saving pcd as %s", pointCloudFileName.c_str());
+    pcl::io::savePCDFileASCII(pointCloudFileName, *objectCluster);
 
 
-  ROS_INFO("Saving pcd info as %s", pointCloudInfoFileName.c_str());
-  std::ofstream pointCloudInfoFile(pointCloudInfoFileName);
-  pointCloudInfoFile << x << "\n" << y << "\n" << z << "\n" << objWidth << "\n" << objectType << "\n";  
-  pointCloudInfoFile.close();
+    ROS_INFO("Saving pcd info as %s", pointCloudInfoFileName.c_str());
+    std::ofstream pointCloudInfoFile(pointCloudInfoFileName);
+    pointCloudInfoFile << x << "\n" << y << "\n" << z << "\n" << objWidth << "\n" << objectType << "\n";  
+    pointCloudInfoFile.close();
+  }
   objId += 1;
   }
 
