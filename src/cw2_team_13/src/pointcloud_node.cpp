@@ -253,10 +253,10 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     //Type of object
     ObjectType objectType;
     if(foundPoint){
-      objectType = Nought;
+      objectType = Cross;
     }
     else{
-      objectType = Cross;
+      objectType = Nought;
     }
 
 
