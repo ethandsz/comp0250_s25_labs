@@ -135,6 +135,7 @@ include_directories(
 add_library(${PROJECT_NAME}_cw2_class_lib
   src/robot_trajectory.cpp
   src/helper_methods.cpp
+  src/collision_object.cpp
   src/cw2_class.cpp
 )
 

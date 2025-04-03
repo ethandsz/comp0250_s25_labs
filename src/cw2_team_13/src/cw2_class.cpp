@@ -39,6 +39,7 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
 
   robot_trajectory_.removeObjectsFromScene();
   robot_trajectory_.resetPose();
+  robot_trajectory_.scanSceneWithConstraint();
   cw2_team_13::map_env srv;
 
   if(map_env_service_.call(srv)){

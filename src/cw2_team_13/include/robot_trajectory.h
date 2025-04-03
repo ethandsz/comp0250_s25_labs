@@ -1,6 +1,7 @@
 #ifndef ROBOT_TRAJECTORY_H_ 
 #define ROBOT_TRAJECTORY_H_ 
 
+#include "collision_object.h"
 #include "moveit/planning_scene_interface/planning_scene_interface.h"
 #include <map>
 #include <moveit/planning_scene/planning_scene.h>
@@ -56,7 +57,7 @@ public:
   performPickAndPlace(const geometry_msgs::PoseStamped &object_loc, const geometry_msgs::PointStamped &goal_loc, bool shouldResetPose = true);
 
   void
-  addObjectsToScene(std::vector<Eigen::Vector3f> cartesianLocations, Eigen::Vector3f dimensions);
+  addObjectToScene(CollisionObject collisionObject);
   
   void
   removeObjectsFromScene();

@@ -7,7 +7,7 @@
 #include <string>
 #include <vector>
 #include <helper_methods.h>
-
+#include <collision_object.h>
 geometry_msgs::Pose basePose;
 
 RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
@@ -89,49 +89,69 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
 }
 
 void 
-RobotTrajectory::addObjectsToScene(std::vector<Eigen::Vector3f> cartesianLocations, Eigen::Vector3f dimensions){
-  ROS_INFO("Adding new boxes to planning scene");
-  std::vector<moveit_msgs::CollisionObject> collisionBoxes;
-  for (size_t i = 0; i < cartesianLocations.size(); i++) {
-    Eigen::Vector3f cartesianLocation = cartesianLocations[i];
-    moveit_msgs::CollisionObject collisonBox;
+RobotTrajectory::addObjectToScene(CollisionObject collisionObject){
+  ROS_INFO("Adding new collision boxes to planning scene");
+  moveit_msgs::CollisionObject collisionBox;
 
-    collisonBox.header.frame_id = "panda_link0";
-    
-    collisonBox.pose.position.x = cartesianLocation[0];
-    collisonBox.pose.position.y = cartesianLocation[1];
-    collisonBox.pose.position.z = cartesianLocation[2];
-    
-    collisonBox.id = "Box_" + std::to_string(i); 
+  collisionBox.header.frame_id = "panda_link0";
+  
+  collisionBox.pose = collisionObject.pose;
+  
+  collisionBox.id = "obj_" + std::to_string(collisionObject.id); 
 
 
-    collisonBox.primitives.resize(1);
-    collisonBox.primitives[0].type = collisonBox.primitives[0].BOX;
+  collisionBox.primitives.resize(1);
+  collisionBox.primitives[0].type = collisionBox.primitives[0].BOX;
 
-    ROS_INFO("Dim resize");
-    collisonBox.primitives[0].dimensions.resize(3);
-    collisonBox.primitives[0].dimensions[0] = dimensions[0];
-    collisonBox.primitives[0].dimensions[1] = dimensions[1];
-    collisonBox.primitives[0].dimensions[2] = dimensions[2];
+  ROS_INFO("Dim resize");
+  collisionBox.primitives[0].dimensions.resize(3);
+  collisionBox.primitives[0].dimensions[0] = collisionObject.width;
+  collisionBox.primitives[0].dimensions[1] = collisionObject.length;
+  collisionBox.primitives[0].dimensions[2] = collisionObject.height;
 
-    ROS_INFO("Adding append");
-    collisonBox.operation = collisonBox.APPEND; 
+  ROS_INFO("Adding append");
+  collisionBox.operation = collisionBox.APPEND; 
 
-    ROS_INFO("Adding box to vec");
-    collisionBoxes.push_back(collisonBox);
-    ROS_INFO("Added box with id %s", collisonBox.id.c_str());
-  }
+  ROS_INFO("Added box with id %s", collisionBox.id.c_str());
 
-  planning_scene_interface_.applyCollisionObjects(collisionBoxes);
+  planning_scene_interface_.applyCollisionObject(collisionBox);
 }
 
 void
 RobotTrajectory::scanSceneWithConstraint(){
-  std::vector<Eigen::Vector3f> cartesianLocations;
-  Eigen::Vector3f homePosition(0,0,0);
-  Eigen::Vector3f dimensions(1,1,0.6);
-  cartesianLocations.push_back(homePosition);
-  addObjectsToScene(cartesianLocations, dimensions);
+  CollisionObject collisionObjectLeft;
+  geometry_msgs::Pose collisionObjectLeftPose;
+  collisionObjectLeftPose.position.x = 0.0;
+  collisionObjectLeftPose.position.y = -0.4;
+  collisionObjectLeftPose.position.z = 0.0;
+  collisionObjectLeft.pose = collisionObjectLeftPose;
+  collisionObjectLeft.width = 1.5;
+  collisionObjectLeft.length = 0.3;
+  collisionObjectLeft.height = 0.4;
+  collisionObjectLeft.id = 0;
+  addObjectToScene(collisionObjectLeft);
+
+
+  CollisionObject collisionObjectRight = collisionObjectLeft;
+  geometry_msgs::Pose collisionObjectRightPose;
+  collisionObjectRightPose.position.y = 0.4;
+  collisionObjectRight.pose = collisionObjectRightPose;
+  collisionObjectRight.id = 1;
+  addObjectToScene(collisionObjectRight);
+
+
+  CollisionObject collisionObjectBack = collisionObjectLeft;
+  geometry_msgs::Pose collisionObjectBackPose;
+  collisionObjectBackPose.position.y = 0.0;
+  collisionObjectBackPose.position.x = -0.35;
+  collisionObjectBack.id = 2;
+  std::vector<double> quaternion = HelperMethods::getQuaternionFromEuler(0,0,M_PI/2);
+  collisionObjectBackPose.orientation.x = quaternion[0];
+  collisionObjectBackPose.orientation.y = quaternion[1];
+  collisionObjectBackPose.orientation.z = quaternion[2];
+  collisionObjectBackPose.orientation.w = quaternion[3];
+  collisionObjectBack.pose = collisionObjectBackPose;
+  addObjectToScene(collisionObjectBack);
 }
 
 void
@@ -190,7 +210,7 @@ RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose)
   const double eef_step = 0.01;  
 
   ROS_INFO("Computing Cartesian Path");
-  double fraction = arm_group_.computeCartesianPath(waypoints, eef_step, 0.0,trajectory);
+  double fraction = arm_group_.computeCartesianPath(waypoints, eef_step,trajectory);
 
   ROS_INFO("Cartesian Path computed with success rate: %.2f%%", fraction * 100.0);
 
@@ -298,6 +318,11 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     // target_pose.orientation.z = quaternionPose[2];
     // target_pose.orientation.w = quaternionPose[3];
 
+
+    target_pose.position.z = 0.415;
+    moveArm(target_pose);
+    
+    removeObjectsFromScene();
     // Step 1: Hover above the cube.
     target_pose.position.z = 0.2;
     moveArm(target_pose);
@@ -313,20 +338,30 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     moveGripper(0.0);
 
     // Step 5: Raise the cube.
-    target_pose.position.z = 0.3;
+    target_pose.position.z = 0.415;
     moveArm(target_pose);
-
+    
+    scanSceneWithConstraint();
     // Step 6: Move to a position above the goal location.
     target_pose.position.x = goal_loc.point.x;
     target_pose.position.y = goal_loc.point.y;
     moveArm(target_pose);
 
+    removeObjectsFromScene();
+    target_pose.position.z = 0.2;
+    moveArm(target_pose);
+
     // Step 7: Open the gripper to release the cube.
     moveGripper(0.1);
 
+    target_pose.position.z = 0.415;
+    moveArm(target_pose);
+
     // Step 8: Reset the robot's pose.
     if(shouldResetPose){
+      scanSceneWithConstraint();
       resetPose();
+      removeObjectsFromScene();
     }
 }
 
