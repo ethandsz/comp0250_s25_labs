@@ -239,6 +239,35 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     
     float x = centroid[0], y = centroid[1], z = centroid[2];
 
+
+
+    //////////////////////////////////////////////////////////////////
+    //if point is dark red (r < 80) and the width is > 50mm
+    //then object type = Box
+
+    // Type of object determination
+    ObjectType objectType;
+    
+    // Check if it's a box (dark red with width > 50mm)
+    //bool isDarkRed = (rgbValue[0] < 80) && (rgbValue[0] > rgbValue[1]) && (rgbValue[0] > rgbValue[2]);
+    bool isWideEnough = objWidth > 0.3; 
+    bool isNegative = x < 0;
+
+    
+    if (isWideEnough && isNegative) {
+        objectType = Box;
+    }
+    // Otherwise, we'll determine if it's a Cross or Nought based on the existing logic
+    else if(foundPoint) {
+        objectType = Cross;
+    }
+    else {
+        objectType = Nought;
+    }
+
+
+
+
     double tolerance = 0.01;
     bool foundPoint = false;
     for (size_t i = 0; i < objectCluster->points.size(); i++) {
@@ -251,13 +280,14 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     }
 
     //Type of object
-    ObjectType objectType;
-    if(foundPoint){
-      objectType = Nought;
-    }
-    else{
-      objectType = Cross;
-    }
+    //ObjectType objectType;
+    //if(foundPoint){
+    // objectType = Cross;
+    //}
+    //else{
+    //  objectType = Nought;
+    //}
+
 
 
 
