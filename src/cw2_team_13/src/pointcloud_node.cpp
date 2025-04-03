@@ -323,7 +323,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     augmentedCloud->width = augmentedCloud->points.size();
     augmentedCloud->height = 1;
 
-    float harrisThreshold = objectType == Nought ? 0.075 : 0.05;
+    float harrisThreshold = objectType == Cross ? 0.05 : 0.075; 
 
     //harris corner detection
     pcl::PointCloud<pcl::PointXYZI>::Ptr corners(new pcl::PointCloud<pcl::PointXYZI>);
@@ -403,21 +403,21 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
   std::vector<double> objQuaternion = HelperMethods::getQuaternionFromEuler(objRoll,obPitch,objYaw);
   Eigen::Vector4f objOrientation(objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3]);
 
-  ROS_INFO("-------------OBJECT SUMMARY-------------");
-  ROS_INFO("ESTIMATED WIDTH OF OBJECT: %f", objWidth); 
-  ROS_INFO("ESTIMATED TYPE OF OBJECT: %s", objectTypeToString(objectType));
 
-  ROS_INFO("LOWEST POINT: %f, %f", lowPointYAxis.first, lowPointYAxis.second);
-  ROS_INFO("CORNER POINT: %f, %f", cornerToProjectOn.first, cornerToProjectOn.second);
-  ROS_INFO("CENTROID: %f, %f", centroid[0], centroid[1]);
-  ROS_INFO("ANGLE IN RADIANS: %f", angleRadians);
-  ROS_INFO("ANGLE IN DEGREES: %f", angleRadians * 180/M_PI);
-  ROS_INFO("MAX Z HEIGHT: %f", maxPoint[2]); 
-
-
-  if (!(std::isnan(x) || std::isnan(y) || std::isnan(z))){
+  bool allPointsFound = lowPointYAxis.first != 0.0 && lowPointYAxis.second != 0.0 && cornerToProjectOn.first != 0.0 && cornerToProjectOn.second != 0.0;
+  if (!(std::isnan(x) || std::isnan(y) || std::isnan(z)) && (allPointsFound)){
     ObjectData object(centroid, objOrientation, objWidth, cornerToProjectOn, rgbValue, objectType);
     objects.push_back(object);
+    ROS_INFO("-------------OBJECT SUMMARY-------------");
+    ROS_INFO("ESTIMATED WIDTH OF OBJECT: %f", objWidth); 
+    ROS_INFO("ESTIMATED TYPE OF OBJECT: %s", objectTypeToString(objectType));
+
+    ROS_INFO("LOWEST POINT: %f, %f", lowPointYAxis.first, lowPointYAxis.second);
+    ROS_INFO("CORNER POINT: %f, %f", cornerToProjectOn.first, cornerToProjectOn.second);
+    ROS_INFO("CENTROID: %f, %f", centroid[0], centroid[1]);
+    ROS_INFO("ANGLE IN RADIANS: %f", angleRadians);
+    ROS_INFO("ANGLE IN DEGREES: %f", angleRadians * 180/M_PI);
+    ROS_INFO("MAX Z HEIGHT: %f", maxPoint[2]); 
   }
 
   std::string pointCloudFileName = "data/object" + std::to_string(objId) + ".pcd";
@@ -653,7 +653,7 @@ bool getScans(){
 
   
   /*std::vector<geometry_msgs::Pose> scanPoses = {leftScan, basePose, rightScan};*/
-  std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleScan,leftScan, basePose, rightScan, rightMiddleScan, rightBackScan,backLeftScan, backScan };
+  std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleScan,leftScan, basePose, rightScan, rightMiddleScan, rightBackScan, backLeftScan, backScan };
 
 
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
