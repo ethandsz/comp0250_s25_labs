@@ -59,7 +59,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <cstdlib>
 
 enum ObjectType{
-  Square,   // 0
+  Nought,   // 0
   Cross,    // 1
   Obstacle, // 2
   Box       // 3
@@ -67,7 +67,7 @@ enum ObjectType{
 
 const char* objectTypeToString(ObjectType type) {
     switch(type) {
-        case Square:   return "Square";
+        case Nought:   return "Nought";
         case Cross:    return "Cross";
         case Obstacle: return "Obstacle";
         case Box:      return "Box";
@@ -253,10 +253,12 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     //Type of object
     ObjectType objectType;
     if(foundPoint){
-      objectType = Cross;
+      objectType = Nought;
+      [0]
     }
     else{
-      objectType = Square;
+      objectType = Cross;
+      [1]
     }
 
 
@@ -293,7 +295,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     augmentedCloud->width = augmentedCloud->points.size();
     augmentedCloud->height = 1;
 
-    float harrisThreshold = objectType == Square ? 0.075 : 0.05;
+    float harrisThreshold = objectType == Nought ? 0.075 : 0.05;
 
     //harris corner detection
     pcl::PointCloud<pcl::PointXYZI>::Ptr corners(new pcl::PointCloud<pcl::PointXYZI>);
@@ -314,7 +316,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     float yLineToleranceMin = y - 0.005 * fabs(y);
     float xLineToleranceMin = x - 0.005 * fabs(x);
     float xLineToleranceMax = x + 0.005 * fabs(x);
-   if(objectType == Square){
+   if(objectType == Nought){
       lowPointYAxis.first = x;
       lowPointYAxis.second = 100.0f;
       for (const auto& point : corners->points)
