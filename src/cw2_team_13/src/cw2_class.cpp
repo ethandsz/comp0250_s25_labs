@@ -47,7 +47,7 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
     
     std::vector<cw2_team_13::ObjectInfo> objects = srv.response.objects;
     cw2_team_13::ObjectInfo object;
-    for(size_t i = 0; objects.size(); i ++){
+    for(size_t i = 0; i < objects.size(); i ++){
       if(objects[i].objectType != 2 && objects[i].objectType != 3){
         object = objects[i];
         break;
@@ -125,18 +125,18 @@ cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
     cw2_team_13::ObjectInfo refShape_2;
     cw2_team_13::ObjectInfo mysteryShape;
     
-    for(size_t i = 0; objects.size(); i++){
+    for(size_t i = 0; i < objects.size(); i++){
       cw2_team_13::ObjectInfo object = objects[i];
-      if(object.position.x < 0 && object.position.y > 0){
+      if(object.position.x < 0.0 && object.position.y > 0.0){
         refShape_2 = object;
       }
 
-      else if(object.position.x < 0 && object.position.y < 0){
+      else if(object.position.x < 0.0 && object.position.y < 0.0){
         refShape_1 = object;
       }
 
 
-      else if(object.position.x > 0){
+      else if(object.position.x > 0.0){
         mysteryShape = object;
       }
 

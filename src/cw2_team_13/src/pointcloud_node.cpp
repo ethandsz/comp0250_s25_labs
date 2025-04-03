@@ -405,9 +405,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
 
 
   bool allPointsFound = objectType == Box || lowPointYAxis.first != 0.0 && lowPointYAxis.second != 0.0 && cornerToProjectOn.first != 0.0 && cornerToProjectOn.second != 0.0;
-  if (!(std::isnan(x) || std::isnan(y) || std::isnan(z)) && (allPointsFound)){
-    ObjectData object(centroid, objOrientation, objWidth, cornerToProjectOn, rgbValue, objectType);
-    objects.push_back(object);
+
     ROS_INFO("-------------OBJECT SUMMARY-------------");
     ROS_INFO("ESTIMATED WIDTH OF OBJECT: %f", objWidth); 
     ROS_INFO("ESTIMATED TYPE OF OBJECT: %s", objectTypeToString(objectType));
@@ -418,6 +416,9 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     ROS_INFO("ANGLE IN RADIANS: %f", angleRadians);
     ROS_INFO("ANGLE IN DEGREES: %f", angleRadians * 180/M_PI);
     ROS_INFO("MAX Z HEIGHT: %f", maxPoint[2]); 
+  if (!(std::isnan(x) || std::isnan(y) || std::isnan(z)) && (allPointsFound)){
+    ObjectData object(centroid, objOrientation, objWidth, cornerToProjectOn, rgbValue, objectType);
+    objects.push_back(object);
   }
 
   bool debugPointCloudData = 0;
@@ -628,16 +629,21 @@ bool getScans(){
   leftMiddleScan.orientation.w = quaternionLeftPose[3];
 
 
-  geometry_msgs::Pose rightMiddleScan = rightScan;
+  geometry_msgs::Pose rightMiddleRightScan = rightScan;
   std::vector<double> quaternionrightPose = HelperMethods::getQuaternionFromEuler(roll, pitch, M_PI/4);
-  rightMiddleScan.position.x = 0.15;
-  rightMiddleScan.orientation.x = quaternionrightPose[0];
-  rightMiddleScan.orientation.y = quaternionrightPose[1];
-  rightMiddleScan.orientation.z = quaternionrightPose[2];
-  rightMiddleScan.orientation.w = quaternionrightPose[3];
+  rightMiddleRightScan.position.x = -0.2;
+  rightMiddleRightScan.position.y += 0.1;
+  rightMiddleRightScan.orientation.x = quaternionrightPose[0];
+  rightMiddleRightScan.orientation.y = quaternionrightPose[1];
+  rightMiddleRightScan.orientation.z = quaternionrightPose[2];
+  rightMiddleRightScan.orientation.w = quaternionrightPose[3];
 
 
-  geometry_msgs::Pose rightBackScan = rightMiddleScan;
+  geometry_msgs::Pose rightMiddleLeftScan = rightMiddleRightScan;
+  rightMiddleLeftScan.position.x = 0.2;
+
+
+  geometry_msgs::Pose rightBackScan = rightMiddleLeftScan;
   std::vector<double> quaternionrightBackPose = HelperMethods::getQuaternionFromEuler(roll, pitch, 3*M_PI/4);
   rightBackScan.position.x = -0.3;
   rightBackScan.orientation.x = quaternionrightBackPose[0];
@@ -656,7 +662,7 @@ bool getScans(){
 
   
   /*std::vector<geometry_msgs::Pose> scanPoses = {leftScan, basePose, rightScan};*/
-  std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleScan,leftScan, basePose, rightScan, rightMiddleScan, rightBackScan, backLeftScan, backScan };
+  std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleScan,leftScan, basePose, rightScan, rightMiddleLeftScan, rightMiddleRightScan, rightBackScan, backLeftScan, backScan };
 
 
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
