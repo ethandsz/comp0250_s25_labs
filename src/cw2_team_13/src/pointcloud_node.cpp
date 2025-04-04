@@ -442,7 +442,8 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
 
       if((point.x < max_x && point.x > min_x) && (point.y < max_y && point.y > min_y)){
         if(point.x > x && point.y < y + 0.01){
-            if(point.x > cornerToProjectOn.first || cornerToProjectOn.first == 0.0 || point.y < cornerToProjectOn.second){
+
+          if((cornerToProjectOn.first == 0.0) || point.x > cornerToProjectOn.first - 0.02 && point.y < cornerToProjectOn.second){
               cornerToProjectOn.first = point.x;
               cornerToProjectOn.second = point.y;
             }
@@ -671,7 +672,7 @@ bool callSetArmService(const geometry_msgs::Pose &target_pose) {
   }
 }
 
-bool getScans(){
+bool getScans(int taskId){
   tf2_ros::Buffer tfBuffer;
   tf2_ros::TransformListener transformListner(tfBuffer);
 
@@ -737,11 +738,15 @@ bool getScans(){
   geometry_msgs::Pose backScan = backLeftScan;
   backScan.position.y = -0.3;
 
+  std::vector<geometry_msgs::Pose> scanPoses;
 
-  
+  if(taskId == 1){
+    scanPoses = {leftMiddleLeftScan, leftScan, basePose, rightScan, rightMiddleLeftScan};
+  }
+  else {
+  scanPoses = {leftMiddleRightScan, leftMiddleLeftScan, leftScan, basePose, rightScan, rightMiddleLeftScan, rightMiddleRightScan, rightBackScan, backLeftScan, backScan };
+  }
   //std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleLeftScan, basePose, rightScan, rightMiddleLeftScan};
-  std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleRightScan, leftMiddleLeftScan, leftScan, basePose, rightScan, rightMiddleLeftScan, rightMiddleRightScan, rightBackScan, backLeftScan, backScan };
-
 
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
   sor.setLeafSize(0.0025f, 0.0025f, 0.0025f);
@@ -788,7 +793,7 @@ bool mapEnvironment(cw2_team_13::map_env::Request &req, cw2_team_13::map_env::Re
   completeCloud->clear();
   cloud->clear();
   ROS_INFO("Cleared Markers");
-  bool scansSuccessful = getScans();
+  bool scansSuccessful = getScans(req.taskId);
   ROS_INFO("Scans completed: %s", scansSuccessful ? "true" : "false");
 
   std::vector<ObjectData> objects = processPointCloud();

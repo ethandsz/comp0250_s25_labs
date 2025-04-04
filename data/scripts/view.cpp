@@ -157,7 +157,6 @@ void visualizePointCloudWithCorners(std::string objId)
 
       if((point.x < max_x && point.x > min_x) && (point.y < max_y && point.y > min_y)){
 
-      cornerCloud->push_back(pcl::PointXYZ(point.x, point.y, point.z));
       newCentroid[0] += point.x;
       newCentroid[1] += point.y;
       pointsIterated += 1;
@@ -174,7 +173,9 @@ void visualizePointCloudWithCorners(std::string objId)
 
        if(point.x > x && point.y < y + 0.01){
 
-            if(point.x > cornerToProjectOn.first || cornerToProjectOn.first == 0.0 || point.y < cornerToProjectOn.second){
+            if((cornerToProjectOn.first == 0.0) || point.x > cornerToProjectOn.first - 0.02 && point.y < cornerToProjectOn.second){
+
+      cornerCloud->push_back(pcl::PointXYZ(point.x, point.y, point.z));
               cornerToProjectOn.first = point.x;
               cornerToProjectOn.second = point.y;
             }

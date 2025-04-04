@@ -100,7 +100,7 @@ RobotTrajectory::addObjectToScene(CollisionObject collisionObject){
   
   collisionBox.pose = collisionObject.pose;
   
-  collisionBox.id = "obj_" + std::to_string(collisionObject.id); 
+  collisionBox.id = std::to_string(collisionObject.id); 
 
 
   collisionBox.primitives.resize(1);
@@ -121,6 +121,34 @@ RobotTrajectory::addObjectToScene(CollisionObject collisionObject){
 }
 
 void
+RobotTrajectory::addObstacleToScene(CollisionObject collisionObject){
+  //check to make sure our id is greater than 50, obejcts with ids >= 50 are classified as obstacles for us 
+  if (collisionObject.id >= 50){
+    moveit_msgs::CollisionObject collisionObstacle;
+
+    collisionObstacle.header.frame_id = "panda_link0";
+    
+    collisionObstacle.pose = collisionObject.pose;
+    
+    collisionObstacle.id = std::to_string(collisionObject.id); 
+
+
+    collisionObstacle.primitives.resize(1);
+    collisionObstacle.primitives[0].type = collisionObstacle.primitives[0].BOX;
+
+    collisionObstacle.primitives[0].dimensions.resize(3);
+    collisionObstacle.primitives[0].dimensions[0] = collisionObject.width;
+    collisionObstacle.primitives[0].dimensions[1] = collisionObject.length;
+    collisionObstacle.primitives[0].dimensions[2] = collisionObject.height;
+
+    collisionObstacle.operation = collisionObstacle.APPEND; 
+
+    ROS_INFO("Added obstacle with id %s", collisionObstacle.id.c_str());
+
+    planning_scene_interface_.applyCollisionObject(collisionObstacle);
+  }
+}
+void
 RobotTrajectory::scanSceneWithConstraint(){
   CollisionObject collisionObjectLeft;
   geometry_msgs::Pose collisionObjectLeftPose;
@@ -128,9 +156,9 @@ RobotTrajectory::scanSceneWithConstraint(){
   collisionObjectLeftPose.position.y = -0.4;
   collisionObjectLeftPose.position.z = 0.0;
   collisionObjectLeft.pose = collisionObjectLeftPose;
-  collisionObjectLeft.width = 1.5;
+  collisionObjectLeft.width = 1.0;
   collisionObjectLeft.length = 0.3;
-  collisionObjectLeft.height = 0.25;
+  collisionObjectLeft.height = 0.15;
   collisionObjectLeft.id = 0;
   addObjectToScene(collisionObjectLeft);
 
@@ -158,13 +186,20 @@ RobotTrajectory::scanSceneWithConstraint(){
 }
 
 void
-RobotTrajectory::removeObjectsFromScene(){
+RobotTrajectory::removeObjectsFromScene(bool keepObstacles){
   std::map<std::string,moveit_msgs::CollisionObject> currentCollisionObjects = planning_scene_interface_.getObjects();
   std::vector<std::string> objectIds;
 
-  for(auto i : currentCollisionObjects){ 
-        objectIds.push_back( i.first);
+  for(auto i : currentCollisionObjects){
+    if(keepObstacles && std::stoi(i.first) < 50){
+        ROS_INFO("Removing ID: %s", i.first.c_str());
+        objectIds.push_back(i.first);
     }
+    else if (!keepObstacles){
+        ROS_INFO("Removing ID: %s", i.first.c_str());
+        objectIds.push_back(i.first);
+    }
+  }
   planning_scene_interface_.removeCollisionObjects(objectIds);
 }
 
@@ -349,10 +384,11 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     ocm.link_name = "panda_link7";
     ocm.header.frame_id = "panda_link0";
     ocm.orientation = target_pose.orientation;
-    ocm.absolute_x_axis_tolerance = 0.2;
-    ocm.absolute_y_axis_tolerance = 0.2;
-    ocm.absolute_z_axis_tolerance = 0.9;
-    ocm.weight = 0.8;
+
+    ocm.absolute_x_axis_tolerance = 0.5;
+    ocm.absolute_y_axis_tolerance = 0.5;
+    ocm.absolute_z_axis_tolerance = 3.14;
+    ocm.weight = 0.5;
 
     moveit_msgs::Constraints test_constraints;
     test_constraints.orientation_constraints.push_back(ocm);
@@ -365,7 +401,6 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     target_pose.position.y = goal_loc.point.y;
     moveArm(target_pose);
 
-    removeObjectsFromScene();
     target_pose.position.z = 0.2;
     moveArm(target_pose);
 
@@ -378,10 +413,11 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
 
     // Step 8: Reset the robot's pose.
     if(shouldResetPose){
-      scanSceneWithConstraint();
       resetPose();
-      removeObjectsFromScene();
     }
+
+    bool keepObstacles = false;
+    removeObjectsFromScene(keepObstacles);
 }
 
 void

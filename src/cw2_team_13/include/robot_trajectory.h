@@ -58,9 +58,12 @@ public:
 
   void
   addObjectToScene(CollisionObject collisionObject);
+
+  void
+  addObstacleToScene(CollisionObject collisionObject);
   
   void
-  removeObjectsFromScene();
+  removeObjectsFromScene(bool keepObstacles = true);
 
   void
   addGroundPlaneToScene();
