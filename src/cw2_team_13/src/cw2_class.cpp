@@ -182,18 +182,162 @@ cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
 
 ///////////////////////////////////////////////////////////////////////////////
 
+//bool
+//cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
+//  cw2_world_spawner::Task3Service::Response &response)
+//{
+//  /* function which should solve task 3 */
+
+//  cw2_team_13::map_env srv;
+
+//  if(map_env_service_.call(srv)){
+//    std::vector<cw2_team_13::ObjectInfo> objects = srv.response.objects;
+
+    //iterate through objects (vector) if this matches the object type - add one to the counter 
+
+    // print the most common 
+
+
+//    return true;
+// }
+
+
+
+ 
+  //ROS_INFO("The coursework solving callback for task 3 has been triggered");
+
+  //return true;
+
+//}
+
+
 bool
 cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
   cw2_world_spawner::Task3Service::Response &response)
 {
-  /* function which should solve task 3 */
 
+  robot_trajectory_.removeObjectsFromScene();
+  robot_trajectory_.resetPose();
+  robot_trajectory_.scanSceneWithConstraint();
   cw2_team_13::map_env srv;
 
   if(map_env_service_.call(srv)){
+    std::vector<cw2_team_13::ObjectInfo> objects = srv.response.objects;
+
+    // Count variables
+    int totalShapes = 0;
+    int noughtCount = 0;
+    int crossCount = 0;
+    std::vector<cw2_team_13::ObjectInfo> noughts;
+    std::vector<cw2_team_13::ObjectInfo> crosses;
+    
+    // Iterate through objects and count by type
+    for(size_t i = 0; i < objects.size(); i++) {
+      // Skip obstacles (type 2) and boxes (type 3)
+      if(objects[i].objectType != 2 && objects[i].objectType != 3) {
+        totalShapes++;
+        
+        // Count noughts (type 0)
+        if(objects[i].objectType == 0) {
+          noughtCount++;
+          noughts.push_back(objects[i]);
+        }
+        // Count crosses (type 1)
+        else if(objects[i].objectType == 1) {
+          crossCount++;
+          crosses.push_back(objects[i]);
+        }
+      }
+    }
+    
+    // Determine which shape is more common
+    int mostCommonCount;
+    std::vector<cw2_team_13::ObjectInfo> mostCommonShapes;
+    
+    if(noughtCount > crossCount) {
+      mostCommonCount = noughtCount;
+      mostCommonShapes = noughts;
+      ROS_INFO("Noughts are more common with %d objects", noughtCount);
+    } 
+    else if(crossCount > noughtCount) {
+      mostCommonCount = crossCount;
+      mostCommonShapes = crosses;
+      ROS_INFO("Crosses are more common with %d objects", crossCount);
+    }
+    else {
+      // If equal, we can choose either one per coursework instructions
+      mostCommonCount = noughtCount; // or crossCount, they're equal
+      mostCommonShapes = noughts; // or crosses, doesn't matter
+      ROS_INFO("Both shapes are equally common with %d objects each", noughtCount);
+    }
+
+    
+    
+    // Pick and place the most common shape
+    if(mostCommonShapes.size() > 0) {
+      // Find the goal (basket)
+      cw2_team_13::ObjectInfo basket;
+      for(size_t i = 0; i < objects.size(); i++) {
+        if(objects[i].objectType == 3) { // Box type
+          basket = objects[i];
+          break;
+        }
+      }
+      
+      // Select one of the most common shapes to pick
+      cw2_team_13::ObjectInfo objectToPick = mostCommonShapes[0];
+      
+      // Create point stamped for goal
+      geometry_msgs::PointStamped goal_point;
+      goal_point.point = basket.position;
+      
+      // Set up target pose for picking
+      geometry_msgs::PoseStamped target_pose;
+      geometry_msgs::Quaternion objOrientation = objectToPick.orientation;
+      Eigen::Quaternionf eigenQuat(objOrientation.w, objOrientation.x, objOrientation.y, objOrientation.z);
+      std::vector<double> targetEuler = HelperMethods::getEulerFromQuaternion(eigenQuat);
+      
+      target_pose.pose.position = objectToPick.position;
+      
+      // Define desired orientation for grasping
+      double roll = M_PI;
+      double pitch = 0.0;
+      double yaw = -M_PI/4 + targetEuler[2];
+      
+      if(objectToPick.objectType == 1) { // Cross
+        yaw = M_PI/4 + targetEuler[2];
+      }
+      
+      // Calculate pickup position with offset (similar to task 1)
+      std::pair<float, float> objectPickupPoint(objectToPick.position.x, objectToPick.position.y);
+      objectPickupPoint.second += (objectToPick.width * 0.275);
+      
+      float x = objectToPick.position.x;
+      float y = objectToPick.position.y;
+      target_pose.pose.position.x = -((objectPickupPoint.second - y) * std::sin(targetEuler[2])) + x;
+      target_pose.pose.position.y = ((objectPickupPoint.second - y) * std::cos(targetEuler[2])) + y;
+      
+      // Calculate quaternion for orientation
+      std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);
+      target_pose.pose.orientation.x = quaternionPose[0];
+      target_pose.pose.orientation.y = quaternionPose[1];
+      target_pose.pose.orientation.z = quaternionPose[2];
+      target_pose.pose.orientation.w = quaternionPose[3];
+      
+      // Execute pick and place
+      robot_trajectory_.performPickAndPlace(target_pose, goal_point);
+    }
+    
+    // Set response values
+    response.total_num_shapes = totalShapes;
+    response.num_most_common_shape = mostCommonCount;
+    
+    ROS_INFO("Task 3 - Total shapes: %d, Most common shape count: %d", 
+             totalShapes, mostCommonCount);
+    
     return true;
   }
+  
   ROS_INFO("The coursework solving callback for task 3 has been triggered");
-
   return true;
 }
