@@ -38,8 +38,6 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
   cw2_world_spawner::Task1Service::Response &response) 
 {
   /* function which should solve task 1 */
-
-  robot_trajectory_.removeObjectsFromScene();
   robot_trajectory_.removeObjectsFromScene(true);
   robot_trajectory_.resetPose();
   robot_trajectory_.scanSceneWithConstraint();
@@ -239,15 +237,17 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
     for(size_t i = 0; i < objects.size(); i++) {
       // Skip obstacles (type 2) and boxes (type 3)
       if(objects[i].objectType != 3) {
-        totalShapes++;
         
         // Count noughts (type 0)
         if(objects[i].objectType == 0) {
+          totalShapes++;
           noughtCount++;
           noughts.push_back(objects[i]);
         }
         // Count crosses (type 1)
         else if(objects[i].objectType == 1) {
+
+          totalShapes++;
           crossCount++;
           crosses.push_back(objects[i]);
         }
@@ -262,20 +262,19 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
 
   // Add obstacles as collision objects
   if (!obstacles.empty()) {
-    ROS_INFO("Adding %ld obstacles as collision objects", obstacles.size());
-    
     for (size_t i = 0; i < obstacles.size(); i++) {
       CollisionObject obstacle;
       
       // Set position from detected obstacle
       obstacle.pose.position = obstacles[i].position;
+      obstacle.pose.position.z = 0.1;
       obstacle.pose.orientation = obstacles[i].orientation;
       
       // Set dimensions - assuming obstacle is roughly cubic
       // Height is usually accurate in pointcloud, width needs approximation
       obstacle.width = obstacles[i].width;  // 5cm width
-      obstacle.length = 0.05; // 5cm length
-      obstacle.height = 0.15; // 15cm height
+      obstacle.length = obstacles[i].width; // 5cm length
+      obstacle.height = obstacles[i].height; // 15cm height
       
       // Assign ID starting from 50
       obstacle.id = 50 + i;
@@ -287,7 +286,7 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
                 obstacle.pose.position.z);
       
       // Add the obstacle to the planning scene
-      robot_trajectory_.addObjectToScene(obstacle);
+      robot_trajectory_.addObstacleToScene(obstacle);
     }
     
     // Give a moment for the planning scene to update

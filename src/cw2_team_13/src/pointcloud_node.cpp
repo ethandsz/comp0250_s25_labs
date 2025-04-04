@@ -87,6 +87,7 @@ struct ObjectData{
   ObjectData(Eigen::Vector3f &objPointInCartesianSpace,
              Eigen::Vector4f &objectOrientation,
              float &width,
+             float &height,
              std::pair<float, float> &detectedCornerPosition,
              Eigen::Vector3i &rgbValue,
              ObjectType objType) 
@@ -484,7 +485,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     ROS_INFO("MAX Z HEIGHT: %f", maxPoint[2]); 
 
   if ((objectType == Box || objectType == Obstacle) || !(std::isnan(x) || std::isnan(y) || std::isnan(z)) && (allPointsFound)){
-    ObjectData object(centroid, objOrientation, objWidth, objHeight, cornerToProjectOn, rgbValue, objectType);
+    ObjectData object(centroid, objOrientation, objWidth, maxPoint[2], cornerToProjectOn, rgbValue, objectType);
     objects.push_back(object);
   }
 
@@ -829,7 +830,7 @@ bool mapEnvironment(cw2_team_13::map_env::Request &req, cw2_team_13::map_env::Re
     objInfo.width = object.width;
 
     // Fill height 
-    objInfo.height = objHeight;  
+    objInfo.height = object.height;  
 
     // Fill color
     objInfo.color.r = static_cast<float>(rgbValue[0]) / 255.0f;

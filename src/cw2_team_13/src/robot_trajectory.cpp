@@ -158,7 +158,7 @@ RobotTrajectory::scanSceneWithConstraint(){
   collisionObjectLeft.pose = collisionObjectLeftPose;
   collisionObjectLeft.width = 1.0;
   collisionObjectLeft.length = 0.3;
-  collisionObjectLeft.height = 0.15;
+  collisionObjectLeft.height = 0.3;
   collisionObjectLeft.id = 0;
   addObjectToScene(collisionObjectLeft);
 
@@ -400,6 +400,8 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     target_pose.position.x = goal_loc.point.x;
     target_pose.position.y = goal_loc.point.y;
     moveArm(target_pose);
+
+    removeObjectsFromScene();
 
     target_pose.position.z = 0.2;
     moveArm(target_pose);
