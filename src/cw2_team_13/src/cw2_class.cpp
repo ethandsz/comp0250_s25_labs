@@ -3,6 +3,7 @@ you can do whatever you want with this template code, including deleting it all
 and starting from scratch. The only requirment is to make sure your entire 
 solution is contained within the cw2_team_<your_team_number> package */
 
+#include <cmath>
 #include <cw2_class.h> // change to your team name here!
 #include <robot_trajectory.h> 
 #include <helper_methods.h>
@@ -71,10 +72,22 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
     // Define desired orientation in Euler angles.
     double roll  = M_PI;      // 180 degrees
     double pitch = 0.0;
-    double yaw   = -M_PI/4 + targetEuler[2];   // -45 degrees
+    double yaw = -M_PI/4 + targetEuler[2];   // -45 degrees
 
-    target_pose.pose.position.y = object_point.point.y + 0.08;
-    goal_point.point.y = goal_point.point.y + 0.08;
+    
+    std::pair<float, float> objectPickupPoint(object_point.point.x, object_point.point.y);
+    /*objectPickupPoint.second += 0.08;*/
+    ROS_INFO("YAW OF OBJECT IN CW2 Class = %f ", targetEuler[2]);
+    objectPickupPoint.second += (object.width * 0.275);
+
+
+    float x = object_point.point.x; 
+    float y = object_point.point.y;
+    target_pose.pose.position.x = -((objectPickupPoint.second - y)  * std::sin(targetEuler[2])) + x;
+    target_pose.pose.position.y = ((objectPickupPoint.second - y)  * std::cos(targetEuler[2])) + y;
+
+    ROS_INFO("Estimated pickup location = %f, %f", target_pose.pose.position.x, target_pose.pose.position.y);
+    goal_point.point.y = goal_point.point.y + 0.075;
 
 
     std::cout << shape_type << std::endl;

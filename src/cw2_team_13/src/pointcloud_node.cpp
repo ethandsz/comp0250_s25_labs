@@ -378,14 +378,14 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     {
 
       if((point.x < max_x && point.x > min_x) && (point.y < max_y && point.y > min_y)){
-        if(point.x > x && point.y < y){
+        if(point.x > x && point.y < y + 0.01){
             if(point.x > cornerToProjectOn.first || cornerToProjectOn.first == 0.0){
               cornerToProjectOn.first = point.x;
               cornerToProjectOn.second = point.y;
             }
       }
 
-       if(point.x < x && point.y < y){
+       if(lowPointYAxis.first == 0.0 || (point.x < x && point.y < lowPointYAxis.second)){
             if(point.x < lowPointYAxis.first || lowPointYAxis.first == 0.0){
               lowPointYAxis.first = point.x;
               lowPointYAxis.second = point.y;
@@ -421,7 +421,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     objects.push_back(object);
   }
 
-  bool debugPointCloudData = 0;
+  bool debugPointCloudData = 1;
   if (debugPointCloudData == 1){
     std::string pointCloudFileName = "data/object" + std::to_string(objId) + ".pcd";
     std::string pointCloudInfoFileName = "data/objectInfo" + std::to_string(objId) + ".txt";
@@ -484,12 +484,23 @@ void publishObjectPositions(std::vector<ObjectData> objects){
     marker.ns = "obj_half_width";
     marker.id = rand() % 1001;
 
-    marker.type = visualization_msgs::Marker::SPHERE;
+    marker.type = visualization_msgs::Marker::ARROW;
 
     marker.action = visualization_msgs::Marker::ADD;
 
-    marker.pose.position.x = x;
-    marker.pose.position.y = y - object.width/2;
+    Eigen::Quaternionf quat(objQuat[3], objQuat[0], objQuat[1], objQuat[2]);
+    std::vector<double> eulerAngles = HelperMethods::getEulerFromQuaternion(quat);
+    double yaw = eulerAngles[2];
+    ROS_INFO("YAW OF OBJECT = %f", yaw);
+    float y_shifted = y + (object.width * 0.275);
+    ROS_INFO("Pickup location assuming 0 degree: %f, %f", x, y_shifted);
+    marker.pose.position.x = -((y_shifted - y)  * std::sin(yaw)) + x;
+    marker.pose.position.y = ((y_shifted - y)  * std::cos(yaw)) + y;
+
+    ROS_INFO("Estimated pickup location = %f, %f", marker.pose.position.x, marker.pose.position.y);
+
+    /*marker.pose.position.x = x;*/
+    /*marker.pose.position.y = y - object.width/2;*/
     marker.pose.position.z = z + 0.025;
 
     marker.pose.orientation.x = 0.0;
@@ -533,7 +544,7 @@ void publishObjectPositions(std::vector<ObjectData> objects){
     cornerMarker.color.g = 0.0f;
     cornerMarker.color.b = 0.0f;
     cornerMarker.color.a = 1.0f; 
-    markerArray.markers.push_back(cornerMarker);
+    /*markerArray.markers.push_back(cornerMarker);*/
     markerArray.markers.push_back(marker);
   }
 
@@ -618,16 +629,19 @@ bool getScans(){
   geometry_msgs::Pose rightScan = basePose;
   rightScan.position.y = 0.3;
 
-  geometry_msgs::Pose leftMiddleScan = leftScan;
+  geometry_msgs::Pose leftMiddleRightScan = leftScan;
   std::vector<double> quaternionLeftPose = HelperMethods::getQuaternionFromEuler(roll, pitch, 5*M_PI/4);
-  leftMiddleScan.position.x = 0.15;
-  leftMiddleScan.position.y -= 0.1;
+  leftMiddleRightScan.position.x = -0.2;
+  leftMiddleRightScan.position.y -= 0.1;
 
-  leftMiddleScan.orientation.x = quaternionLeftPose[0];
-  leftMiddleScan.orientation.y = quaternionLeftPose[1];
-  leftMiddleScan.orientation.z = quaternionLeftPose[2];
-  leftMiddleScan.orientation.w = quaternionLeftPose[3];
+  leftMiddleRightScan.orientation.x = quaternionLeftPose[0];
+  leftMiddleRightScan.orientation.y = quaternionLeftPose[1];
+  leftMiddleRightScan.orientation.z = quaternionLeftPose[2];
+  leftMiddleRightScan.orientation.w = quaternionLeftPose[3];
 
+
+  geometry_msgs::Pose leftMiddleLeftScan = leftMiddleRightScan;
+  leftMiddleLeftScan.position.x = 0.2;
 
   geometry_msgs::Pose rightMiddleRightScan = rightScan;
   std::vector<double> quaternionrightPose = HelperMethods::getQuaternionFromEuler(roll, pitch, M_PI/4);
@@ -661,8 +675,8 @@ bool getScans(){
 
 
   
-  /*std::vector<geometry_msgs::Pose> scanPoses = {leftScan, basePose, rightScan};*/
-  std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleScan,leftScan, basePose, rightScan, rightMiddleLeftScan, rightMiddleRightScan, rightBackScan, backLeftScan, backScan };
+  std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleLeftScan, basePose, rightScan, rightMiddleLeftScan};
+  /*std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleScan,leftScan, basePose, rightScan, rightMiddleLeftScan, rightMiddleRightScan, rightBackScan, backLeftScan, backScan };*/
 
 
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;

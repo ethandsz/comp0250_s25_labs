@@ -56,6 +56,8 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
   arm_group_.setPathConstraints(workspace_constraint);
   hand_group_.setPathConstraints(workspace_constraint);
 
+  arm_group_.setPlanningTime(10.0);
+
   std::vector<std::string> links = hand_group_.getLinkNames();
   geometry_msgs::PoseStamped currentPose = hand_group_.getCurrentPose(links.back());
 
@@ -329,7 +331,7 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     moveArm(target_pose);
 
     // Step 2: Open the gripper (assuming 0.08 is open).
-    moveGripper(0.1);
+    moveGripper(0.15);
 
     // Step 3: Lower the arm to pick up the cube.
     target_pose.position.z = 0.15;
@@ -347,10 +349,10 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     ocm.link_name = "panda_link7";
     ocm.header.frame_id = "panda_link0";
     ocm.orientation = target_pose.orientation;
-    ocm.absolute_x_axis_tolerance = 0.1;
-    ocm.absolute_y_axis_tolerance = 0.1;
-    ocm.absolute_z_axis_tolerance = 0.1;
-    ocm.weight = 1.0;
+    ocm.absolute_x_axis_tolerance = 0.2;
+    ocm.absolute_y_axis_tolerance = 0.2;
+    ocm.absolute_z_axis_tolerance = 0.9;
+    ocm.weight = 0.8;
 
     moveit_msgs::Constraints test_constraints;
     test_constraints.orientation_constraints.push_back(ocm);
