@@ -9,6 +9,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <helper_methods.h>
 #include <cw2_team_13/map_env.h>  
 #include <vector>
+#include <limits>
 ///////////////////////////////////////////////////////////////////////////////
 
 cw2::cw2(ros::NodeHandle nh)
@@ -272,9 +273,9 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
       
       // Set dimensions - assuming obstacle is roughly cubic
       // Height is usually accurate in pointcloud, width needs approximation
-      obstacle.width = obstacles[i].width;  // 5cm width
-      obstacle.length = obstacles[i].width; // 5cm length
-      obstacle.height = obstacles[i].height; // 15cm height
+      obstacle.width = obstacles[i].width*1.5;  // 5cm width
+      obstacle.length = obstacles[i].width*1.5; 
+      obstacle.height = obstacles[i].height > 0.0 ? obstacles[i].height*1.5 : 0.15; // Use detected height or default
       
       // Assign ID starting from 50
       obstacle.id = 50 + i;
@@ -293,10 +294,155 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
     ros::Duration(0.5).sleep();
   }
 
+      // Determine which shape is more common
+    int mostCommonCount;
+    std::vector<cw2_team_13::ObjectInfo> mostCommonShapes;
+
+    if(noughtCount > crossCount) {
+      mostCommonCount = noughtCount;
+      mostCommonShapes = noughts;
+      ROS_INFO("Noughts are more common with %d objects", noughtCount);
+    } 
+    else if(crossCount > noughtCount) {
+      mostCommonCount = crossCount;
+      mostCommonShapes = crosses;
+      ROS_INFO("Crosses are more common with %d objects", crossCount);
+    }
+    else {
+      // If equal, we can choose either one per coursework instructions
+      mostCommonCount = noughtCount; // or crossCount, they're equal
+      mostCommonShapes = noughts; // or crosses, doesn't matter
+      ROS_INFO("Both shapes are equally common with %d objects each", noughtCount);
+    }
+
+    // Pick and place the most common shape
+    if(mostCommonShapes.size() > 0) {
+      // Find the goal (basket)
+      cw2_team_13::ObjectInfo basket;
+      for(size_t i = 0; i < objects.size(); i++) {
+        if(objects[i].objectType == 3) { // Box type
+          basket = objects[i];
+          break;
+        }
+      }
+      
+      // Find the object with maximum distance to obstacles
+      cw2_team_13::ObjectInfo objectToPick = mostCommonShapes[0]; // Default to first object
+      float maxDistance = -1.0f;
+      
+      for(size_t i = 0; i < mostCommonShapes.size(); i++) {
+        cw2_team_13::ObjectInfo currentObject = mostCommonShapes[i];
+        float minDistToObstacle = std::numeric_limits<float>::max();
+        
+        // Calculate minimum distance to any obstacle
+        for(size_t j = 0; j < obstacles.size(); j++) {
+          float dx = currentObject.position.x - obstacles[j].position.x;
+          float dy = currentObject.position.y - obstacles[j].position.y;
+          float distance = std::sqrt(dx*dx + dy*dy);
+          
+          if(distance < minDistToObstacle) {
+            minDistToObstacle = distance;
+          }
+        }
+        
+        // Update object to pick if this one is farther from obstacles
+        if(minDistToObstacle > maxDistance) {
+          maxDistance = minDistToObstacle;
+          objectToPick = currentObject;
+        }
+      }
+      
+      ROS_INFO("Selected object at [%.2f, %.2f, %.2f] with distance %.3f from nearest obstacle", 
+              objectToPick.position.x, objectToPick.position.y, objectToPick.position.z, maxDistance);
+      
+      // Create point stamped for goal
+      geometry_msgs::PointStamped goal_point;
+
+      if (basket.position.y < 0){
+        basket.position.x = -0.41;
+        basket.position.y = -0.36;
+      }
+      else{
+        basket.position.x = -0.41;
+        basket.position.y = 0.36;
+      }
+
+      goal_point.point = basket.position;
+      
+      // Set up target pose for picking
+      geometry_msgs::PoseStamped target_pose;
+      geometry_msgs::Quaternion objOrientation = objectToPick.orientation;
+      Eigen::Quaternionf eigenQuat(objOrientation.w, objOrientation.x, objOrientation.y, objOrientation.z);
+      std::vector<double> targetEuler = HelperMethods::getEulerFromQuaternion(eigenQuat);
+      
+      target_pose.pose.position = objectToPick.position;
+      
+      // Define desired orientation for grasping
+      double roll = M_PI;
+      double pitch = 0.0;
+      double yaw = -M_PI/4 + targetEuler[2];
+      
+      if(objectToPick.objectType == 1) { // Cross
+        yaw = M_PI/4 + targetEuler[2];
+      }
+      
+      // Calculate pickup position with offset (similar to task 1)
+      std::pair<float, float> objectPickupPoint(objectToPick.position.x, objectToPick.position.y);
+      objectPickupPoint.second += (objectToPick.width * 0.275);
+      
+      float x = objectToPick.position.x;
+      float y = objectToPick.position.y;
+      target_pose.pose.position.x = -((objectPickupPoint.second - y) * std::sin(targetEuler[2])) + x;
+      target_pose.pose.position.y = ((objectPickupPoint.second - y) * std::cos(targetEuler[2])) + y;
+      
+      // Calculate quaternion for orientation
+      std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);
+      target_pose.pose.orientation.x = quaternionPose[0];
+      target_pose.pose.orientation.y = quaternionPose[1];
+      target_pose.pose.orientation.z = quaternionPose[2];
+      target_pose.pose.orientation.w = quaternionPose[3];
+      
+      // Execute pick and place
+      robot_trajectory_.performPickAndPlace(target_pose, goal_point);
+    }
+
+    // Set response values
+    response.total_num_shapes = totalShapes; // Subtract obstacles from total count
+    response.num_most_common_shape = mostCommonCount;
+
+    ROS_INFO("Task 3 - Total shapes: %d, Most common shape count: %d", 
+            totalShapes, mostCommonCount);
+
+  }
+  return true;
+}
 
 
 
-    // Determine which shape is more common
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  //////////////////////////////////////////////////////////////////////
+
+/*     // Determine which shape is more common
     int mostCommonCount;
     std::vector<cw2_team_13::ObjectInfo> mostCommonShapes;
     
@@ -387,3 +533,4 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
   ROS_INFO("The coursework solving callback for task 3 has been triggered");
   return true;
 }
+ */

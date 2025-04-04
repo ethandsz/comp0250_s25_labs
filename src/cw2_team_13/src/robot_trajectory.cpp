@@ -385,8 +385,8 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     ocm.header.frame_id = "panda_link0";
     ocm.orientation = target_pose.orientation;
 
-    ocm.absolute_x_axis_tolerance = 0.5;
-    ocm.absolute_y_axis_tolerance = 0.5;
+    ocm.absolute_x_axis_tolerance = 0.8;
+    ocm.absolute_y_axis_tolerance = 0.8;
     ocm.absolute_z_axis_tolerance = 3.14;
     ocm.weight = 0.5;
 
