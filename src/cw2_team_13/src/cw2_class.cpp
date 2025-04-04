@@ -132,6 +132,7 @@ cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
   /* function which should solve task 2 */
 
   cw2_team_13::map_env srv;
+  srv.request.taskId = 2;
 
   if(map_env_service_.call(srv)){
     std::vector<cw2_team_13::ObjectInfo> objects = srv.response.objects;

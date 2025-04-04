@@ -129,7 +129,7 @@ void visualizePointCloudWithCorners(std::string objId)
       }
       
     for(const auto& point: cloud->points){
-            if(point.y < lowPointYAxis.second && point.x > xLineToleranceMin && point.x < xLineToleranceMax){
+            if(point.y < lowPointYAxis.second && point.x > xLineToleranceMin && point.x < xLineToleranceMax && point.z > 0.06){
             lowPointYAxis.second = point.y;
         }
     }

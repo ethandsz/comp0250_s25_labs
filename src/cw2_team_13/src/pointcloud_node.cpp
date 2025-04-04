@@ -410,7 +410,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
       }
       
     for(const auto& point: objectCluster->points){
-            if(point.y < lowPointYAxis.second && point.x > xLineToleranceMin && point.x < xLineToleranceMax){
+            if(point.y < lowPointYAxis.second && point.x > xLineToleranceMin && point.x < xLineToleranceMax && point.z > 0.06){
             lowPointYAxis.second = point.y;
         }
     }
@@ -745,6 +745,9 @@ bool getScans(int taskId){
 
   if(taskId == 1){
     scanPoses = {leftMiddleLeftScan, leftScan, basePose, rightScan, rightMiddleLeftScan};
+  }
+  else if(taskId == 2){
+    scanPoses = {leftScan, basePose, rightScan, rightBackScan, backLeftScan, backScan};
   }
   else {
   scanPoses = {leftMiddleRightScan, leftMiddleLeftScan, leftScan, basePose, rightScan, rightMiddleLeftScan, rightMiddleRightScan, rightBackScan, backLeftScan, backScan };
