@@ -130,7 +130,7 @@ RobotTrajectory::scanSceneWithConstraint(){
   collisionObjectLeft.pose = collisionObjectLeftPose;
   collisionObjectLeft.width = 1.5;
   collisionObjectLeft.length = 0.3;
-  collisionObjectLeft.height = 0.4;
+  collisionObjectLeft.height = 0.25;
   collisionObjectLeft.id = 0;
   addObjectToScene(collisionObjectLeft);
 

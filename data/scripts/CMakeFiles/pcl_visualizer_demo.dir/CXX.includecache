@@ -9,6 +9,10 @@
 /home/ethan/Documents/Github/comp0250/comp0250_s25_labs/data/scripts/view.cpp
 cmath
 -
+iterator
+-
+pcl/common/centroid.h
+-
 pcl/visualization/pcl_visualizer.h
 -
 pcl/io/pcd_io.h

@@ -13,3 +13,5 @@ logs
 /data/scripts/CMakeFiles
 data/scripts/pcl_visualizer_demo
 *.pyc
+/data/scripts
+/data
