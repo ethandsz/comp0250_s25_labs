@@ -165,22 +165,65 @@ void calcNormals(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointCloud<p
 
 }
 
+//void filterColors(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
+//  pcl::PointCloud<pcl::PointXYZRGB>::Ptr colorFilteredCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
+//  for(size_t i = 0; i < cloud -> points.size(); i++){
+//    Eigen::Vector3i colorVec = cloud -> points[i].getRGBVector3i();
+//    uint8_t red = colorVec[0];  
+//    uint8_t green = colorVec[1];  
+//   uint8_t blue = colorVec[2];  
+//    bool isGreen = (green > red && green > blue) && (green > 110);
+//    bool isGray = (std::abs(red - green) < 10) && (std::abs(green - blue) < 10) && (std::abs(red - blue) < 10);
+
+//    if(!(isGreen || isGray)){
+//      colorFilteredCloud -> points.push_back(cloud -> points[i]);
+//    }
+//  }
+//  cloud->swap(*colorFilteredCloud);
+//}
+
+/////////////////////////////////////////////////////////////////////////////
+
 void filterColors(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr colorFilteredCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
-  for(size_t i = 0; i < cloud -> points.size(); i++){
-    Eigen::Vector3i colorVec = cloud -> points[i].getRGBVector3i();
-    uint8_t red = colorVec[0];  
-    uint8_t green = colorVec[1];  
-    uint8_t blue = colorVec[2];  
-    bool isGreen = (green > red && green > blue) && (green > 110);
-    bool isGray = (std::abs(red - green) < 10) && (std::abs(green - blue) < 10) && (std::abs(red - blue) < 10);
-
-    if(!(isGreen || isGray)){
-      colorFilteredCloud -> points.push_back(cloud -> points[i]);
+  for(size_t i = 0; i < cloud->points.size(); i++){
+    Eigen::Vector3i colorVec = cloud->points[i].getRGBVector3i();
+    uint8_t red = colorVec[0];
+    uint8_t green = colorVec[1];
+    uint8_t blue = colorVec[2];
+    
+    // More precise green detection (grass tiles)
+    bool isGreen = (green > red + 20) && (green > blue + 20) && (green > 100);
+    
+    // Better gray detection (includes a wider range of gray values)
+    bool isGray = (std::abs(red - green) < 20) &&
+                  (std::abs(green - blue) < 20) &&
+                  (std::abs(red - blue) < 20) &&
+                  (red + green + blue > 300); // Light grays
+    
+    // Black obstacle detection as specified (RGB=[0.1, 0.1, 0.1])
+    bool isBlackObstacle = (red < 30) && (green < 30) && (blue < 30);
+    
+    // If it's not green or gray
+    if(!isGreen && !isGray){
+      // If it's a black obstacle, you could set a flag or property
+      if(isBlackObstacle){
+        // Example: Set a specific channel or property to mark it as an obstacle
+        pcl::PointXYZRGB point = cloud->points[i];
+        point.r = 1; // Mark with specific color for later identification
+        point.g = 1;
+        point.b = 1;
+        colorFilteredCloud->points.push_back(point);
+      } else {
+        // Regular object
+        colorFilteredCloud->points.push_back(cloud->points[i]);
+      }
     }
   }
   cloud->swap(*colorFilteredCloud);
 }
+
+/////////////////////////////////////////////////////////////////////////////
 
 void realSenseCallback(const sensor_msgs::PointCloud2ConstPtr &input){
   // Convert the ROS message to a PCL point cloud
@@ -257,6 +300,15 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
         }
     }
 
+    float max_z = -std::numeric_limits<float>::max();
+    for (size_t i = 0; i < objectCluster->points.size(); ++i)
+    {
+        if (objectCluster->points[i].z > max_z){
+            max_z = objectCluster->points[i].z;
+        }
+    }
+
+
     // Type of object determination
     ObjectType objectType;
     
@@ -272,9 +324,12 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     // Otherwise, we'll determine if it's a Cross or Nought based on the existing logic
     else if(foundPoint) {
         objectType = Cross;
+        if (rgbValue[0] < 5 && rgbValue[1] < 5 && rgbValue[2] < 5 && max_z > 0.07){
+          objectType = Obstacle;
+        }
     }
     else {
-        objectType = Nought;
+      objectType = Nought;
     }
 
 
@@ -294,13 +349,6 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr augmentedCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
     *augmentedCloud = *objectCluster;
     
-    float max_z = -std::numeric_limits<float>::max();
-    for (size_t i = 0; i < objectCluster->points.size(); ++i)
-    {
-        if (objectCluster->points[i].z > max_z){
-            max_z = objectCluster->points[i].z;
-        }
-    }
     
     float toleranceZHeight = 0.005f;
     int numLayers = 5;
@@ -404,7 +452,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
   Eigen::Vector4f objOrientation(objQuaternion[0], objQuaternion[1], objQuaternion[2], objQuaternion[3]);
 
 
-  bool allPointsFound = objectType == Box || lowPointYAxis.first != 0.0 && lowPointYAxis.second != 0.0 && cornerToProjectOn.first != 0.0 && cornerToProjectOn.second != 0.0;
+  bool allPointsFound = lowPointYAxis.first != 0.0 && lowPointYAxis.second != 0.0 && cornerToProjectOn.first != 0.0 && cornerToProjectOn.second != 0.0;
 
     ROS_INFO("-------------OBJECT SUMMARY-------------");
     ROS_INFO("ESTIMATED WIDTH OF OBJECT: %f", objWidth); 
@@ -416,12 +464,13 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     ROS_INFO("ANGLE IN RADIANS: %f", angleRadians);
     ROS_INFO("ANGLE IN DEGREES: %f", angleRadians * 180/M_PI);
     ROS_INFO("MAX Z HEIGHT: %f", maxPoint[2]); 
-  if (!(std::isnan(x) || std::isnan(y) || std::isnan(z)) && (allPointsFound)){
+
+  if ((objectType == Box || objectType == Obstacle) || !(std::isnan(x) || std::isnan(y) || std::isnan(z)) && (allPointsFound)){
     ObjectData object(centroid, objOrientation, objWidth, cornerToProjectOn, rgbValue, objectType);
     objects.push_back(object);
   }
 
-  bool debugPointCloudData = 1;
+  bool debugPointCloudData = 0;
   if (debugPointCloudData == 1){
     std::string pointCloudFileName = "data/object" + std::to_string(objId) + ".pcd";
     std::string pointCloudInfoFileName = "data/objectInfo" + std::to_string(objId) + ".txt";
@@ -675,8 +724,8 @@ bool getScans(){
 
 
   
-  std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleLeftScan, basePose, rightScan, rightMiddleLeftScan};
-  /*std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleScan,leftScan, basePose, rightScan, rightMiddleLeftScan, rightMiddleRightScan, rightBackScan, backLeftScan, backScan };*/
+  //std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleLeftScan, basePose, rightScan, rightMiddleLeftScan};
+  std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleRightScan, leftMiddleLeftScan, leftScan, basePose, rightScan, rightMiddleLeftScan, rightMiddleRightScan, rightBackScan, backLeftScan, backScan };
 
 
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
