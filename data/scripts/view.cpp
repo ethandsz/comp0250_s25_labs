@@ -1,5 +1,7 @@
 
 #include <cmath>
+#include <iterator>
+#include <pcl/common/centroid.h>
 #include <pcl/visualization/pcl_visualizer.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/point_types.h>
@@ -133,8 +135,9 @@ void visualizePointCloudWithCorners(std::string objId)
     }
   }
   else{
-    float tolX = 0.2;
-    float tolY = 0.2;
+    std::cout << "is cross" << std::endl;
+    float tolX = 0.225;
+    float tolY = 0.225;
 
     float max_x = x + tolX * fabs(width);
     float min_x = x - tolX * fabs(width);
@@ -146,26 +149,44 @@ void visualizePointCloudWithCorners(std::string objId)
 
     std::cout << "y: " << y << std::endl;
     std::cout << "Max y: " << max_y << std::endl;
+
+    Eigen::Vector2f newCentroid(0,0);
+    int pointsIterated = 0;
     for (const auto& point : corners->points)
     {
+
+      if((point.x < max_x && point.x > min_x) && (point.y < max_y && point.y > min_y)){
+
+      cornerCloud->push_back(pcl::PointXYZ(point.x, point.y, point.z));
+      newCentroid[0] += point.x;
+      newCentroid[1] += point.y;
+      pointsIterated += 1;
+      }
+    }
+    newCentroid[0] /= pointsIterated;
+    newCentroid[1] /= pointsIterated;
+    x = newCentroid[0];
+    y = newCentroid[1];
+    for (const auto& point : corners->points)
+    {
+
       if((point.x < max_x && point.x > min_x) && (point.y < max_y && point.y > min_y)){
 
        if(point.x > x && point.y < y + 0.01){
 
-      cornerCloud->push_back(pcl::PointXYZ(point.x, point.y, point.z));
-            if(point.x > cornerToProjectOn.first || cornerToProjectOn.first == 0.0){
+            if(point.x > cornerToProjectOn.first || cornerToProjectOn.first == 0.0 || point.y < cornerToProjectOn.second){
               cornerToProjectOn.first = point.x;
               cornerToProjectOn.second = point.y;
             }
 
         }
 
-       if(lowPointYAxis.first == 0.0 || (point.x < x && point.y < lowPointYAxis.second)){
-            if(point.x < lowPointYAxis.first || lowPointYAxis.first == 0.0){
-              lowPointYAxis.first = point.x;
-              lowPointYAxis.second = point.y;
-            }
+      if(point.y < y - 0.01){
 
+          if(lowPointYAxis.first == 0.0 || point.x < lowPointYAxis.first){
+            lowPointYAxis.first = point.x;
+            lowPointYAxis.second = point.y;
+          }
         }
       }
     }
