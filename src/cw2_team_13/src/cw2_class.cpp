@@ -230,11 +230,13 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
     int crossCount = 0;
     std::vector<cw2_team_13::ObjectInfo> noughts;
     std::vector<cw2_team_13::ObjectInfo> crosses;
+    std::vector<cw2_team_13::ObjectInfo> obstacles;
+
     
     // Iterate through objects and count by type
     for(size_t i = 0; i < objects.size(); i++) {
       // Skip obstacles (type 2) and boxes (type 3)
-      if(objects[i].objectType != 2 && objects[i].objectType != 3) {
+      if(objects[i].objectType != 3) {
         totalShapes++;
         
         // Count noughts (type 0)
@@ -247,9 +249,52 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
           crossCount++;
           crosses.push_back(objects[i]);
         }
+        else if(objects[i].objectType == 2) {
+          obstacles.push_back(objects[i]);
+        }
       }
     }
+
+    // To add obstacles as collision objects
+    // make obstacles collision objects 
+
+  // Add obstacles as collision objects
+  if (!obstacles.empty()) {
+    ROS_INFO("Adding %ld obstacles as collision objects", obstacles.size());
     
+    for (size_t i = 0; i < obstacles.size(); i++) {
+      CollisionObject obstacle;
+      
+      // Set position from detected obstacle
+      obstacle.pose.position = obstacles[i].position;
+      obstacle.pose.orientation = obstacles[i].orientation;
+      
+      // Set dimensions - assuming obstacle is roughly cubic
+      // Height is usually accurate in pointcloud, width needs approximation
+      obstacle.width = 0.05;  // 5cm width
+      obstacle.length = 0.05; // 5cm length
+      obstacle.height = 0.15; // 15cm height
+      
+      // Assign ID starting from 50
+      obstacle.id = 50 + i;
+      
+      ROS_INFO("Adding obstacle %d at position [%.2f, %.2f, %.2f]", 
+                obstacle.id,
+                obstacle.pose.position.x,
+                obstacle.pose.position.y,
+                obstacle.pose.position.z);
+      
+      // Add the obstacle to the planning scene
+      robot_trajectory_.addObjectToScene(obstacle);
+    }
+    
+    // Give a moment for the planning scene to update
+    ros::Duration(0.5).sleep();
+  }
+
+
+
+
     // Determine which shape is more common
     int mostCommonCount;
     std::vector<cw2_team_13::ObjectInfo> mostCommonShapes;
@@ -271,7 +316,7 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
       ROS_INFO("Both shapes are equally common with %d objects each", noughtCount);
     }
 
-    
+
     
     // Pick and place the most common shape
     if(mostCommonShapes.size() > 0) {
