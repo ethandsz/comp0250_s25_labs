@@ -271,7 +271,7 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
       
       // Set dimensions - assuming obstacle is roughly cubic
       // Height is usually accurate in pointcloud, width needs approximation
-      obstacle.width = 0.05;  // 5cm width
+      obstacle.width = obstacles[i].width;  // 5cm width
       obstacle.length = 0.05; // 5cm length
       obstacle.height = 0.15; // 15cm height
       
