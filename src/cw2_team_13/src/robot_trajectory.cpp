@@ -57,6 +57,8 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
   hand_group_.setPathConstraints(workspace_constraint);
 
   arm_group_.setPlanningTime(10.0);
+  arm_group_.setPlannerId("RRTstar");
+  ROS_INFO("PLANNER ID IS %s", arm_group_.getPlannerId().c_str());
 
   std::vector<std::string> links = hand_group_.getLinkNames();
   geometry_msgs::PoseStamped currentPose = hand_group_.getCurrentPose(links.back());
@@ -245,14 +247,14 @@ RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose, float speedScale)
   waypoints.push_back(target_pose);
 
   moveit_msgs::RobotTrajectory trajectory;
-  const double eef_step = 0.01;  
+  const double eef_step = 0.001;  
 
   ROS_INFO("Computing Cartesian Path");
   double fraction = arm_group_.computeCartesianPath(waypoints, eef_step,trajectory);
 
   ROS_INFO("Cartesian Path computed with success rate: %.2f%%", fraction * 100.0);
 
-  if (fraction < 0.9)
+  if (fraction < 0.99)
   {
     ROS_WARN("Could not compute the full Cartesian path");
     ROS_WARN("Cartesian Path execution failed falling back to RRT in RobotTrajectory");
@@ -373,12 +375,12 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
 
 
     target_pose.position.z = 0.415;
-    moveArm(target_pose);
+    moveArmCart(target_pose);
     
     removeObjectsFromScene();
     // Step 1: Hover above the cube.
     target_pose.position.z = 0.2;
-    moveArm(target_pose);
+    moveArmCart(target_pose);
 
     // Step 2: Open the gripper (assuming 0.08 is open).
     moveGripper(0.15);
@@ -420,7 +422,7 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     // Step 6: Move to a position above the goal location.
     target_pose.position.x = goal_loc.point.x;
     target_pose.position.y = goal_loc.point.y;
-    moveArm(target_pose);
+    moveArmCart(target_pose);
 
     removeObjectsFromScene();
 
