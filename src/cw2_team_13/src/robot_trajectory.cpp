@@ -151,7 +151,7 @@ RobotTrajectory::addObstacleToScene(CollisionObject collisionObject){
   }
 }
 void
-RobotTrajectory::scanSceneWithConstraint(){
+RobotTrajectory::scanSceneWithConstraint(float height){
   CollisionObject collisionObjectLeft;
   geometry_msgs::Pose collisionObjectLeftPose;
   collisionObjectLeftPose.position.x = 0.0;
@@ -160,7 +160,7 @@ RobotTrajectory::scanSceneWithConstraint(){
   collisionObjectLeft.pose = collisionObjectLeftPose;
   collisionObjectLeft.width = 1.0;
   collisionObjectLeft.length = 0.3;
-  collisionObjectLeft.height = 0.3;
+  collisionObjectLeft.height = height;
   collisionObjectLeft.id = 0;
   addObjectToScene(collisionObjectLeft);
 
@@ -185,6 +185,11 @@ RobotTrajectory::scanSceneWithConstraint(){
   collisionObjectBackPose.orientation.w = quaternion[3];
   collisionObjectBack.pose = collisionObjectBackPose;
   addObjectToScene(collisionObjectBack);
+
+  CollisionObject collisionObjectFront = collisionObjectBack;
+  collisionObjectFront.id = 3;
+  collisionObjectFront.pose.position.x = 0.35;
+  addObjectToScene(collisionObjectFront);
 }
 
 void
@@ -247,14 +252,14 @@ RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose, float speedScale)
   waypoints.push_back(target_pose);
 
   moveit_msgs::RobotTrajectory trajectory;
-  const double eef_step = 0.001;  
+  const double eef_step = 0.01;  
 
   ROS_INFO("Computing Cartesian Path");
   double fraction = arm_group_.computeCartesianPath(waypoints, eef_step,trajectory);
 
   ROS_INFO("Cartesian Path computed with success rate: %.2f%%", fraction * 100.0);
 
-  if (fraction < 0.99)
+  if (fraction < 0.95)
   {
     ROS_WARN("Could not compute the full Cartesian path");
     ROS_WARN("Cartesian Path execution failed falling back to RRT in RobotTrajectory");
@@ -355,6 +360,7 @@ RobotTrajectory::moveGripper(float width)
 void
 RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_loc, const geometry_msgs::PointStamped &goal_loc, bool shouldResetPose)
 {
+    float objectPickupHeight = 0.05;
     // Define desired orientation in Euler angles.
     double roll  = M_PI;      // 180 degrees
     double pitch = 0.0;
@@ -378,6 +384,7 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     moveArmCart(target_pose);
     
     removeObjectsFromScene();
+    scanSceneWithConstraint(objectPickupHeight);
     // Step 1: Hover above the cube.
     target_pose.position.z = 0.2;
     moveArmCart(target_pose);
@@ -425,6 +432,7 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     moveArmCart(target_pose);
 
     removeObjectsFromScene();
+    scanSceneWithConstraint(objectPickupHeight);
 
     target_pose.position.z = 0.2;
     moveArmCart(target_pose, 0.25);

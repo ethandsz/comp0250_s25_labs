@@ -69,7 +69,7 @@ public:
   addGroundPlaneToScene();
 
   void
-  scanSceneWithConstraint();
+  scanSceneWithConstraint(float height = 0.3);
 
 
   ros::ServiceServer set_arm_srv_;
