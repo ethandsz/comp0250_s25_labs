@@ -252,10 +252,11 @@ RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose, float speedScale)
 
   ROS_INFO("Cartesian Path computed with success rate: %.2f%%", fraction * 100.0);
 
-  if (fraction < 0.5)
+  if (fraction < 0.9)
   {
     ROS_WARN("Could not compute the full Cartesian path");
-    return false;
+    ROS_WARN("Cartesian Path execution failed falling back to RRT in RobotTrajectory");
+    return moveArm(target_pose);
   }
 
 
@@ -275,9 +276,11 @@ RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose, float speedScale)
   my_plan.trajectory_ = trajectory;
   
   ROS_INFO("Executing Cartesian Path");
-  arm_group_.execute(my_plan);
-
-  return true;
+  
+  if(arm_group_.execute(my_plan)){
+    return true;
+  }
+  return false;
 }
 
 bool 

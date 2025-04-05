@@ -788,10 +788,8 @@ bool getScans(int taskId){
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
   sor.setLeafSize(0.0025f, 0.0025f, 0.0025f);
   ROS_INFO("Preparing to scan");
-  bool useCartesianMovements = taskId == 2 ? false : true;
-  ROS_INFO("Task ID = %d and bool is %d", taskId, useCartesianMovements);
   for(size_t i = 0; i < scanPoses.size(); i++){
-    if(callSetArmService(scanPoses[i], useCartesianMovements)){
+    if(callSetArmService(scanPoses[i])){
       ros::Duration(2.0).sleep();
       ROS_INFO("Moving to scan position");
       geometry_msgs::TransformStamped transformStamped;

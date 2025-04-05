@@ -134,6 +134,7 @@ cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
 
   cw2_team_13::map_env srv;
   srv.request.taskId = 2;
+  robot_trajectory_.scanSceneWithConstraint();
 
   if(map_env_service_.call(srv)){
     std::vector<cw2_team_13::ObjectInfo> objects = srv.response.objects;
@@ -143,7 +144,7 @@ cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
     
     for(size_t i = 0; i < objects.size(); i++){
       cw2_team_13::ObjectInfo object = objects[i];
-      if(object.position.x < 0.0 && object.position.y > 0.0){
+      if(object.position.x < 0.0 && object.position.y > 0.0 && object.position.z > 0.05){
         refShape_2 = object;
         ROS_INFO("---------Ref shape 2 Summary----------");
         ROS_INFO("Object Type: %i", refShape_2.objectType);
@@ -152,7 +153,7 @@ cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
         ROS_INFO("Object xyz: %f, %f, %f", refShape_2.position.x, refShape_2.position.y, refShape_2.position.z);
       }
 
-      else if(object.position.x < 0.0 && object.position.y < 0.0){
+      else if(object.position.x < 0.0 && object.position.y < 0.0 && object.position.z > 0.05){
         refShape_1 = object;
         ROS_INFO("---------Ref shape 1 Summary----------");
         ROS_INFO("Object Type: %i", refShape_1.objectType);
@@ -162,7 +163,7 @@ cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
       }
 
 
-      else if(object.position.x > 0.0){
+      else if(object.position.x > 0.0 && object.position.z > 0.05){
         mysteryShape = object;
         ROS_INFO("---------Mystery Shape Summary----------");
         ROS_INFO("Object Type: %i", mysteryShape.objectType);
@@ -176,7 +177,10 @@ cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
       }
     }
 
-    if(mysteryShape.objectType == refShape_1.objectType){
+    if(objects.size() == 0){
+      ROS_ERROR("No shapes in scene, try again");
+    }
+    else if(mysteryShape.objectType == refShape_1.objectType){
       response.mystery_object_num = 1;
       ROS_INFO("Mystery Shape matches reference 1");
     }
@@ -187,14 +191,12 @@ cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
     }
 
     else{
-      ROS_ERROR("No reference found for mystery shape");
+      ROS_ERROR("Something went wrong, try again please.");
     }
-
-    return true;
   }
 
+  robot_trajectory_.removeObjectsFromScene();
   ROS_INFO("The coursework solving callback for task 2 has been triggered");
-
   return true;
 }
 
@@ -393,7 +395,7 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
     }
 
     // Set response values
-    response.total_num_shapes = totalShapes; // Subtract obstacles from total count
+    response.total_num_shapes = totalShapes;
     response.num_most_common_shape = mostCommonCount;
 
     ROS_INFO("Task 3 - Total shapes: %d, Most common shape count: %d", 
