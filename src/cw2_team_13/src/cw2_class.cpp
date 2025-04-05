@@ -1,6 +1,7 @@
 /* feel free to change any part of this file, or delete this file. In general,
 you can do whatever you want with this template code, including deleting it all
 and starting from scratch. The only requirment is to make sure your entire 
+  cw2_team_13::map_env srv;
 solution is contained within the cw2_team_<your_team_number> package */
 
 #include <cmath>
@@ -144,15 +145,30 @@ cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
       cw2_team_13::ObjectInfo object = objects[i];
       if(object.position.x < 0.0 && object.position.y > 0.0){
         refShape_2 = object;
+        ROS_INFO("---------Ref shape 2 Summary----------");
+        ROS_INFO("Object Type: %i", refShape_2.objectType);
+        ROS_INFO("Object width: %f", refShape_2.width);
+        ROS_INFO("Object height: %f", refShape_2.height);
+        ROS_INFO("Object xyz: %f, %f, %f", refShape_2.position.x, refShape_2.position.y, refShape_2.position.z);
       }
 
       else if(object.position.x < 0.0 && object.position.y < 0.0){
         refShape_1 = object;
+        ROS_INFO("---------Ref shape 1 Summary----------");
+        ROS_INFO("Object Type: %i", refShape_1.objectType);
+        ROS_INFO("Object width: %f", refShape_1.width);
+        ROS_INFO("Object height: %f", refShape_1.height);
+        ROS_INFO("Object xyz: %f, %f, %f", refShape_1.position.x, refShape_1.position.y, refShape_1.position.z);
       }
 
 
       else if(object.position.x > 0.0){
         mysteryShape = object;
+        ROS_INFO("---------Mystery Shape Summary----------");
+        ROS_INFO("Object Type: %i", mysteryShape.objectType);
+        ROS_INFO("Object width: %f", mysteryShape.width);
+        ROS_INFO("Object height: %f", mysteryShape.height);
+        ROS_INFO("Object xyz: %f, %f, %f", mysteryShape.position.x, mysteryShape.position.y, mysteryShape.position.z);
       }
 
       else{
@@ -181,37 +197,6 @@ cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
 
   return true;
 }
-
-///////////////////////////////////////////////////////////////////////////////
-
-//bool
-//cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
-//  cw2_world_spawner::Task3Service::Response &response)
-//{
-//  /* function which should solve task 3 */
-
-//  cw2_team_13::map_env srv;
-
-//  if(map_env_service_.call(srv)){
-//    std::vector<cw2_team_13::ObjectInfo> objects = srv.response.objects;
-
-    //iterate through objects (vector) if this matches the object type - add one to the counter 
-
-    // print the most common 
-
-
-//    return true;
-// }
-
-
-
- 
-  //ROS_INFO("The coursework solving callback for task 3 has been triggered");
-
-  //return true;
-
-//}
-
 
 bool
 cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
@@ -274,9 +259,9 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
       
       // Set dimensions - assuming obstacle is roughly cubic
       // Height is usually accurate in pointcloud, width needs approximation
-      obstacle.width = obstacles[i].width*1.5;  // 5cm width
-      obstacle.length = obstacles[i].width*1.5; 
-      obstacle.height = obstacles[i].height > 0.0 ? obstacles[i].height*1.5 : 0.15; // Use detected height or default
+      obstacle.width = obstacles[i].width*2;  // 5cm width
+      obstacle.length = obstacles[i].width*2; 
+      obstacle.height = obstacles[i].height > 0.0 ? obstacles[i].height*1.8 : 0.15; // Use detected height or default
       
       // Assign ID starting from 50
       obstacle.id = 50 + i;
@@ -361,11 +346,11 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
 
       if (basket.position.y < 0){
         basket.position.x = -0.41;
-        basket.position.y = -0.36;
+        basket.position.y = -0.36 + (objectToPick.width * 0.275);
       }
       else{
         basket.position.x = -0.41;
-        basket.position.y = 0.36;
+        basket.position.y = 0.36 + (objectToPick.width * 0.275);
       }
 
       goal_point.point = basket.position;
@@ -417,121 +402,3 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
   }
   return true;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  //////////////////////////////////////////////////////////////////////
-
-/*     // Determine which shape is more common
-    int mostCommonCount;
-    std::vector<cw2_team_13::ObjectInfo> mostCommonShapes;
-    
-    if(noughtCount > crossCount) {
-      mostCommonCount = noughtCount;
-      mostCommonShapes = noughts;
-      ROS_INFO("Noughts are more common with %d objects", noughtCount);
-    } 
-    else if(crossCount > noughtCount) {
-      mostCommonCount = crossCount;
-      mostCommonShapes = crosses;
-      ROS_INFO("Crosses are more common with %d objects", crossCount);
-    }
-    else {
-      // If equal, we can choose either one per coursework instructions
-      mostCommonCount = noughtCount; // or crossCount, they're equal
-      mostCommonShapes = noughts; // or crosses, doesn't matter
-      ROS_INFO("Both shapes are equally common with %d objects each", noughtCount);
-    }
-
-
-    
-    // Pick and place the most common shape
-    if(mostCommonShapes.size() > 0) {
-      // Find the goal (basket)
-      cw2_team_13::ObjectInfo basket;
-      for(size_t i = 0; i < objects.size(); i++) {
-        if(objects[i].objectType == 3) { // Box type
-          basket = objects[i];
-          break;
-        }
-      }
-      
-      // Select one of the most common shapes to pick
-      cw2_team_13::ObjectInfo objectToPick = mostCommonShapes[0];
-      
-      // Create point stamped for goal
-      geometry_msgs::PointStamped goal_point;
-      goal_point.point = basket.position;
-      
-      // Set up target pose for picking
-      geometry_msgs::PoseStamped target_pose;
-      geometry_msgs::Quaternion objOrientation = objectToPick.orientation;
-      Eigen::Quaternionf eigenQuat(objOrientation.w, objOrientation.x, objOrientation.y, objOrientation.z);
-      std::vector<double> targetEuler = HelperMethods::getEulerFromQuaternion(eigenQuat);
-      
-      target_pose.pose.position = objectToPick.position;
-      
-      // Define desired orientation for grasping
-      double roll = M_PI;
-      double pitch = 0.0;
-      double yaw = -M_PI/4 + targetEuler[2];
-      
-      if(objectToPick.objectType == 1) { // Cross
-        yaw = M_PI/4 + targetEuler[2];
-      }
-      
-      // Calculate pickup position with offset (similar to task 1)
-      std::pair<float, float> objectPickupPoint(objectToPick.position.x, objectToPick.position.y);
-      objectPickupPoint.second += (objectToPick.width * 0.275);
-      
-      float x = objectToPick.position.x;
-      float y = objectToPick.position.y;
-      target_pose.pose.position.x = -((objectPickupPoint.second - y) * std::sin(targetEuler[2])) + x;
-      target_pose.pose.position.y = ((objectPickupPoint.second - y) * std::cos(targetEuler[2])) + y;
-      
-      // Calculate quaternion for orientation
-      std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);
-      target_pose.pose.orientation.x = quaternionPose[0];
-      target_pose.pose.orientation.y = quaternionPose[1];
-      target_pose.pose.orientation.z = quaternionPose[2];
-      target_pose.pose.orientation.w = quaternionPose[3];
-      
-      // Execute pick and place
-      robot_trajectory_.performPickAndPlace(target_pose, goal_point);
-    }
-    
-    // Set response values
-    response.total_num_shapes = totalShapes;
-    response.num_most_common_shape = mostCommonCount;
-    
-    ROS_INFO("Task 3 - Total shapes: %d, Most common shape count: %d", 
-             totalShapes, mostCommonCount);
-    
-    return true;
-  }
-  
-  ROS_INFO("The coursework solving callback for task 3 has been triggered");
-  return true;
-}
- */

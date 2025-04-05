@@ -236,7 +236,7 @@ RobotTrajectory::setArmCallback(cw2_team_13::set_arm::Request &request,
 }
 
 bool 
-RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose)
+RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose, float speedScale)
 {
   std::vector<geometry_msgs::Pose> waypoints;
   
@@ -256,6 +256,18 @@ RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose)
   {
     ROS_WARN("Could not compute the full Cartesian path");
     return false;
+  }
+
+
+  double speed_scaling_factor = speedScale;
+
+  for (auto &point : trajectory.joint_trajectory.points)
+  {
+    point.time_from_start *= (1.0 / speed_scaling_factor);
+    for (auto &velocity : point.velocities)
+      velocity *= speed_scaling_factor;
+    for (auto &acceleration : point.accelerations)
+      acceleration *= speed_scaling_factor * speed_scaling_factor;
   }
 
   // Execute the trajectory
@@ -370,14 +382,20 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
 
     // Step 3: Lower the arm to pick up the cube.
     target_pose.position.z = 0.15;
-    moveArm(target_pose);
+    moveArmCart(target_pose, 0.25);
 
     // Step 4: Close the gripper to grasp the cube (0.0 means closed).
     moveGripper(0.0);
 
     // Step 5: Raise the cube.
     target_pose.position.z = 0.415;
-    moveArm(target_pose);
+    moveArmCart(target_pose, 0.25);
+
+    std::vector<double> targetOrientation = HelperMethods::getQuaternionFromEuler(M_PI, 0, -M_PI/4);
+    target_pose.orientation.x = targetOrientation[0];
+    target_pose.orientation.y = targetOrientation[1];
+    target_pose.orientation.z = targetOrientation[2];
+    target_pose.orientation.w = targetOrientation[3];
 
 
     moveit_msgs::OrientationConstraint ocm;
@@ -404,13 +422,15 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     removeObjectsFromScene();
 
     target_pose.position.z = 0.2;
-    moveArm(target_pose);
+    moveArmCart(target_pose, 0.25);
 
     // Step 7: Open the gripper to release the cube.
     moveGripper(0.1);
 
     target_pose.position.z = 0.415;
-    moveArm(target_pose);
+    moveArmCart(target_pose, 0.25);
+
+    scanSceneWithConstraint();
     arm_group_.clearPathConstraints();
 
     // Step 8: Reset the robot's pose.

@@ -35,6 +35,7 @@ solution is contained within the cw2_team_<your_team_number> package */
 #include <pcl/segmentation/sac_segmentation.h>
 #include <pcl/ModelCoefficients.h>
 #include <pcl/filters/voxel_grid.h>
+#include "cw2_team_13/set_arm_cart.h"  
 #include "cw2_team_13/set_arm.h"  
 #include "cw2_team_13/map_env.h"  
 #include "std_msgs/ColorRGBA.h"
@@ -105,6 +106,7 @@ ros::Publisher pointCloudPublisher;
 ros::Publisher objectMarkerPublisher;
 ros::Publisher objectPosePublisher;
 
+ros::ServiceClient set_arm_cart_client_;
 ros::ServiceClient set_arm_client_;
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr completeCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
 pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud(new pcl::PointCloud<pcl::PointXYZRGB>);
@@ -485,11 +487,21 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     ROS_INFO("MAX Z HEIGHT: %f", maxPoint[2]); 
 
   if ((objectType == Box || objectType == Obstacle) || !(std::isnan(x) || std::isnan(y) || std::isnan(z)) && (allPointsFound)){
+    if(objectType == Cross && lowPointYAxis.first == cornerToProjectOn.first && lowPointYAxis.second == cornerToProjectOn.second){
+      objRoll = 0.0;
+      obPitch = 0.0;
+      objYaw = 22.5;
+      objQuaternion = HelperMethods::getQuaternionFromEuler(objRoll,obPitch,objYaw);
+      objOrientation[0] = objQuaternion[0];
+      objOrientation[1] = objQuaternion[1];
+      objOrientation[2] = objQuaternion[2];
+      objOrientation[3] = objQuaternion[3];
+    }
     ObjectData object(centroid, objOrientation, objWidth, maxPoint[2], cornerToProjectOn, rgbValue, objectType);
     objects.push_back(object);
   }
 
-  bool debugPointCloudData = 0;
+  bool debugPointCloudData = 1;
   if (debugPointCloudData == 1){
     std::string pointCloudFileName = "data/object" + std::to_string(objId) + ".pcd";
     std::string pointCloudInfoFileName = "data/objectInfo" + std::to_string(objId) + ".txt";
@@ -654,8 +666,27 @@ std::vector<ObjectData> processPointCloud(){
 }
 
 
-bool callSetArmService(const geometry_msgs::Pose &target_pose) {
-  // Wait for the service to be available
+bool callSetArmService(const geometry_msgs::Pose &target_pose, bool setArmCart = true) {
+  ROS_INFO("setArmCart is %d", setArmCart);
+  if(setArmCart){
+    // Wait for the service to be available
+    if (!set_arm_cart_client_.waitForExistence(ros::Duration(5.0))) {
+      ROS_ERROR("Service /cw2/set_arm_cart is not available.");
+      return false;
+    }
+
+    // Create a service request object
+    cw2_team_13::set_arm_cart srv;
+    srv.request.pose = target_pose;  // Set the desired pose
+
+    // Call the service
+    if (set_arm_cart_client_.call(srv)) {
+      return srv.response.success;
+    } else {
+      ROS_ERROR("Failed to call set_arm_cart service. Fallback to RRT plan");
+    }
+  }
+
   if (!set_arm_client_.waitForExistence(ros::Duration(5.0))) {
     ROS_ERROR("Service /cw2/set_arm is not available.");
     return false;
@@ -667,7 +698,7 @@ bool callSetArmService(const geometry_msgs::Pose &target_pose) {
 
   // Call the service
   if (set_arm_client_.call(srv)) {
-    ROS_INFO("Service call successful: %s", srv.response.success ? "true" : "false");
+    ROS_INFO("Service call to set arm successful?: %s", srv.response.success ? "true" : "false");
     return srv.response.success;
   } else {
     ROS_ERROR("Failed to call set_arm service.");
@@ -757,8 +788,10 @@ bool getScans(int taskId){
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
   sor.setLeafSize(0.0025f, 0.0025f, 0.0025f);
   ROS_INFO("Preparing to scan");
+  bool useCartesianMovements = taskId == 2 ? false : true;
+  ROS_INFO("Task ID = %d and bool is %d", taskId, useCartesianMovements);
   for(size_t i = 0; i < scanPoses.size(); i++){
-    if(callSetArmService(scanPoses[i])){
+    if(callSetArmService(scanPoses[i], useCartesianMovements)){
       ros::Duration(2.0).sleep();
       ROS_INFO("Moving to scan position");
       geometry_msgs::TransformStamped transformStamped;
@@ -867,6 +900,7 @@ int main(int argc, char **argv){
   ros::NodeHandle nh;
 
   ROS_INFO("Setting PointCloud node up");
+  set_arm_cart_client_ = nh.serviceClient<cw2_team_13::set_arm_cart>("/cw2/set_arm_cart");
   set_arm_client_ = nh.serviceClient<cw2_team_13::set_arm>("/cw2/set_arm");
 
   ros::Subscriber realSenseSub = nh.subscribe("r200/camera/depth_registered/points", 1, realSenseCallback);

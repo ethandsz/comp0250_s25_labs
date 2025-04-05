@@ -41,7 +41,7 @@ public:
     cw2_team_13::set_arm_cart::Response &response);
 
   bool 
-  moveArmCart(geometry_msgs::Pose target_pose);
+  moveArmCart(geometry_msgs::Pose target_pose, float speedScale = 1.0);
 
   bool 
   setGripperCallback(cw2_team_13::set_gripper::Request &request,
