@@ -56,8 +56,8 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
   arm_group_.setPathConstraints(workspace_constraint);
   hand_group_.setPathConstraints(workspace_constraint);
 
-  arm_group_.setPlanningTime(10.0);
-  arm_group_.setPlannerId("RRTstar");
+  arm_group_.setPlanningTime(4.0);
+  arm_group_.setPlannerId("RRTstarkConfigDefault");
   ROS_INFO("PLANNER ID IS %s", arm_group_.getPlannerId().c_str());
 
   std::vector<std::string> links = hand_group_.getLinkNames();

@@ -683,7 +683,7 @@ bool callSetArmService(const geometry_msgs::Pose &target_pose, bool setArmCart =
     if (set_arm_cart_client_.call(srv)) {
       return srv.response.success;
     } else {
-      ROS_ERROR("Failed to call set_arm_cart service. Fallback to RRT plan");
+      ROS_WARN("Failed to find valid cart path with set_arm_cart service. Fallback to RRT plan");
     }
   }
 
