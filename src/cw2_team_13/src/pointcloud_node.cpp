@@ -501,7 +501,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
     objects.push_back(object);
   }
 
-  bool debugPointCloudData = 1;
+  bool debugPointCloudData = 0;
   if (debugPointCloudData == 1){
     std::string pointCloudFileName = "data/object" + std::to_string(objId) + ".pcd";
     std::string pointCloudInfoFileName = "data/objectInfo" + std::to_string(objId) + ".txt";
