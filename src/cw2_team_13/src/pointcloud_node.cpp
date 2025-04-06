@@ -242,7 +242,7 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
   std::vector<pcl::PointIndices> cluster_indices;
 
   pcl::EuclideanClusterExtraction<pcl::PointXYZRGB> ec;
-  ec.setClusterTolerance (0.03); // 2cm
+  ec.setClusterTolerance (0.005); // 2cm
   ec.setMinClusterSize (75);
   ec.setMaxClusterSize (25000);
   ec.setSearchMethod (kdTree);
