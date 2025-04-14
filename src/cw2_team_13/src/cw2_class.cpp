@@ -194,6 +194,7 @@ bool cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
 
   robot_trajectory_.removeObjectsFromScene();
   ROS_INFO("The coursework solving callback for task 2 has been triggered");
+  robot_trajectory_.resetPose();
   return true;
 }
 
