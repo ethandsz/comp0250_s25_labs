@@ -5,14 +5,11 @@
 #include <cw2_team_13/map_env.h>  
 #include <vector>
 #include <limits>
-///////////////////////////////////////////////////////////////////////////////
 
 cw2::cw2(ros::NodeHandle nh)
   : nh_(nh),
     robot_trajectory_(nh_)
 {
-  /* class constructor */
-
   nh_ = nh;
 
   // advertise solutions for coursework tasks
@@ -27,23 +24,23 @@ cw2::cw2(ros::NodeHandle nh)
   ROS_INFO("cw2 class initialised");
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
 bool
 cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
   cw2_world_spawner::Task1Service::Response &response) 
 {
-  /* function which should solve task 1 */
   robot_trajectory_.removeObjectsFromScene(true);
   robot_trajectory_.resetPose();
   robot_trajectory_.scanSceneWithConstraint();
-  cw2_team_13::map_env srv;
+  cw2_team_13::map_env srv; 
   srv.request.taskId = 1;
 
+  //Call map env service in the pointcloud node
   if(map_env_service_.call(srv)){
     
+    //Save detected objects to a list
     std::vector<cw2_team_13::ObjectInfo> objects = srv.response.objects;
     cw2_team_13::ObjectInfo object;
+    //Dont continue if object is a box or obstacle
     for(size_t i = 0; i < objects.size(); i ++){
       if(objects[i].objectType != 2 && objects[i].objectType != 3){
         object = objects[i];
@@ -51,6 +48,7 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
       }
     }
     ROS_INFO("Type of object = %i", object.objectType);
+    //Get the point of the object/goal point and what type of object it is
     geometry_msgs::PointStamped object_point = request.object_point;
     geometry_msgs::PointStamped goal_point = request.goal_point;
     std::string shape_type = request.shape_type;
@@ -61,7 +59,7 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
     Eigen::Quaternionf eigenQuat(objOrientation.w, objOrientation.x, objOrientation.y, objOrientation.z); 
     std::vector<double> targetEuler = HelperMethods::getEulerFromQuaternion(eigenQuat);
 
-
+    //Print the target pose after converting to a quaternion
     target_pose.pose.position = object_point.point;
     ROS_INFO("Objects yaw is %f", targetEuler[2]);
 
@@ -70,13 +68,12 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
     double pitch = 0.0;
     double yaw = -M_PI/4 + targetEuler[2];   // -45 degrees
 
-    
+    //Pickup point is the point in which we should grasp at after determing the orientation
     std::pair<float, float> objectPickupPoint(object_point.point.x, object_point.point.y);
-    /*objectPickupPoint.second += 0.08;*/
     ROS_INFO("YAW OF OBJECT IN CW2 Class = %f ", targetEuler[2]);
     objectPickupPoint.second += (object.width * 0.275);
 
-
+    //Rotating about the objects centroid by the yaw of the target
     float x = object_point.point.x; 
     float y = object_point.point.y;
     target_pose.pose.position.x = -((objectPickupPoint.second - y)  * std::sin(targetEuler[2])) + x;
@@ -88,6 +85,7 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
 
     std::cout << shape_type << std::endl;
 
+    //Update the yaw if the object is a cross to rotate an extra 45 degrees
     if (shape_type == "cross"){
 
       yaw = M_PI/4 + targetEuler[2];
@@ -104,7 +102,8 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
     target_pose.pose.orientation.y = quaternionPose[1];
     target_pose.pose.orientation.z = quaternionPose[2];
     target_pose.pose.orientation.w = quaternionPose[3];
-
+    
+    //Call the pick and place function from the robot trajectory class
     robot_trajectory_.performPickAndPlace(target_pose, goal_point);  
   }
   ROS_INFO("The coursework solving callback for task 1 has been triggered");
@@ -112,24 +111,25 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
   return true;
 }
 
-///////////////////////////////////////////////////////////////////////////////
-
 bool
 cw2::t2_callback(cw2_world_spawner::Task2Service::Request &request,
   cw2_world_spawner::Task2Service::Response &response)
 {
-  /* function which should solve task 2 */
-
   cw2_team_13::map_env srv;
   srv.request.taskId = 2;
+
+  //Add a constraint to the planning scene interface so the robot does not crash into the ground plane
   robot_trajectory_.scanSceneWithConstraint();
 
+  //Call point cloud node map environment service
   if(map_env_service_.call(srv)){
+    //Save objects to a list
     std::vector<cw2_team_13::ObjectInfo> objects = srv.response.objects;
     cw2_team_13::ObjectInfo refShape_1;
     cw2_team_13::ObjectInfo refShape_2;
     cw2_team_13::ObjectInfo mysteryShape;
     
+    //Loop through objects determine the location of them and categorize into the reference or mystery shapes, alot of the heavy lifting is done in the pointcloud node
     for(size_t i = 0; i < objects.size(); i++){
       cw2_team_13::ObjectInfo object = objects[i];
       if(object.position.x < 0.0 && object.position.y > 0.0 && object.position.z > 0.05){
@@ -192,7 +192,6 @@ bool
 cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
   cw2_world_spawner::Task3Service::Response &response)
 {
-
   robot_trajectory_.removeObjectsFromScene();
   robot_trajectory_.resetPose();
   robot_trajectory_.scanSceneWithConstraint();
