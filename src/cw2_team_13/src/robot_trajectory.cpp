@@ -9,22 +9,23 @@
 #include <helper_methods.h>
 #include <collision_object.h>
 #include "moveit_msgs/Grasp.h"
-geometry_msgs::Pose basePose;  // Global variable for the default robot pose
+geometry_msgs::Pose basePose; // Global variable for the default robot pose
 
 /**
  * Constructor for RobotTrajectory class
  * Initializes the robot configuration, constraints, and services
  */
-RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
+RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh)
+{
   // Define the base pose for the robot arm (resting/home position)
   basePose.position.x = 0.45;
   basePose.position.y = 0.0;
   basePose.position.z = 0.75;
 
   // Set the orientation using roll, pitch, yaw angles
-  double roll = M_PI;  // 180 degrees - flipped down
-  double pitch = 0;    // 0 degrees
-  double yaw = -M_PI/4;  // -45 degrees
+  double roll = M_PI;     // 180 degrees - flipped down
+  double pitch = 0;       // 0 degrees
+  double yaw = -M_PI / 4; // -45 degrees
 
   // Convert Euler angles to quaternion for ROS pose representation
   std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);
@@ -34,7 +35,7 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
   basePose.orientation.y = quaternionPose[1];
   basePose.orientation.z = quaternionPose[2];
   basePose.orientation.w = quaternionPose[3];
-  
+
   // Get workspace dimensions from class member (defined in header)
   double xmin = workspace_dims_["xmin"];
   double xmax = workspace_dims_["xmax"];
@@ -42,15 +43,15 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
   double ymax = workspace_dims_["ymax"];
   double zmin = workspace_dims_["zmin"];
   double zmax = workspace_dims_["zmax"];
-  
+
   // Set workspace boundaries for the hand movement group
   hand_group_.setWorkspace(xmin, xmax, ymin, ymax, zmin, zmax);
 
   // Create workspace constraint to keep robot within defined bounds
   moveit_msgs::Constraints workspace_constraint;
   moveit_msgs::PositionConstraint position_constraint;
-  position_constraint.header.frame_id = "panda_link0";  // Base frame of the robot
-  position_constraint.link_name = arm_group_.getEndEffectorLink();  // End effector link
+  position_constraint.header.frame_id = "panda_link0";             // Base frame of the robot
+  position_constraint.link_name = arm_group_.getEndEffectorLink(); // End effector link
 
   // Define a box that represents the allowable workspace
   shape_msgs::SolidPrimitive bounding_box;
@@ -66,7 +67,7 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
   // Configure the position constraint
   position_constraint.constraint_region.primitives.push_back(bounding_box);
   position_constraint.constraint_region.primitive_poses.push_back(bounding_box_pose);
-  position_constraint.weight = 1.0;  // Maximum weight for constraint
+  position_constraint.weight = 1.0; // Maximum weight for constraint
 
   // Add position constraint to workspace constraint and apply to movement groups
   workspace_constraint.position_constraints.push_back(position_constraint);
@@ -74,8 +75,8 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
   hand_group_.setPathConstraints(workspace_constraint);
 
   // Configure planning parameters
-  arm_group_.setPlanningTime(4.0);  // Allow up to 4 seconds for planning
-  arm_group_.setPlannerId("RRTstarkConfigDefault");  // Use RRT* planner
+  arm_group_.setPlanningTime(4.0);                  // Allow up to 4 seconds for planning
+  arm_group_.setPlannerId("RRTstarkConfigDefault"); // Use RRT* planner
   ROS_INFO("PLANNER ID IS %s", arm_group_.getPlannerId().c_str());
 
   // Get current pose information for debugging
@@ -86,18 +87,18 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
            currentPose.pose.position.x,
            currentPose.pose.position.y,
            currentPose.pose.position.z);
-           
+
   // Set up service namespace and advertise services
   std::string service_ns = "/cw2";
   set_arm_srv_ = nh.advertiseService(service_ns + "/set_arm",
-    &RobotTrajectory::setArmCallback, this);
+                                     &RobotTrajectory::setArmCallback, this);
 
   set_arm_cart_srv_ = nh.advertiseService(service_ns + "/set_arm_cart",
-    &RobotTrajectory::setArmCartCallback, this);
+                                          &RobotTrajectory::setArmCartCallback, this);
 
   set_gripper_srv_ = nh.advertiseService(service_ns + "/set_gripper",
-    &RobotTrajectory::setGripperCallback, this);
-    
+                                         &RobotTrajectory::setGripperCallback, this);
+
   // Display current target orientation for debugging
   geometry_msgs::PoseStamped starting_pose = arm_group_.getPoseTarget();
   ROS_INFO("Orientation (x, y, z, w): [%.2f, %.2f, %.2f, %.2f]",
@@ -105,7 +106,7 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
            starting_pose.pose.orientation.y,
            starting_pose.pose.orientation.z,
            starting_pose.pose.orientation.w);
-           
+
   // Check for self-collisions in the initial state
   robot_model_loader::RobotModelLoader robot_model_loader("robot_description");
   robot_model::RobotModelPtr kinematic_model = robot_model_loader.getModel();
@@ -121,19 +122,19 @@ RobotTrajectory::RobotTrajectory(ros::NodeHandle &nh){
  * Add an object to the planning scene as a collision object
  * Used for objects the robot may interact with (e.g., objects to pick up)
  */
-void 
-RobotTrajectory::addObjectToScene(CollisionObject collisionObject){
+void RobotTrajectory::addObjectToScene(CollisionObject collisionObject)
+{
   ROS_INFO("Adding new collision boxes to planning scene");
   moveit_msgs::CollisionObject collisionBox;
 
   // Set the frame of reference
   collisionBox.header.frame_id = "panda_link0";
-  
+
   // Set the pose of the collision object
   collisionBox.pose = collisionObject.pose;
-  
+
   // Set unique ID for the collision object
-  collisionBox.id = std::to_string(collisionObject.id); 
+  collisionBox.id = std::to_string(collisionObject.id);
 
   // Define the object as a box primitive
   collisionBox.primitives.resize(1);
@@ -146,7 +147,7 @@ RobotTrajectory::addObjectToScene(CollisionObject collisionObject){
   collisionBox.primitives[0].dimensions[2] = collisionObject.height;
 
   ROS_INFO("Adding append");
-  collisionBox.operation = collisionBox.APPEND;  // Add the object to the scene
+  collisionBox.operation = collisionBox.APPEND; // Add the object to the scene
 
   ROS_INFO("Added box with id %s", collisionBox.id.c_str());
 
@@ -159,17 +160,18 @@ RobotTrajectory::addObjectToScene(CollisionObject collisionObject){
  * Used for obstacles the robot must avoid
  * Objects with IDs >= 50 are considered obstacles
  */
-void
-RobotTrajectory::addObstacleToScene(CollisionObject collisionObject){
-  //check to make sure our id is greater than 50, objects with ids >= 50 are classified as obstacles for us 
-  if (collisionObject.id >= 50){
+void RobotTrajectory::addObstacleToScene(CollisionObject collisionObject)
+{
+  // check to make sure our id is greater than 50, objects with ids >= 50 are classified as obstacles for us
+  if (collisionObject.id >= 50)
+  {
     moveit_msgs::CollisionObject collisionObstacle;
 
     collisionObstacle.header.frame_id = "panda_link0";
-    
+
     collisionObstacle.pose = collisionObject.pose;
-    
-    collisionObstacle.id = std::to_string(collisionObject.id); 
+
+    collisionObstacle.id = std::to_string(collisionObject.id);
 
     // Define the obstacle as a box primitive
     collisionObstacle.primitives.resize(1);
@@ -180,7 +182,7 @@ RobotTrajectory::addObstacleToScene(CollisionObject collisionObject){
     collisionObstacle.primitives[0].dimensions[1] = collisionObject.length;
     collisionObstacle.primitives[0].dimensions[2] = collisionObject.height;
 
-    collisionObstacle.operation = collisionObstacle.APPEND; 
+    collisionObstacle.operation = collisionObstacle.APPEND;
 
     ROS_INFO("Added obstacle with id %s", collisionObstacle.id.c_str());
 
@@ -194,8 +196,8 @@ RobotTrajectory::addObstacleToScene(CollisionObject collisionObject){
  * Used during scanning operations
  * @param height The height of the walls (can be adjusted based on task)
  */
-void
-RobotTrajectory::scanSceneWithConstraint(float height){
+void RobotTrajectory::scanSceneWithConstraint(float height)
+{
   // Create left virtual wall
   CollisionObject collisionObjectLeft;
   geometry_msgs::Pose collisionObjectLeftPose;
@@ -223,7 +225,7 @@ RobotTrajectory::scanSceneWithConstraint(float height){
   collisionObjectBackPose.position.y = 0.0;
   collisionObjectBackPose.position.x = -0.35;
   collisionObjectBack.id = 2;
-  std::vector<double> quaternion = HelperMethods::getQuaternionFromEuler(0,0,M_PI/2);
+  std::vector<double> quaternion = HelperMethods::getQuaternionFromEuler(0, 0, M_PI / 2);
   collisionObjectBackPose.orientation.x = quaternion[0];
   collisionObjectBackPose.orientation.y = quaternion[1];
   collisionObjectBackPose.orientation.z = quaternion[2];
@@ -242,21 +244,24 @@ RobotTrajectory::scanSceneWithConstraint(float height){
  * Remove collision objects from the planning scene
  * @param keepObstacles If true, only removes objects with ID < 50 (non-obstacles)
  */
-void
-RobotTrajectory::removeObjectsFromScene(bool keepObstacles){
-  std::map<std::string,moveit_msgs::CollisionObject> currentCollisionObjects = planning_scene_interface_.getObjects();
+void RobotTrajectory::removeObjectsFromScene(bool keepObstacles)
+{
+  std::map<std::string, moveit_msgs::CollisionObject> currentCollisionObjects = planning_scene_interface_.getObjects();
   std::vector<std::string> objectIds;
 
-  for(auto i : currentCollisionObjects){
-    if(keepObstacles && std::stoi(i.first) < 50){
-        // If keeping obstacles, only remove objects with ID < 50
-        ROS_INFO("Removing ID: %s", i.first.c_str());
-        objectIds.push_back(i.first);
+  for (auto i : currentCollisionObjects)
+  {
+    if (keepObstacles && std::stoi(i.first) < 50)
+    {
+      // If keeping obstacles, only remove objects with ID < 50
+      ROS_INFO("Removing ID: %s", i.first.c_str());
+      objectIds.push_back(i.first);
     }
-    else if (!keepObstacles){
-        // If not keeping obstacles, remove all objects
-        ROS_INFO("Removing ID: %s", i.first.c_str());
-        objectIds.push_back(i.first);
+    else if (!keepObstacles)
+    {
+      // If not keeping obstacles, remove all objects
+      ROS_INFO("Removing ID: %s", i.first.c_str());
+      objectIds.push_back(i.first);
     }
   }
   planning_scene_interface_.removeCollisionObjects(objectIds);
@@ -266,8 +271,7 @@ RobotTrajectory::removeObjectsFromScene(bool keepObstacles){
  * Move the robot arm to the base/home position
  * @return True if movement successful, false otherwise
  */
-bool
-RobotTrajectory::resetPose()
+bool RobotTrajectory::resetPose()
 {
   bool success = moveArm(basePose);
   return success;
@@ -277,11 +281,10 @@ RobotTrajectory::resetPose()
  * Service callback for Cartesian path arm movement
  * Processes service requests to move the arm with straight-line motion
  */
-bool 
-RobotTrajectory::setArmCartCallback(cw2_team_13::set_arm_cart::Request &request,
-  cw2_team_13::set_arm_cart::Response &response)
+bool RobotTrajectory::setArmCartCallback(cw2_team_13::set_arm_cart::Request &request,
+                                         cw2_team_13::set_arm_cart::Response &response)
 {
-  // set arm position, true if sucessful 
+  // set arm position, true if sucessful
   bool success = moveArmCart(request.pose);
 
   response.success = success;
@@ -293,11 +296,10 @@ RobotTrajectory::setArmCartCallback(cw2_team_13::set_arm_cart::Request &request,
  * Service callback for general arm movement
  * Processes service requests to move the arm using RRT planning
  */
-bool 
-RobotTrajectory::setArmCallback(cw2_team_13::set_arm::Request &request,
-  cw2_team_13::set_arm::Response &response)
+bool RobotTrajectory::setArmCallback(cw2_team_13::set_arm::Request &request,
+                                     cw2_team_13::set_arm::Response &response)
 {
-  // set arm position, true if sucessful 
+  // set arm position, true if sucessful
   bool success = moveArm(request.pose);
 
   response.success = success;
@@ -311,17 +313,16 @@ RobotTrajectory::setArmCallback(cw2_team_13::set_arm::Request &request,
  * @param speedScale Scale factor for movement speed (default = 1.0)
  * @return True if movement successful, false otherwise
  */
-bool 
-RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose, float speedScale)
+bool RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose, float speedScale)
 {
   std::vector<geometry_msgs::Pose> waypoints;
-  
+
   geometry_msgs::Pose start_pose = arm_group_.getCurrentPose().pose;
 
   waypoints.push_back(target_pose);
 
   moveit_msgs::RobotTrajectory trajectory;
-  const double eef_step = 0.01;  // Step size for Cartesian path (1cm)
+  const double eef_step = 0.01; // Step size for Cartesian path (1cm)
 
   ROS_INFO("Computing Cartesian Path");
   // Compute the Cartesian path
@@ -352,10 +353,11 @@ RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose, float speedScale)
   // Execute the trajectory
   moveit::planning_interface::MoveGroupInterface::Plan my_plan;
   my_plan.trajectory_ = trajectory;
-  
+
   ROS_INFO("Executing Cartesian Path");
-  
-  if(arm_group_.execute(my_plan)){
+
+  if (arm_group_.execute(my_plan))
+  {
     return true;
   }
   return false;
@@ -366,8 +368,7 @@ RobotTrajectory::moveArmCart(geometry_msgs::Pose target_pose, float speedScale)
  * @param target_pose The target pose to move to
  * @return True if movement successful, false otherwise
  */
-bool 
-RobotTrajectory::moveArm(geometry_msgs::Pose target_pose)
+bool RobotTrajectory::moveArm(geometry_msgs::Pose target_pose)
 {
   // setup the target pose
   ROS_INFO("Setting pose target");
@@ -391,11 +392,10 @@ RobotTrajectory::moveArm(geometry_msgs::Pose target_pose)
  * Service callback for gripper movement
  * Processes service requests to open/close the gripper
  */
-bool 
-RobotTrajectory::setGripperCallback(cw2_team_13::set_gripper::Request &request,
-  cw2_team_13::set_gripper::Response &response)
+bool RobotTrajectory::setGripperCallback(cw2_team_13::set_gripper::Request &request,
+                                         cw2_team_13::set_gripper::Response &response)
 {
-  // set arm position, true if sucessful 
+  // set arm position, true if sucessful
   bool success = moveGripper(request.finger_distance);
 
   response.success = success;
@@ -408,13 +408,12 @@ RobotTrajectory::setGripperCallback(cw2_team_13::set_gripper::Request &request,
  * @param width The distance between gripper fingers
  * @return True if movement successful, false otherwise
  */
-bool 
-RobotTrajectory::moveGripper(float width)
+bool RobotTrajectory::moveGripper(float width)
 {
   // safety checks in case width exceeds safe values
-  if (width > gripper_open_) 
+  if (width > gripper_open_)
     width = gripper_open_;
-  if (width < gripper_closed_) 
+  if (width < gripper_closed_)
     width = gripper_closed_;
 
   // calculate the joint targets as half each of the requested distance
@@ -432,7 +431,7 @@ RobotTrajectory::moveGripper(float width)
   ROS_INFO("Attempting to plan the path");
   moveit::planning_interface::MoveGroupInterface::Plan my_plan;
   bool success = (hand_group_.plan(my_plan) ==
-    moveit::planning_interface::MoveItErrorCode::SUCCESS);
+                  moveit::planning_interface::MoveItErrorCode::SUCCESS);
 
   ROS_INFO("Visualising plan %s", success ? "" : "FAILED");
 
@@ -448,128 +447,128 @@ RobotTrajectory::moveGripper(float width)
  * @param goal_loc Location to place the object
  * @param shouldResetPose Whether to reset to base pose after placing
  */
-void
-RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_loc, const geometry_msgs::PointStamped &goal_loc, bool shouldResetPose)
+void RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_loc, const geometry_msgs::PointStamped &goal_loc, bool shouldResetPose)
 {
-    float objectPickupHeight = 0.05;  // Height of the boundary constraints during pickup
-    
-    // Define desired orientation in Euler angles.
-    double roll  = M_PI;      // 180 degrees
-    double pitch = 0.0;
-    double yaw   = -M_PI;     // -180 degrees
+  float objectPickupHeight = 0.05; // Height of the boundary constraints during pickup
 
-    // Compute quaternion from Euler angles.
-    std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);
-    ROS_INFO("Quaternion: \nx:[%.2f]\ny:[%.2f]\nz:[%.2f]\nw:[%.2f]",
-             quaternionPose[0], quaternionPose[1], quaternionPose[2], quaternionPose[3]);
+  // Define desired orientation in Euler angles.
+  double roll = M_PI; // 180 degrees
+  double pitch = 0.0;
+  double yaw = -M_PI; // -180 degrees
 
-    // Use the provided object location as the base pose.
-    geometry_msgs::Pose target_pose = object_loc.pose;
-    
-    // Step 0: Move to a position above the workspace
-    target_pose.position.z = 0.415;
-    moveArmCart(target_pose);
-    
-    // Clear and re-add boundaries to the scene
-    removeObjectsFromScene();
-    scanSceneWithConstraint(objectPickupHeight);
-    
-    // Step 1: Hover above the object
-    target_pose.position.z = 0.2;
-    moveArmCart(target_pose);
+  // Compute quaternion from Euler angles.
+  std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);
+  ROS_INFO("Quaternion: \nx:[%.2f]\ny:[%.2f]\nz:[%.2f]\nw:[%.2f]",
+           quaternionPose[0], quaternionPose[1], quaternionPose[2], quaternionPose[3]);
 
-    // Step 2: Open the gripper (fully open)
-    moveGripper(0.15);
+  // Use the provided object location as the base pose.
+  geometry_msgs::Pose target_pose = object_loc.pose;
 
-    // Step 3: Lower the arm to pick up the object
-    target_pose.position.z = 0.15;
-    moveArmCart(target_pose, 0.25);  // Slow down for precision
+  // Step 0: Move to a position above the workspace
+  target_pose.position.z = 0.415;
+  moveArmCart(target_pose);
 
-    // Step 4: Close the gripper to grasp the object
-    moveGripper(0.0);
+  // Clear and re-add boundaries to the scene
+  removeObjectsFromScene();
+  scanSceneWithConstraint(objectPickupHeight);
 
-    // Step 5: Raise the object
-    target_pose.position.z = 0.415;
-    moveArmCart(target_pose, 0.25);
+  // Step 1: Hover above the object
+  target_pose.position.z = 0.2;
+  moveArmCart(target_pose);
 
-    // Update orientation for transport
-    std::vector<double> targetOrientation = HelperMethods::getQuaternionFromEuler(M_PI, 0, -M_PI/4);
-    target_pose.orientation.x = targetOrientation[0];
-    target_pose.orientation.y = targetOrientation[1];
-    target_pose.orientation.z = targetOrientation[2];
-    target_pose.orientation.w = targetOrientation[3];
+  // Step 2: Open the gripper (fully open)
+  moveGripper(0.15);
 
-    // Set orientation constraint to keep object level during transport
-    moveit_msgs::OrientationConstraint ocm;
-    ocm.link_name = "panda_link7";
-    ocm.header.frame_id = "panda_link0";
-    ocm.orientation = target_pose.orientation;
+  // Step 3: Lower the arm to pick up the object
+  target_pose.position.z = 0.15;
+  moveArmCart(target_pose, 0.25); // Slow down for precision
 
-    // Allow some flexibility in orientation
-    ocm.absolute_x_axis_tolerance = 0.8;
-    ocm.absolute_y_axis_tolerance = 0.8;
-    ocm.absolute_z_axis_tolerance = 3.14;
-    ocm.weight = 0.5;
+  // Step 4: Close the gripper to grasp the object
+  moveGripper(0.0);
 
-    moveit_msgs::Constraints test_constraints;
-    test_constraints.orientation_constraints.push_back(ocm);
-    arm_group_.setPathConstraints(test_constraints);
+  // Step 5: Raise the object
+  target_pose.position.z = 0.415;
+  moveArmCart(target_pose, 0.25);
 
-    // Reset scene boundaries for transport
-    scanSceneWithConstraint();
-    
-    // Step 6: Move to a position above the goal location
-    target_pose.position.x = goal_loc.point.x;
-    target_pose.position.y = goal_loc.point.y;
-    moveArmCart(target_pose);
+  // Update orientation for transport
+  std::vector<double> targetOrientation = HelperMethods::getQuaternionFromEuler(M_PI, 0, -M_PI / 4);
+  target_pose.orientation.x = targetOrientation[0];
+  target_pose.orientation.y = targetOrientation[1];
+  target_pose.orientation.z = targetOrientation[2];
+  target_pose.orientation.w = targetOrientation[3];
 
-    // Clear and re-add boundaries for placement
-    removeObjectsFromScene();
-    scanSceneWithConstraint(objectPickupHeight);
+  // Set orientation constraint to keep object level during transport
+  moveit_msgs::OrientationConstraint ocm;
+  ocm.link_name = "panda_link7";
+  ocm.header.frame_id = "panda_link0";
+  ocm.orientation = target_pose.orientation;
 
-    // Step 7: Lower to placement position
-    target_pose.position.z = 0.2;
-    moveArmCart(target_pose, 0.25);  // Slow down for precision
+  // Allow some flexibility in orientation
+  ocm.absolute_x_axis_tolerance = 0.8;
+  ocm.absolute_y_axis_tolerance = 0.8;
+  ocm.absolute_z_axis_tolerance = 3.14;
+  ocm.weight = 0.5;
 
-    // Step 8: Open the gripper to release the object
-    moveGripper(0.1);
+  moveit_msgs::Constraints test_constraints;
+  test_constraints.orientation_constraints.push_back(ocm);
+  arm_group_.setPathConstraints(test_constraints);
 
-    // Step 9: Move back up
-    target_pose.position.z = 0.415;
-    moveArmCart(target_pose, 0.25);
+  // Reset scene boundaries for transport
+  scanSceneWithConstraint();
 
-    // Reset scene boundaries
-    scanSceneWithConstraint();
-    
-    // Clear path constraints after task
-    arm_group_.clearPathConstraints();
+  // Step 6: Move to a position above the goal location
+  target_pose.position.x = goal_loc.point.x;
+  target_pose.position.y = goal_loc.point.y;
+  moveArmCart(target_pose);
 
-    // Step 10: Reset the robot's pose if requested
-    if(shouldResetPose){
-      resetPose();
-    }
+  // Clear and re-add boundaries for placement
+  removeObjectsFromScene();
+  scanSceneWithConstraint(objectPickupHeight);
 
-    // Clear all objects from the scene
-    bool keepObstacles = false;
-    removeObjectsFromScene(keepObstacles);
+  // Step 7: Lower to placement position
+  target_pose.position.z = 0.2;
+  moveArmCart(target_pose, 0.25); // Slow down for precision
+
+  // Step 8: Open the gripper to release the object
+  moveGripper(0.1);
+
+  // Step 9: Move back up
+  target_pose.position.z = 0.415;
+  moveArmCart(target_pose, 0.25);
+
+  // Reset scene boundaries
+  scanSceneWithConstraint();
+
+  // Clear path constraints after task
+  arm_group_.clearPathConstraints();
+
+  // Step 10: Reset the robot's pose if requested
+  if (shouldResetPose)
+  {
+    resetPose();
+  }
+
+  // Clear all objects from the scene
+  bool keepObstacles = false;
+  removeObjectsFromScene(keepObstacles);
 }
 
 /**
  * Add a virtual ground plane to the planning scene
  * Used to prevent the robot from planning paths through the ground
  */
-void
-RobotTrajectory::addGroundPlaneToScene(){
+void RobotTrajectory::addGroundPlaneToScene()
+{
   ROS_INFO("Adding ground plane to planning scene");
   moveit_msgs::CollisionObject collisonBox;
 
   collisonBox.header.frame_id = "panda_link0";
-  
+
   // Position the ground plane
   collisonBox.pose.position.x = 0.5;
   collisonBox.pose.position.y = 0.0;
   collisonBox.pose.position.z = 0.0;
-  
+
   collisonBox.id = "groundplane";
 
   // Define ground plane as a box
@@ -578,12 +577,12 @@ RobotTrajectory::addGroundPlaneToScene(){
 
   ROS_INFO("Dim resize");
   collisonBox.primitives[0].dimensions.resize(3);
-  collisonBox.primitives[0].dimensions[0] = 0.5;  // Length
-  collisonBox.primitives[0].dimensions[1] = 1.0;  // Width
-  collisonBox.primitives[0].dimensions[2] = 0.1;  // Height
+  collisonBox.primitives[0].dimensions[0] = 0.5; // Length
+  collisonBox.primitives[0].dimensions[1] = 1.0; // Width
+  collisonBox.primitives[0].dimensions[2] = 0.1; // Height
 
   ROS_INFO("Adding append");
-  collisonBox.operation = collisonBox.APPEND; 
+  collisonBox.operation = collisonBox.APPEND;
 
   ROS_INFO("Adding box to vec");
   ROS_INFO("Added box with id %s", collisonBox.id.c_str());

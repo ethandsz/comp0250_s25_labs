@@ -3,7 +3,8 @@
 #include <helper_methods.h>
 #include <Eigen/Geometry>
 std::vector<double>
-HelperMethods::getQuaternionFromEuler(double roll, double pitch, double yaw){
+HelperMethods::getQuaternionFromEuler(double roll, double pitch, double yaw)
+{
   // Calculate trig values
   double cr = cos(roll * 0.5);
   double sr = sin(roll * 0.5);
@@ -20,9 +21,9 @@ HelperMethods::getQuaternionFromEuler(double roll, double pitch, double yaw){
   return {qx, qy, qz, qw};
 }
 
-
-std::vector<double> 
-HelperMethods::getEulerFromQuaternion(Eigen::Quaternionf q) {
+std::vector<double>
+HelperMethods::getEulerFromQuaternion(Eigen::Quaternionf q)
+{
   // roll (x-axis rotation)
   double sinr_cosp = 2 * (q.w() * q.x() + q.y() * q.z());
   double cosr_cosp = 1 - 2 * (q.x() * q.x() + q.y() * q.y());
