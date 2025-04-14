@@ -1,8 +1,3 @@
-/* feel free to change any part of this file, or delete this file. In general,
-you can do whatever you want with this template code, including deleting it all
-and starting from scratch. The only requirment is to make sure your entire 
-solution is contained within the cw2_team_<your_team_number> package */
-
 #include <pcl/keypoints/harris_3d.h>
 #include <cmath>
 #include <cstddef>
@@ -170,25 +165,6 @@ void calcNormals(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud, pcl::PointCloud<p
 
 }
 
-//void filterColors(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
-//  pcl::PointCloud<pcl::PointXYZRGB>::Ptr colorFilteredCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
-//  for(size_t i = 0; i < cloud -> points.size(); i++){
-//    Eigen::Vector3i colorVec = cloud -> points[i].getRGBVector3i();
-//    uint8_t red = colorVec[0];  
-//    uint8_t green = colorVec[1];  
-//   uint8_t blue = colorVec[2];  
-//    bool isGreen = (green > red && green > blue) && (green > 110);
-//    bool isGray = (std::abs(red - green) < 10) && (std::abs(green - blue) < 10) && (std::abs(red - blue) < 10);
-
-//    if(!(isGreen || isGray)){
-//      colorFilteredCloud -> points.push_back(cloud -> points[i]);
-//    }
-//  }
-//  cloud->swap(*colorFilteredCloud);
-//}
-
-/////////////////////////////////////////////////////////////////////////////
-
 void filterColors(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloud){
   pcl::PointCloud<pcl::PointXYZRGB>::Ptr colorFilteredCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
   for(size_t i = 0; i < cloud->points.size(); i++){
@@ -337,23 +313,8 @@ std::vector<ObjectData> extractObjectsInScene(pcl::PointCloud<pcl::PointXYZRGB>:
       objectType = Nought;
     }
 
-
-
-    //Type of object
-    //ObjectType objectType;
-    //if(foundPoint){
-    // objectType = Cross;
-    //}
-    //else{
-    //  objectType = Nought;
-    //}
-
-
-
-
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr augmentedCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
     *augmentedCloud = *objectCluster;
-    
     
     float toleranceZHeight = 0.005f;
     int numLayers = 5;
@@ -566,8 +527,6 @@ void publishObjectPositions(std::vector<ObjectData> objects){
 
     ROS_INFO("Estimated pickup location = %f, %f", marker.pose.position.x, marker.pose.position.y);
 
-    /*marker.pose.position.x = x;*/
-    /*marker.pose.position.y = y - object.width/2;*/
     marker.pose.position.z = z + 0.025;
 
     marker.pose.orientation.x = 0.0;
@@ -611,7 +570,6 @@ void publishObjectPositions(std::vector<ObjectData> objects){
     cornerMarker.color.g = 0.0f;
     cornerMarker.color.b = 0.0f;
     cornerMarker.color.a = 1.0f; 
-    /*markerArray.markers.push_back(cornerMarker);*/
     markerArray.markers.push_back(marker);
   }
 
@@ -711,7 +669,6 @@ bool getScans(int taskId){
   geometry_msgs::Pose leftScan = basePose;
   leftScan.position.y = -0.3;
 
-
   geometry_msgs::Pose rightScan = basePose;
   rightScan.position.y = 0.3;
 
@@ -725,7 +682,6 @@ bool getScans(int taskId){
   leftMiddleRightScan.orientation.z = quaternionLeftPose[2];
   leftMiddleRightScan.orientation.w = quaternionLeftPose[3];
 
-
   geometry_msgs::Pose leftMiddleLeftScan = leftMiddleRightScan;
   leftMiddleLeftScan.position.x = 0.2;
 
@@ -738,10 +694,8 @@ bool getScans(int taskId){
   rightMiddleRightScan.orientation.z = quaternionrightPose[2];
   rightMiddleRightScan.orientation.w = quaternionrightPose[3];
 
-
   geometry_msgs::Pose rightMiddleLeftScan = rightMiddleRightScan;
   rightMiddleLeftScan.position.x = 0.2;
-
 
   geometry_msgs::Pose rightBackScan = rightMiddleLeftScan;
   std::vector<double> quaternionrightBackPose = HelperMethods::getQuaternionFromEuler(roll, pitch, 3*M_PI/4);
@@ -751,10 +705,8 @@ bool getScans(int taskId){
   rightBackScan.orientation.z = quaternionrightBackPose[2];
   rightBackScan.orientation.w = quaternionrightBackPose[3];
 
-
   geometry_msgs::Pose backLeftScan = rightBackScan;
   backLeftScan.position.y = 0.0;
-
 
   geometry_msgs::Pose backScan = backLeftScan;
   backScan.position.y = -0.3;
@@ -770,7 +722,6 @@ bool getScans(int taskId){
   else {
   scanPoses = {leftMiddleRightScan, leftMiddleLeftScan, leftScan, basePose, rightScan, rightMiddleLeftScan, rightMiddleRightScan, rightBackScan, backLeftScan, backScan };
   }
-  //std::vector<geometry_msgs::Pose> scanPoses = {leftMiddleLeftScan, basePose, rightScan, rightMiddleLeftScan};
 
   pcl::VoxelGrid<pcl::PointXYZRGB> sor;
   sor.setLeafSize(0.0025f, 0.0025f, 0.0025f);
@@ -784,8 +735,6 @@ bool getScans(int taskId){
 
       Eigen::Affine3d transformEigen = tf2::transformToEigen(transformStamped);
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr transformedCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
-      /*pcl::PointCloud<pcl::PointXYZRGB>::Ptr currentCloud(new pcl::PointCloud<pcl::PointXYZRGB>);*/
-      /**currentCloud = *cloud;*/
       pcl::PointCloud<pcl::PointXYZRGB>::Ptr currentCloud(new pcl::PointCloud<pcl::PointXYZRGB>);
 
       // Iterate through each point in the RGB point cloud and copy the XYZ values
@@ -809,7 +758,6 @@ bool getScans(int taskId){
   pointCloudRos.header.frame_id = "panda_link0";  
 
   return true;
-
 }
 
 bool mapEnvironment(cw2_team_13::map_env::Request &req, cw2_team_13::map_env::Response &res){
@@ -826,11 +774,6 @@ bool mapEnvironment(cw2_team_13::map_env::Request &req, cw2_team_13::map_env::Re
     cw2_team_13::ObjectInfo objInfo;
 
     ObjectData object = objects[i];
-
-    //std_msgs::ColorRGBA rgba;
-    //geometry_msgs::Point point;
-
-    //ObjectData object = objects[i];
 
     Eigen::Vector3f location = object.objPointInCartesianSpace;
     Eigen::Vector4f orientation = object.objectOrientation;
@@ -862,18 +805,6 @@ bool mapEnvironment(cw2_team_13::map_env::Request &req, cw2_team_13::map_env::Re
     objInfo.objectType = object.objType;
 
     res.objects.push_back(objInfo);
-
-    //point.x = location[0];
-    //point.y = location[1];
-    //point.z = location[2];
-
-    //rgba.r = rgbValue[0];
-    //rgba.g = rgbValue[1];
-    //rgba.b = rgbValue[2];
-    //rgba.a = 0;
-
-    //res.objectLocations.push_back(point);
-    //res.colors.push_back(rgba);
   }
 
   res.success = true; 

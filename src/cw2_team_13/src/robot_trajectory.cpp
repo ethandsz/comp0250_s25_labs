@@ -374,11 +374,6 @@ RobotTrajectory::performPickAndPlace(const geometry_msgs::PoseStamped &object_lo
     // Use the provided object location as the base pose.
     geometry_msgs::Pose target_pose = object_loc.pose;
     // Set the orientation using the computed quaternion.
-    // target_pose.orientation.x = quaternionPose[0];
-    // target_pose.orientation.y = quaternionPose[1];
-    // target_pose.orientation.z = quaternionPose[2];
-    // target_pose.orientation.w = quaternionPose[3];
-
 
     target_pose.position.z = 0.415;
     moveArmCart(target_pose);

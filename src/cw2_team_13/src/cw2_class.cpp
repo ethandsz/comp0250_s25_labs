@@ -1,9 +1,3 @@
-/* feel free to change any part of this file, or delete this file. In general,
-you can do whatever you want with this template code, including deleting it all
-and starting from scratch. The only requirment is to make sure your entire 
-  cw2_team_13::map_env srv;
-solution is contained within the cw2_team_<your_team_number> package */
-
 #include <cmath>
 #include <cw2_class.h> // change to your team name here!
 #include <robot_trajectory.h> 
@@ -100,10 +94,6 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
 
     }
 
-
-    //srv.response.objects[0].orientation;
-    
-
     // Compute quaternion from Euler angles.
     std::vector<double> quaternionPose = HelperMethods::getQuaternionFromEuler(roll, pitch, yaw);
     ROS_INFO("Quaternion: \nx:[%.2f]\ny:[%.2f]\nz:[%.2f]\nw:[%.2f]",
@@ -114,8 +104,6 @@ cw2::t1_callback(cw2_world_spawner::Task1Service::Request &request,
     target_pose.pose.orientation.y = quaternionPose[1];
     target_pose.pose.orientation.z = quaternionPose[2];
     target_pose.pose.orientation.w = quaternionPose[3];
-
-
 
     robot_trajectory_.performPickAndPlace(target_pose, goal_point);  
   }
@@ -245,9 +233,6 @@ cw2::t3_callback(cw2_world_spawner::Task3Service::Request &request,
         }
       }
     }
-
-    // To add obstacles as collision objects
-    // make obstacles collision objects 
 
   // Add obstacles as collision objects
   if (!obstacles.empty()) {
